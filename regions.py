@@ -38,7 +38,7 @@ def geo_dist(lat1, lat2, dlong):
 
 
 class Region:
-    def __init__(self, names, abbrev=None, pop=None, gv_id=None, kind=None, lat=None, lon=None, iana=None):
+    def __init__(self, names,  pop=None, abbrev=None, gv_id=None, kind=None, lat=None, lon=None, iana=None):
         if isinstance(names, str):
             names = [names]
         names = [_n(n) for n in names]
@@ -52,6 +52,7 @@ class Region:
         self.lat = lat
         self.lon = lon
         self.iana = iana
+        self.abbrev = abbrev
 
         self.sub = []
         self.parent = None
@@ -74,7 +75,7 @@ class Regions:
         for n in reg.names:
             self.names_index[_n(n)] = reg
 
-    def _ar(self, names, pop_mils, parent=None, **kwargs):
+    def _ar(self, names, pop_mils=None, parent=None, **kwargs):
         r = Region(names, pop_mils * 1e6 if pop_mils is not None else None, **kwargs)
         if parent:
             p = self[parent]
@@ -112,6 +113,11 @@ class Regions:
 
         for x in ALIASES:
             self.alias(*x)
+
+    def add_states(self):
+        for c, ss in STATES.items():
+            for s, a in ss:
+                self._ar(s, parent=c, abbrev=a, kind='state')
 
     def apply_airport_coords_db(self):
         "Dataase invomplete, do not use"
@@ -160,9 +166,20 @@ class Regions:
                 r = self[country]
             else:
                 lat, lon = row['Lat'], row['Long']
-                r = self._ar(province, None, country, lat=lat, lon=lon, kind='csse_province')
+                if country in ['US', 'Canada']:
+                    m = re.search(', (..)\s*$', province)
+                    if m:
+                        r = self[UNABBREV[m.groups()[0]]]
+                    else:
+                        r = self[province]
+                else:
+                    if province in self:
+                        r = self[province]
+                    else:
+                        r = self._ar(province, None, country, lat=lat, lon=lon, kind='csse_province')
                 if country not in ['US', 'Canada', 'Australia', 'China', 'UK']:
                     print(country, province)
+ 
             if r.inf_csse is None:
                 r.inf_csse = 0.0
             r.inf_csse += row['Infections']
@@ -230,6 +247,14 @@ class Regions:
                 r.inf_ft = 0.0
             r.inf_ft += ft.mean
 
+    def tree(self):
+        def rec(rn, ind=0):
+            reg = self[rn]
+            print(f"{' ' * ind} {reg.name} [{reg.kind}]")
+            for i in reg.sub:
+                rec(i, ind + 4)
+        rec('World')
+
 
 class Data:
 
@@ -274,20 +299,18 @@ def test():
     logging.basicConfig(level=logging.DEBUG)
 
     d = Data()
+
     r = Regions()
     r.add_md_cities_regions()
-    r.sizes_to_cities()
+    r.add_states()
     r.add_csse_regions(d.load_csse())
-    r.apply_airport_coords()
     r.add_ft_regions(d.ft)
-#    r.restructure_csse()
+    
+    #r.sizes_to_cities()
+    r.apply_airport_coords()
+    r.restructure_csse()
 
-    def rec(rn, ind=0):
-        reg = r[rn]
-        print(f"{' ' * ind} {reg.name} [{reg.kind}]")
-        for i in reg.sub:
-            rec(i, ind + 4)
-    rec('World')
+    r.tree()
 
     
 

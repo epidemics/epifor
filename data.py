@@ -52,6 +52,7 @@ STATES = {
         ('West Virginia', 'WV'),
         ('Wisconsin', 'WI'),
         ('Wyoming', 'WY'),
+        (['District of Columbia', 'washington, d.c.'], 'DC'),
     ],
     'Canada': [
         ('Alberta', 'AB'),
@@ -70,6 +71,11 @@ STATES = {
     ],
 }
 
+UNABBREV = {}
+for c, ss in STATES.items():
+    for s, a in ss:
+        UNABBREV[a] = s
+
 ALIASES = (
     ['Egypt, Arab Rep.', 'Egypt'],
     ['Slovak Republic', 'Slovakia'],
@@ -81,7 +87,7 @@ ALIASES = (
     ['Lhasa', 'Tibet'],
     ['St Barthelemy', 'Saint Barthelemy'],
     ['Baltimore', 'Washington'],
-    ['United Kingdom', 'United Kingdon'],
+    ['United Kingdom', 'United Kingdon', 'UK'],
     ['London (UK)', 'London'],
     ['Wuhan', 'Hubei'],
     ['Western Asia', 'Middle East'],
@@ -90,7 +96,7 @@ ALIASES = (
 
 DROP = ['holy see', 'liechtenstein', 'andorra', 'san marino', 'north macedonia',
     'from diamond princess', 'cruise ship', 'saint barthelemy', 'gibraltar', 'faroe islands',
-    'channel islands', 'st martin']
+    'channel islands', 'st martin', 'diamond princess', 'grand princess']
 
 EU_STATES = ['Germany', 'Czechia'] ## TODO
 
