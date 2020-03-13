@@ -1,5 +1,7 @@
 #!/bin/sh
 set -eu
+
+cd data
 F=foretold_data.json
 if [ $# -ne 1 ]; then
     echo "run as: $0 CHANNELL_ID"

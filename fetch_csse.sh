@@ -2,6 +2,7 @@
 set -eu
 D=CSSE-COVID-19
 
+cd data
 if [ -e "$D" ]; then
     echo "Updating CSSE github"
     cd "$D"

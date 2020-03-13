@@ -1,0 +1,6 @@
+graphql-core<3
+gql
+requests
+pandas
+numpy
+dateutil
