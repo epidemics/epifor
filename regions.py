@@ -240,8 +240,8 @@ class Regions:
 
         def rec(reg):
             e = reg.est.get(est)
-            if reg.kind == 'city' and e is not None and e > 0.99:
-                e = min(e, reg.pop - 1)
+            if reg.kind == 'city' and e is not None and e > 1:
+                e = max(int(min(e, reg.pop - 1)), 1)
                 regs.append((e, reg))
             for r in reg.sub:
                 rec(r)

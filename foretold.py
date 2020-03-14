@@ -50,6 +50,17 @@ class FTData:
         # entire loaded json file
         self._loaded = None
 
+    def last_before(self, date):
+        res = {}
+        for sl in self.subjects.values():
+            last = None
+            for p in sl:
+                if p.date <= date and (last is None or p.date > last.date):
+                    last = p
+            if last:
+                res[p.subject] = last
+        return res
+
     def load(self, path):
         with open(path, 'rt') as f:
             self._loaded = json.load(f)
@@ -68,8 +79,12 @@ class FTData:
             self.days.setdefault(p.date, []).append(p)
             self.latest[p.subject] = p
 
-    def apply_to_regions(self, regions):
-        for p in self.latest.values():
+    def apply_to_regions(self, regions, before=None):
+        if before:
+            d = self.last_before(before)
+        else:
+            d = self.latest
+        for p in d.values():
             if _n(p.name) in SKIP:
                 continue
             try:
