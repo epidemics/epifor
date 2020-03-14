@@ -15,6 +15,78 @@ import numpy as np
 import pandas as pd
 import unidecode
 
+SKIP = ['holy see', 'liechtenstein', 'andorra', 'san marino', 'north macedonia',
+    'from diamond princess', 'cruise ship', 'saint barthelemy', 'gibraltar', 'faroe islands',
+    'channel islands', 'st martin', 'diamond princess', 'grand princess']
+
+UNABBREV = {
+    'AB': 'Alberta',
+    'AK': 'Alaska',
+    'AL': 'Alabama',
+    'AR': 'Arkansas',
+    'AZ': 'Arizona',
+    'BC': 'British Columbia',
+    'CA': 'California',
+    'CO': 'Colorado',
+    'CT': 'Connecticut',
+    'DC': ['District of Columbia', 'washington, d.c.'],
+    'DE': 'Delaware',
+    'FL': 'Florida',
+    'GA': 'Georgia',
+    'HI': 'Hawaii',
+    'IA': 'Iowa',
+    'ID': 'Idaho',
+    'IL': 'Illinois',
+    'IN': 'Indiana',
+    'KS': 'Kansas',
+    'KY': 'Kentucky',
+    'LA': 'Louisiana',
+    'MA': 'Massachusetts',
+    'MB': 'Manitoba',
+    'MD': 'Maryland',
+    'ME': 'Maine',
+    'MI': 'Michigan',
+    'MN': 'Minnesota',
+    'MO': 'Missouri',
+    'MS': 'Mississippi',
+    'MT': 'Montana',
+    'NB': 'New Brunswick',
+    'NC': 'North Carolina',
+    'ND': 'North Dakota',
+    'NE': 'Nebraska',
+    'NH': 'New Hampshire',
+    'NJ': 'New Jersey',
+    'NL': 'Newfoundland and Labrador',
+    'NM': 'New Mexico',
+    'NS': 'Nova Scotia',
+    'NT': 'Northwest Territories',
+    'NU': 'Nunavut',
+    'NV': 'Nevada',
+    'NY': 'New York',
+    'OH': 'Ohio',
+    'OK': 'Oklahoma',
+    'ON': 'Ontario',
+    'OR': 'Oregon',
+    'PA': 'Pennsylvania',
+    'PE': 'Prince Edward Island',
+    'QC': 'Quebec',
+    'RI': 'Rhode Island',
+    'SC': 'South Carolina',
+    'SD': 'South Dakota',
+    'SK': 'Saskatchewan',
+    'TN': 'Tennessee',
+    'TX': 'Texas',
+    'UT': 'Utah',
+    'VA': 'Virginia',
+    'VT': 'Vermont',
+    'WA': 'Washington',
+    'WI': 'Wisconsin',
+    'WV': 'West Virginia',
+    'WY': 'Wyoming',
+    'YT': 'Yukon',
+}
+
+
 log = logging.getLogger()
 
 
@@ -56,7 +128,8 @@ class Region:
         self.est = {}
 
     def __repr__(self):
-        return "<Region {!r} [{}]>".format(self.name, self.kind)
+        p = " ({})".format(self.parent.name) if self.parent else ""
+        return "<Region {!r}{} [{}]>".format(self.name, p, self.kind)
 
     @property
     def name(self):
@@ -72,6 +145,17 @@ class Regions:
     def __getitem__(self, name):
         "Returns a tuple of regions! (Even if there is only one)"
         return tuple(self.names_index[_n(name)])
+
+    def get(self, name, kinds=None):
+        if isinstance(kinds, str):
+            kinds = (kinds, )
+        try:
+            t = self.names_index[_n(name)]
+        except KeyError:
+            return ()
+        if kinds is not None:
+            t = (p for p in t if p.kind in kinds)
+        return tuple(t)
 
     def __contains__(self, name):
         return _n(name) in self.names_index
