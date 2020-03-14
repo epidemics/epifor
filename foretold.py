@@ -5,6 +5,7 @@ import logging
 import re
 
 import numpy as np
+import pandas as pd
 from dateutil import parser
 
 from common import SKIP, _n
@@ -23,18 +24,29 @@ class FTPrediction:
             return None
         self = cls()
         self.date = parser.isoparse(node['labelOnDate'])
-        self.pred_xs = np.array(pa['value']["floatCdf"]['xs'])
-        self.pred_ys = np.array(pa['value']["floatCdf"]['ys'])
+
         self.subject = node["labelSubject"]
         self.name = _n(re.sub('^@locations/n-', '', self.subject).replace('-', ' '))
 
         # TODO: verify/test
         # TODO: now this treats it like a discrete distribution with xs vals,
         #       this is fine for ~1000 samples from FT, but may need fixing otherwise
-        p = np.concatenate((self.pred_ys[1:], [1.0])) - self.pred_ys
-        self.mean = max(np.dot(p, self.pred_xs), 0.0)
-        self.var = np.dot(p, np.abs(self.pred_xs - self.mean) ** 2)
+        self.pred_xs = np.array(pa['value']["floatCdf"]['xs'])
+        self.pred_ys = np.array(pa['value']["floatCdf"]['ys'])
+        self.pdf = np.concatenate((self.pred_ys[1:], [1.0])) - self.pred_ys
+        self.mean = np.dot(self.pdf, self.pred_xs)
+        self.var = np.dot(self.pdf, np.abs(self.pred_xs - self.mean) ** 2)
         return self
+
+    def to_dataframe(self) -> pd.DataFrame:
+        """Export as a simple dataframe."""
+        return pd.DataFrame({
+            "name": self.name,
+            "date": self.date,
+            "x": self.pred_xs,
+            "cdf": self.pred_ys,
+            "pdf": self.pdf,
+        })
 
 
 class FTData:
@@ -78,6 +90,15 @@ class FTData:
             self.subjects.setdefault(p.subject, []).append(p)
             self.days.setdefault(p.date, []).append(p)
             self.latest[p.subject] = p
+
+    def to_dataframe(self) -> pd.DataFrame:
+        """Export as a dataframe containing all the data.
+        
+        See FTPrediction.to_dataframe for columns.
+        """
+        return pd.concat(
+            prediction.to_dataframe() for prediction in self.predictions
+        )
 
     def apply_to_regions(self, regions, before=None):
         if before:
