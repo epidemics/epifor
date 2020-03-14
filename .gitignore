@@ -3,3 +3,4 @@
 /data/population-city/
 .vscode
 __pycache__
+notebooks/.ipynb_checkpoints/
