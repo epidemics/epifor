@@ -84,3 +84,48 @@ class FTData:
             reg.est['ft_mean'] = p.mean
             reg.est['ft_var'] = p.var
 
+    def propagate_down(self, regions):
+        def rec(reg):
+            # Prefer ft_mean for estimate, or passed-down one
+            est0 = reg.est.setdefault('est_active', None)
+            est = reg.est.get('ft_mean', est0)
+            if est is not None:
+
+                # Children stats
+                pops = np.array([r.pop for r in reg.sub], dtype=float)
+                csses = np.array([r.est.get('csse_active') for r in reg.sub], dtype=float)
+                fts = np.array([r.est.get('ft_mean') for r in reg.sub], dtype=float)
+                # Part confirmed
+                csse_ps = csses / pops
+
+                # Mean infection rate in children with infos
+                _pss = []
+                for i, _p in enumerate(reg.sub):
+                    if (not np.isnan(csse_ps[i])) and np.isnan(fts[i]):
+                        _pss.append(csse_ps[i])
+                if not _pss:
+                    _pss = [0.01] # any value just to make uniform est.
+                mean_pss = np.mean(_pss)
+                # Set remaining csses (or all if none are set)
+                for i, p in enumerate(reg.sub):
+                    if np.isnan(csses[i]):
+                        csses[i] = p.pop * mean_pss
+
+                # After substracting any child estimates, what remains?
+                rem_est = est - np.nansum(fts)
+                # TODO: if this happens, do something more correct (take variance into account)
+                if rem_est < 0.0:
+                    log.warning("Node {!r}: rem_est={} (from node estimate {} and sum of child FTs {}), clipped to 0.0".format(reg, rem_est, est, np.nansum(fts)))
+                    rem_est = 0.0
+
+                # Set est_active
+                csse_ftnan_sum = np.sum(csses, where=np.isnan(fts))
+                for i, p in enumerate(reg.sub):
+                    if np.isnan(fts[i]):
+                        p.est['est_active'] = rem_est * csses[i] / csse_ftnan_sum
+
+            for p in reg.sub:
+                rec(p)
+
+        rec(regions.root())
+

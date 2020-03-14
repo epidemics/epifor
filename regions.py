@@ -46,7 +46,7 @@ class Region:
 class Regions:
 
     def __init__(self):
-        self.regions = {}
+        self.regions = []
         self.names_index = {}
 
     def __getitem__(self, name):
@@ -69,7 +69,7 @@ class Regions:
 
     def add_reg(self, reg, parent=None):
         assert isinstance(reg, Region)
-        self.regions[reg.name] = reg
+        self.regions.append(reg)
         for n in reg.names:
             self.names_index.setdefault(_n(n), list()).append(reg)
         if parent:
@@ -161,6 +161,62 @@ class Regions:
             for p in reg.sub:
                 rec(p)
         rec(self.root())
+
+    def fix_min_est(self, name, minimum=0, keep_nones=False):
+        """
+        Bottom-up: set est[name] to be at least sum of lower ests, also minimum.
+        """
+        def rec(reg):
+            vs = [rec(r) for r in reg.sub]
+            vs = [v for v in vs if v is not None]
+            if vs or (reg.est.get(name) is not None) or (not keep_nones):
+                e = reg.est.get(name, 0.0)
+                mv = max(sum(vs), minimum, e if e is not None else 0.0)
+            else:
+                mv = None
+            reg.est[name] = mv
+            return mv
+        rec(self.root())
+
+    def hack_fill_downward_with(self, what, src):
+        """
+        Top-bottom: if est[what] is none, take it from est[src] and distribute down prop to pop
+        where est[what] is missing. Hacky, only useful witout world estimate.
+        """
+        def rec(reg, val=None):
+            if reg.est.get(what) is None:
+                if val is None:
+                    val = reg.est.get(src)
+                if val is not None:
+                    for r in reg.sub:
+                        rec(r, val * r.pop / reg.pop)
+                    return
+            for r in reg.sub:
+                rec(r, val)
+    
+        rec(self.root())
+
+
+    def write_est_csv(self, path, kinds=('city', ), cols=('est_active', )):
+        def f(x):
+            return ("%.3f" % x) if x is not None else None
+        def fi(x):
+            return str(int(x)) if x is not None else None
+
+        def rec(reg, w):
+            if reg.kind in kinds:
+                gv_id = reg.gv_id if reg.kind == 'city' else None
+                t = [reg.name, reg.kind, fi(reg.pop), f(reg.lat), f(reg.lon), gv_id]
+                for c in cols:
+                    t.append(fi(reg.est.get(c)))
+                w.writerow(t)
+            for r in reg.sub:
+                rec(r, w)
+
+        with open(path, 'wt') as ff:
+            w = csv.writer(ff)
+            w.writerow(['name', 'kind', 'pop', 'lat', 'lon', 'gv_id'] + list(cols))
+            rec(self.root(), w)
 
 
 def run():

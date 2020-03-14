@@ -34,6 +34,7 @@ class CSSEData:
         self.df = d
 
     def apply_to_regions(self, regions):
+        "Add estimates to the regions. Note: adds to existing numbers!"
         for _i, r in self.df.iterrows():
             province, country = _n(r['Province/State']), _n(r['Country/Region'])
             if _n(province) in SKIP or _n(country) in SKIP:
@@ -58,7 +59,12 @@ class CSSEData:
                 log.warning("CSSE region %r %r matches several Regions: %r, skipping", name, (country, province), regs)
                 continue
             reg = regs[0]
-            reg.est['csse_active'] = r['Active']
-            reg.est['csse_confirmed'] = r['Confirmed']
-            reg.est['csse_deaths'] = r['Deaths']
-            reg.est['csse_recovered'] = r['Recovered']
+
+            # Accumulation used in US counties/cities etc.
+            def app(name, col):
+                reg.est.setdefault(name, 0.0)
+                reg.est[name] += r[col]
+            app('csse_active', 'Active')
+            app('csse_confirmed', 'Confirmed')
+            app('csse_deaths', 'Deaths')
+            app('csse_recovered', 'Recovered')
