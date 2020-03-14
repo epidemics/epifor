@@ -3346,68 +3346,19 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
         ,australia and new zealand,region,
             ,norfolk island,country,
             ,australia,country,
-                ,hamilton (au),city,,-37.649,142.065,HLT,1572
-                ,pormpuraaw,city,,-14.896,141.609,EDR,1574
-                ,mornington island,city,,-16.663,139.178,ONG,1576
-                ,roma,city,,-26.545,148.775,RMA,1581
-                ,derby,city,,-17.581,123.828,DCN,1582
-                ,doomadgee mission,city,,-17.940,138.822,DMD,1584
-                ,naracoorte,city,,-36.985,140.725,NAC,1585
-                ,kowanyama,city,,-15.486,141.751,KWM,1588
-                ,portland (au),city,,-38.318,141.471,PTJ,1591
-                ,maningrida,city,,-12.056,134.234,MNG,1592
-                ,paraburdoo,city,,-23.171,117.745,PBO,1593
-                ,avalon,city,,-38.039,144.469,AVV,1594
-                ,spring creek,city,,,,SCG,1598
-                ,cunnamulla,city,,-28.030,145.622,CMA,1599
-                ,aurukun ,city,,-13.354,141.721,AUU,1601
-                ,king island,city,,-39.877,143.878,KNS,1602
-                ,argyle,city,,-16.637,128.451,GYL,1606
-                ,nhulunbuy,city,,-12.269,136.818,GOV,1607
-                ,narrandera,city,,-34.702,146.512,NRA,1608
-                ,sydney (au),city,,-33.946,151.177,SYD,1612
-                ,lord howe island,city,,-31.538,159.077,LDH,1614
-                ,lockhart river,city,,-12.787,143.305,IRG,1619
-                ,elcho island,city,,-12.019,135.571,ELC,1625
-                ,cobar,city,,-31.538,145.794,CAZ,1628
-                ,newman,city,,-23.418,119.803,ZNE,1631
-                ,dunk island,city,,-17.942,146.140,DKI,1632
-                ,hamilton island,city,,-20.358,148.952,HTI,1633
-                ,ayers rock,city,,-25.186,130.976,AYQ,1634
-                ,milingimbi island,city,,-12.094,134.894,MGT,1636
-                ,groote eylandt,city,,-13.975,136.460,GTE,1637
-                ,the granites,city,,,,GTS,1638
-                ,geraldton (au),city,,-28.796,114.707,GET,1641
-                ,richmond (au),city,,-20.702,143.115,RCM,1643
-                ,moruya,city,,-35.898,150.144,MYA,1644
-                ,blackall,city,,-24.428,145.429,BKQ,1647
-                ,melbourne (au),city,,-37.673,144.843,MEL,1648
-                ,kingscote,city,,-35.714,137.521,KGC,1649
-                ,kalgoorlie boulder,city,,-30.789,121.462,KGI,1650
-                ,coober pedy,city,,-29.040,134.721,CPD,1651
-                ,normanton,city,,-17.684,141.070,NTN,1653
-                ,flinders island,city,,-40.092,147.993,FLS,1654
-                ,albany,city,,-34.943,117.809,ALH,1656
-                ,newcastle (au),city,,-32.795,151.834,NTL,1657
-                ,horn island,city,,-10.586,142.290,HID,1659
-                ,orange,city,,-33.382,149.133,OAG,1663
-                ,arrabury,city,,,,AAB,1668
-                ,solomon,city,,-22.255,117.763,SLJ,1669
-                ,grafton,city,,-29.759,153.030,GFN,1670
-                ,sunshine coast,city,,-26.603,153.091,MCY,1671
-                ,mcarthur river mine,city,,-16.442,136.084,MCV,1672
-                ,griffith,city,,-34.251,146.067,GFF,1673
-                ,learmonth,city,,-22.236,114.089,LEA,1674
-                ,mount hotham,city,,-37.048,147.334,MHU,1676
-                ,olympic dam,city,,-30.485,136.877,OLP,1677
-                ,julia creek,city,,-20.668,141.723,JCK,1679
-                ,mount gunson,city,,,,GSN,1681
-                ,st george (au),city,,-28.050,148.595,SGO,1682
-                ,coen,city,,-13.761,143.113,CUQ,1689
-                ,winton,city,,-22.364,143.086,WIN,1690
                 ,australian capital territory|federal capital territory,state,
                     ,canberra,city,0.328,-35.307,149.195,CBR,1655
                 ,new south wales,state,
+                    ,avalon,city,,-38.039,144.469,AVV,1594
+                    ,cobar,city,,-31.538,145.794,CAZ,1628
+                    ,grafton,city,,-29.759,153.030,GFN,1670
+                    ,griffith,city,,-34.251,146.067,GFF,1673
+                    ,lord howe island,city,,-31.538,159.077,LDH,1614
+                    ,moruya,city,,-35.898,150.144,MYA,1644
+                    ,narrandera,city,,-34.702,146.512,NRA,1608
+                    ,newcastle (au),city,,-32.795,151.834,NTL,1657
+                    ,orange,city,,-33.382,149.133,OAG,1663
+                    ,sydney (au),city,,-33.946,151.177,SYD,1612
                     ,coffs harbour,city,0.063,-30.321,153.116,CFS,1577
                     ,dubbo,city,0.032,-32.217,148.575,DBO,1578
                     ,wagga wagga,city,0.055,-35.165,147.466,WGA,1600
@@ -3425,8 +3376,33 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,armidale,city,0.023,-30.528,151.617,ARM,1680
                     ,cooma,city,0.007,-36.301,148.974,OOM,1693
                 ,victoria,state,
+                    ,melbourne (au),city,,-37.673,144.843,MEL,1648
+                    ,mount hotham,city,,-37.048,147.334,MHU,1676
+                    ,portland (au),city,,-38.318,141.471,PTJ,1591
+                    ,richmond (au),city,,-20.702,143.115,RCM,1643
                     ,mildura,city,0.048,-34.229,142.086,MQL,1583
                 ,queensland,state,
+                    ,arrabury,city,,,,AAB,1668
+                    ,aurukun ,city,,-13.354,141.721,AUU,1601
+                    ,blackall,city,,-24.428,145.429,BKQ,1647
+                    ,coen,city,,-13.761,143.113,CUQ,1689
+                    ,cunnamulla,city,,-28.030,145.622,CMA,1599
+                    ,doomadgee mission,city,,-17.940,138.822,DMD,1584
+                    ,dunk island,city,,-17.942,146.140,DKI,1632
+                    ,hamilton (au),city,,-37.649,142.065,HLT,1572
+                    ,hamilton island,city,,-20.358,148.952,HTI,1633
+                    ,horn island,city,,-10.586,142.290,HID,1659
+                    ,julia creek,city,,-20.668,141.723,JCK,1679
+                    ,kowanyama,city,,-15.486,141.751,KWM,1588
+                    ,lockhart river,city,,-12.787,143.305,IRG,1619
+                    ,mornington island,city,,-16.663,139.178,ONG,1576
+                    ,normanton,city,,-17.684,141.070,NTN,1653
+                    ,pormpuraaw,city,,-14.896,141.609,EDR,1574
+                    ,roma,city,,-26.545,148.775,RMA,1581
+                    ,spring creek,city,,,,SCG,1598
+                    ,st george (au),city,,-28.050,148.595,SGO,1682
+                    ,sunshine coast,city,,-26.603,153.091,MCY,1671
+                    ,winton,city,,-22.364,143.086,WIN,1690
                     ,bedourie,city,0.000,-24.346,139.460,BEU,1570
                     ,charleville,city,0.002,-26.413,146.262,CTL,1573
                     ,burketown,city,0.000,-17.749,139.534,BUC,1586
@@ -3455,6 +3431,12 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,gold coast,city,0.528,-28.164,153.505,OOL,1691
                     ,quilpie,city,0.001,-26.612,144.253,ULP,1692
                 ,south australia,state,
+                    ,coober pedy,city,,-29.040,134.721,CPD,1651
+                    ,kingscote,city,,-35.714,137.521,KGC,1649
+                    ,mount gunson,city,,,,GSN,1681
+                    ,naracoorte,city,,-36.985,140.725,NAC,1585
+                    ,olympic dam,city,,-30.485,136.877,OLP,1677
+                    ,solomon,city,,-22.255,117.763,SLJ,1669
                     ,whyalla,city,0.023,-33.059,137.514,WYA,1580
                     ,adelaide,city,1.145,-34.945,138.531,ADL,1595
                     ,mount gambier,city,0.023,-37.746,140.785,MGB,1646
@@ -3462,6 +3444,14 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,ceduna,city,0.002,-32.131,133.710,CED,1664
                     ,port lincoln,city,0.014,-34.605,135.880,PLO,1678
                 ,western australia,state,
+                    ,albany,city,,-34.943,117.809,ALH,1656
+                    ,argyle,city,,-16.637,128.451,GYL,1606
+                    ,derby,city,,-17.581,123.828,DCN,1582
+                    ,geraldton (au),city,,-28.796,114.707,GET,1641
+                    ,kalgoorlie boulder,city,,-30.789,121.462,KGI,1650
+                    ,learmonth,city,,-22.236,114.089,LEA,1674
+                    ,newman,city,,-23.418,119.803,ZNE,1631
+                    ,paraburdoo,city,,-23.171,117.745,PBO,1593
                     ,ravensthorpe,city,0.001,-33.797,120.208,RVT,1590
                     ,kalbarri,city,0.002,-27.693,114.259,KAX,1604
                     ,kununurra,city,0.006,-15.778,128.708,KNX,1611
@@ -3472,11 +3462,21 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,port hedland,city,0.014,-20.378,118.626,PHE,1640
                     ,karratha,city,0.017,-20.712,116.773,KTA,1661
                 ,tasmania,state,
+                    ,flinders island,city,,-40.092,147.993,FLS,1654
+                    ,king island,city,,-39.877,143.878,KNS,1602
                     ,burnie,city,0.020,-40.999,145.731,BWT,1569
                     ,launceston,city,0.072,-41.545,147.214,LST,1571
                     ,devonport,city,0.019,-41.170,146.430,DPO,1575
                     ,hobart,city,0.081,-42.836,147.510,HBA,1618
                 ,northern territory,state,
+                    ,ayers rock,city,,-25.186,130.976,AYQ,1634
+                    ,elcho island,city,,-12.019,135.571,ELC,1625
+                    ,groote eylandt,city,,-13.975,136.460,GTE,1637
+                    ,maningrida,city,,-12.056,134.234,MNG,1592
+                    ,mcarthur river mine,city,,-16.442,136.084,MCV,1672
+                    ,milingimbi island,city,,-12.094,134.894,MGT,1636
+                    ,nhulunbuy,city,,-12.269,136.818,GOV,1607
+                    ,the granites,city,,,,GTS,1638
                     ,alice springs,city,0.028,-23.807,133.902,ASP,1579
                     ,darwin,city,0.093,-12.415,130.877,DRW,1589
             ,new zealand,country,
