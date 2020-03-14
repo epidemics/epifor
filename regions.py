@@ -25,6 +25,7 @@ class Region:
         self.lat = lat
         self.lon = lon
         self.iana = iana
+        self.extra_csv = None
 
         # Hierarchy, root=None
         self.sub = []
@@ -97,6 +98,7 @@ class Regions:
             assert i % 4 == 0
             r = r + ([None] * (len(h) - len(r)))
             reg = Region(r[1].split('|'), kind=r[2], pop=a(r[3], 1e6), lat=a(r[4]), lon=a(r[5]), iana=r[6], gv_id=r[7])
+            reg.extra_csv = list(r[8:])
             if i < indent:
                 for _ in range((indent - i) // 4):
                     stack.pop()
@@ -118,12 +120,47 @@ class Regions:
         def rec(reg, ind=0):
             id = reg.gv_id if reg.kind == 'city' else None
             t = [' ' * ind, "|".join(reg.names), reg.kind, f(reg.pop, 1e-6), f(reg.lat), f(reg.lon), reg.iana, id]
+            t += reg.extra_csv
             while len(t) > 4 and t[-1] is None:
                 t.pop()
             w.writerow(t)
             for i in reg.sub:
                 rec(i, ind + 4)
         rec(self['World'][0])
+
+    def root(self):
+        r = self['World']
+        assert len(r) == 1
+        assert r[0].parent is None
+        return r[0]
+
+    def fix_min_pops(self):
+        """
+        Bottom-up: set pop to be at least sum of lower pops.
+        """
+        def rec(reg):
+            sizes = [rec(r) for r in reg.sub]
+            ms = max(sum(sizes), 1000)
+            reg.pop = max(reg.pop if reg.pop is not None else 0, ms)
+            return reg.pop
+        rec(self.root())
+
+    def heuristic_set_pops(self, of_parent=0.5, of_sybs=0.5):
+        """
+        Top-down: set unset sizes to size of mean of syblings present (if >=3) or
+        uniform fraction of parent (* of_parent).
+        """
+        def rec(reg):
+            if reg.pop is None:
+                pa = reg.parent
+                syb_pops = [p.pop for p in pa.sub if p.pop is not None]
+                if len(syb_pops) >= 3:
+                    reg.pop = np.mean(syb_pops) * of_sybs
+                else:
+                    reg.pop = pa.pop * of_parent / len(pa.sub)
+            for p in reg.sub:
+                rec(p)
+        rec(self.root())
 
 
 def run():
@@ -134,6 +171,9 @@ def run():
 
     with open('data/regions.csv', 'rt') as f:
         r.read_csv(f)
+
+    r.heuristic_set_pops()
+    r.fix_min_pops()
 
     with open('data/regions_2.csv', 'wt') as f:
         r.write_csv(f)
