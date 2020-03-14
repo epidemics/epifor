@@ -2519,132 +2519,20 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,st. pierre and miquelon,country,
                 ,st pierre,city,,46.763,-56.173,FSP,1487
             ,united states of america|united states|us,country,
-                ,koyuk,city,,64.939,-161.154,KKA,2065
-                ,lake minchumina,city,,63.886,-152.302,LMA,2068
-                ,unalakleet,city,,63.888,-160.799,UNK,2069
                 ,oneill,city,,,,ONL,2070
-                ,tok,city,,63.329,-142.954,TKJ,2083
-                ,st paul island,city,,57.167,-170.220,SNP,2084
-                ,grand canyon,city,,35.952,-112.147,GCN,2086
-                ,bettles,city,,66.914,-151.529,BTT,2087
-                ,barter island,city,,70.134,-143.582,BTI,2090
-                ,west yellowstone,city,,44.688,-111.118,WYS,2091
                 ,rampart,city,,,,RMP,2092
-                ,panama city (us),city,,30.357,-85.795,ECP,2094
-                ,yakutat,city,,59.503,-139.660,YAK,2097
-                ,victoria,city,,28.853,-96.919,VCT,2102
                 ,chicken,city,,,,CKX,2107
-                ,nome,city,,64.512,-165.445,OME,2112
-                ,alexandria (us),city,,31.327,-92.550,AEX,2114
-                ,durango (us),city,,37.152,-107.754,DRO,2128
-                ,quinhagak,city,,59.755,-161.845,KWN,2129
-                ,deering,city,,66.070,-162.766,DRG,2130
                 ,coldfoot,city,,,,CXF,2132
-                ,melbourne (us),city,,28.103,-80.645,MLB,2133
-                ,port heiden,city,,56.959,-158.633,PTH,2136
                 ,minto,city,,,,MNT,2138
-                ,manley hot springs,city,,64.998,-150.644,MLY,2147
-                ,telluride,city,,37.954,-107.908,TEX,2149
-                ,adak island,city,,51.878,-176.646,ADK,2150
-                ,barrow,city,,71.285,-156.766,BRW,2151
-                ,togiak,city,,59.053,-160.397,TOG,2154
-                ,venetie,city,,67.009,-146.366,VEE,2166
-                ,prudhoe bay,city,,70.195,-148.465,SCC,2167
-                ,chevak,city,,61.541,-165.601,VAK,2169
-                ,hancock,city,,47.168,-88.489,CMX,2171
-                ,anaktuvuk pass,city,,68.134,-151.743,AKP,2177
-                ,atka,city,,52.220,-174.206,AKB,2178
-                ,valparaiso,city,,30.483,-86.525,VPS,2187
-                ,st george island,city,,56.578,-169.662,STG,2188
-                ,st cloud,city,,45.547,-94.060,STC,2189
-                ,st louis,city,,38.749,-90.370,STL,2190
-                ,santa rosa (us),city,,38.509,-122.813,STS,2191
-                ,kauai island,city,,21.976,-159.339,LIH,2193
                 ,kake,city,,,,KAE,2198
-                ,kaltag,city,,64.319,-158.741,KAL,2199
-                ,nikolai,city,,63.019,-154.358,NIB,2200
-                ,atqasuk,city,,70.467,-157.436,ATK,2205
-                ,huslia,city,,65.698,-156.351,HSL,2221
-                ,richmond (us),city,,37.505,-77.320,RIC,2223
                 ,newtok,city,,,,WWT,2226
-                ,fort smith (us),city,,35.337,-94.367,FSM,2230
-                ,noatak,city,,67.566,-162.975,WTK,2232
                 ,goodnews bay,city,,,,GNU,2237
-                ,sand point,city,,55.315,-160.523,SDP,2240
-                ,emmonak,city,,62.786,-164.491,EMK,2246
-                ,savoonga,city,,63.686,-170.493,SVA,2249
                 ,stevens village,city,,,,SVS,2250
-                ,florence (us),city,,34.185,-79.724,FLO,2251
-                ,tri cities,city,,36.475,-82.407,TRI,2253
-                ,valdez,city,,61.134,-146.248,VDZ,2254
-                ,ely,city,,39.300,-114.842,ELY,2261
-                ,haines,city,,59.244,-135.524,HNS,2267
-                ,st george (us),city,,37.036,-113.510,SGU,2268
                 ,tanana,city,,,,TAL,2277
-                ,athens (us),city,,33.949,-83.326,AHN,2278
-                ,fort yukon,city,,66.572,-145.250,FYU,2281
-                ,hughes,city,,66.041,-154.263,HUS,2282
-                ,holy cross,city,,62.188,-159.775,HCR,2283
-                ,belleville,city,,38.545,-89.835,BLV,2284
                 ,grand canyon west,city,,,,GCW,2287
-                ,wainwright,city,,70.638,-159.995,AIN,2292
-                ,long island macarthur,city,,40.795,-73.100,ISP,2297
-                ,shishmaref,city,,66.250,-166.089,SHH,2314
-                ,cape lisburne,city,,68.875,-166.110,LUR,2319
-                ,golden triangle,city,,33.450,-88.591,GTR,2322
-                ,beaver,city,,66.362,-147.407,WBQ,2325
-                ,akutan,city,,54.134,-165.779,KQA,2328
-                ,ruby,city,,64.727,-155.470,RBY,2329
-                ,kotzebue,city,,66.885,-162.599,OTZ,2331
                 ,point hope,city,,,,PHO,2337
-                ,shaktoolik,city,,64.371,-161.224,SKK,2342
-                ,aniak,city,,61.582,-159.543,ANI,2347
-                ,shageluk,city,,62.692,-159.569,SHX,2348
-                ,mekoryuk,city,,60.371,-166.271,MYU,2361
-                ,point lay,city,,69.733,-163.005,PIZ,2362
-                ,elim,city,,64.615,-162.272,ELI,2364
-                ,buckland,city,,65.982,-161.149,BKC,2372
-                ,wales,city,,65.623,-168.095,WAA,2383
-                ,king salmon,city,,58.677,-156.649,AKN,2385
-                ,selawik,city,,66.600,-159.986,WLK,2388
-                ,santa fe (us),city,,35.617,-106.089,SAF,2391
-                ,igiugig,city,,59.324,-155.902,IGG,2399
-                ,st michael,city,,63.490,-162.110,SMK,2402
-                ,glasgow (us),city,,48.213,-106.615,GGW,2404
-                ,false pass,city,,54.847,-163.410,KFP,2412
-                ,kotlik,city,,63.031,-163.533,KOT,2413
-                ,lehigh valley,city,,40.652,-75.441,ABE,2415
-                ,aberdeen (us),city,,45.449,-98.422,ABR,2418
-                ,birmingham (us),city,,33.563,-86.754,BHM,2420
-                ,egegik,city,,58.186,-157.375,EGX,2422
-                ,bradford,city,,41.803,-78.640,BFD,2428
-                ,kona,city,,19.739,-156.046,KOA,2445
-                ,allakaket,city,,66.552,-152.622,AET,2446
-                ,nuiqsut,city,,70.210,-151.006,NUI,2448
-                ,port moller,city,,56.006,-160.561,PML,2450
-                ,dutch harbor,city,,53.900,-166.544,DUT,2451
-                ,block island,city,,41.168,-71.578,BID,2456
                 ,crooked creek,city,,,,CKD,2459
-                ,mcgrath,city,,62.953,-155.606,MCG,2469
-                ,dillingham,city,,59.045,-158.505,DLG,2472
-                ,teller mission,city,,65.331,-166.466,KTS,2476
-                ,wolf point,city,,48.095,-105.575,OLF,2482
-                ,nikolski,city,,52.942,-168.849,IKO,2484
-                ,cold bay,city,,55.206,-162.725,CDB,2487
-                ,cordova,city,,60.492,-145.478,CDV,2490
-                ,pellston,city,,45.571,-84.797,PLN,2493
-                ,st marys,city,,62.061,-163.302,KSM,2494
-                ,inyokern,city,,35.659,-117.830,IYK,2495
-                ,gambell,city,,63.767,-171.733,GAM,2498
-                ,galena,city,,64.736,-156.937,GAL,2499
-                ,arctic village,city,,68.115,-145.579,ARC,2505
-                ,gustavus,city,,58.425,-135.707,GST,2507
-                ,iliamna,city,,59.754,-154.911,ILI,2509
                 ,healy lake,city,,,,HKB,2510
-                ,kivalina,city,,67.736,-164.563,KVL,2512
-                ,new york,city,,40.640,-73.779,JFK,2518
-                ,chalkyitsik,city,,66.645,-143.740,CIK,2526
-                ,sault ste marie (us),city,,46.251,-84.472,CIU,2531
                 ,chignik,city,,,,KCQ,2535
                 ,tuntutuliak,city,,,,WTL,2536
                 ,pilot point,city,,,,UGB,2537
