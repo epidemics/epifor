@@ -2025,7 +2025,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,puerto natales,city,0.020,-51.672,-72.528,PNT,293
             ,calama,city,0.143,-22.498,-68.904,CJC,294
             ,el salvador,city,,-26.311,-69.765,ESR,295
-                ,san salvador (sv),city,,13.441,-89.056,SAL,2918
+            ,san salvador (sv),city,,13.441,-89.056,SAL,2918
             ,santiago (cl),city,,-33.393,-70.786,SCL,296
             ,valdivia,city,0.160,-39.650,-73.086,ZAL,297
             ,temuco,city,0.266,-38.926,-72.651,ZCO,298
