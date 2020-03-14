@@ -2519,17 +2519,10 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,st. pierre and miquelon,country,
                 ,st pierre,city,,46.763,-56.173,FSP,1487
             ,united states of america|united states|us,country,
-                ,augusta (us ga),city,,33.370,-81.965,AGS,2055
-                ,grand rapids (us mi),city,,42.881,-85.523,GRR,2061
                 ,koyuk,city,,64.939,-161.154,KKA,2065
-                ,springfield (us il),city,,39.844,-89.678,SPI,2066
                 ,lake minchumina,city,,63.886,-152.302,LMA,2068
                 ,unalakleet,city,,63.888,-160.799,UNK,2069
                 ,oneill,city,,,,ONL,2070
-                ,jacksonville (us fl),city,,30.494,-81.688,JAX,2076
-                ,jackson (us ms),city,,32.311,-90.076,JAN,2077
-                ,charleston (us sc),city,,32.899,-80.040,CHS,2078
-                ,jackson (us wy),city,,43.607,-110.738,JAC,2079
                 ,tok,city,,63.329,-142.954,TKJ,2083
                 ,st paul island,city,,57.167,-170.220,SNP,2084
                 ,grand canyon,city,,35.952,-112.147,GCN,2086
@@ -2538,7 +2531,6 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,west yellowstone,city,,44.688,-111.118,WYS,2091
                 ,rampart,city,,,,RMP,2092
                 ,panama city (us),city,,30.357,-85.795,ECP,2094
-                ,jacksonville (us nc),city,,34.829,-77.612,OAJ,2095
                 ,yakutat,city,,59.503,-139.660,YAK,2097
                 ,victoria,city,,28.853,-96.919,VCT,2102
                 ,chicken,city,,,,CKX,2107
@@ -2550,44 +2542,35 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,coldfoot,city,,,,CXF,2132
                 ,melbourne (us),city,,28.103,-80.645,MLB,2133
                 ,port heiden,city,,56.959,-158.633,PTH,2136
-                ,jamestown (us nd),city,,46.930,-98.678,JMS,2137
                 ,minto,city,,,,MNT,2138
-                ,burlington (us vt),city,,44.472,-73.153,BTV,2139
                 ,manley hot springs,city,,64.998,-150.644,MLY,2147
                 ,telluride,city,,37.954,-107.908,TEX,2149
                 ,adak island,city,,51.878,-176.646,ADK,2150
                 ,barrow,city,,71.285,-156.766,BRW,2151
-                ,burlington (us ia),city,,40.783,-91.126,BRL,2152
                 ,togiak,city,,59.053,-160.397,TOG,2154
                 ,venetie,city,,67.009,-146.366,VEE,2166
                 ,prudhoe bay,city,,70.195,-148.465,SCC,2167
                 ,chevak,city,,61.541,-165.601,VAK,2169
                 ,hancock,city,,47.168,-88.489,CMX,2171
-                ,greenville (us ms),city,,33.483,-90.986,GLH,2176
                 ,anaktuvuk pass,city,,68.134,-151.743,AKP,2177
                 ,atka,city,,52.220,-174.206,AKB,2178
-                ,augusta (us me),city,,44.321,-69.797,AUG,2180
                 ,valparaiso,city,,30.483,-86.525,VPS,2187
                 ,st george island,city,,56.578,-169.662,STG,2188
                 ,st cloud,city,,45.547,-94.060,STC,2189
                 ,st louis,city,,38.749,-90.370,STL,2190
                 ,santa rosa (us),city,,38.509,-122.813,STS,2191
                 ,kauai island,city,,21.976,-159.339,LIH,2193
-                ,fayetteville (us ar),city,,36.282,-94.307,XNA,2197
                 ,kake,city,,,,KAE,2198
                 ,kaltag,city,,64.319,-158.741,KAL,2199
                 ,nikolai,city,,63.019,-154.358,NIB,2200
                 ,atqasuk,city,,70.467,-157.436,ATK,2205
-                ,watertown (us sd),city,,44.914,-97.155,ATY,2208
                 ,huslia,city,,65.698,-156.351,HSL,2221
                 ,richmond (us),city,,37.505,-77.320,RIC,2223
                 ,newtok,city,,,,WWT,2226
-                ,columbia (us mo),city,,38.818,-92.220,COU,2227
                 ,fort smith (us),city,,35.337,-94.367,FSM,2230
                 ,noatak,city,,67.566,-162.975,WTK,2232
                 ,goodnews bay,city,,,,GNU,2237
                 ,sand point,city,,55.315,-160.523,SDP,2240
-                ,portland (us me),city,,43.646,-70.309,PWM,2242
                 ,emmonak,city,,62.786,-164.491,EMK,2246
                 ,savoonga,city,,63.686,-170.493,SVA,2249
                 ,stevens village,city,,,,SVS,2250
@@ -2597,8 +2580,6 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,ely,city,,39.300,-114.842,ELY,2261
                 ,haines,city,,59.244,-135.524,HNS,2267
                 ,st george (us),city,,37.036,-113.510,SGU,2268
-                ,jackson (us tn),city,,35.600,-88.916,MKL,2269
-                ,springfield (us mo),city,,37.246,-93.389,SGF,2270
                 ,tanana,city,,,,TAL,2277
                 ,athens (us),city,,33.949,-83.326,AHN,2278
                 ,fort yukon,city,,66.572,-145.250,FYU,2281
@@ -2607,12 +2588,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,belleville,city,,38.545,-89.835,BLV,2284
                 ,grand canyon west,city,,,,GCW,2287
                 ,wainwright,city,,70.638,-159.995,AIN,2292
-                ,jamestown (us ny),city,,42.153,-79.258,JHW,2293
-                ,columbia (us sc),city,,33.939,-81.119,CAE,2295
                 ,long island macarthur,city,,40.795,-73.100,ISP,2297
-                ,greenville (us nc),city,,35.635,-77.385,PGV,2298
-                ,portland (us or),city,,45.589,-122.598,PDX,2299
-                ,rochester (us mn),city,,43.908,-92.500,RST,2302
                 ,shishmaref,city,,66.250,-166.089,SHH,2314
                 ,cape lisburne,city,,68.875,-166.110,LUR,2319
                 ,golden triangle,city,,33.450,-88.591,GTR,2322
@@ -2624,29 +2600,24 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,shaktoolik,city,,64.371,-161.224,SKK,2342
                 ,aniak,city,,61.582,-159.543,ANI,2347
                 ,shageluk,city,,62.692,-159.569,SHX,2348
-                ,fayetteville (us nc),city,,34.991,-78.880,FAY,2352
                 ,mekoryuk,city,,60.371,-166.271,MYU,2361
                 ,point lay,city,,69.733,-163.005,PIZ,2362
                 ,elim,city,,64.615,-162.272,ELI,2364
                 ,buckland,city,,65.982,-161.149,BKC,2372
                 ,wales,city,,65.623,-168.095,WAA,2383
                 ,king salmon,city,,58.677,-156.649,AKN,2385
-                ,rochester (us ny),city,,43.119,-77.672,ROC,2387
                 ,selawik,city,,66.600,-159.986,WLK,2388
                 ,santa fe (us),city,,35.617,-106.089,SAF,2391
                 ,igiugig,city,,59.324,-155.902,IGG,2399
                 ,st michael,city,,63.490,-162.110,SMK,2402
                 ,glasgow (us),city,,48.213,-106.615,GGW,2404
-                ,albany (us ny),city,,42.748,-73.802,ALB,2408
                 ,false pass,city,,54.847,-163.410,KFP,2412
                 ,kotlik,city,,63.031,-163.533,KOT,2413
                 ,lehigh valley,city,,40.652,-75.441,ABE,2415
                 ,aberdeen (us),city,,45.449,-98.422,ABR,2418
-                ,albany (us ga),city,,31.535,-84.195,ABY,2419
                 ,birmingham (us),city,,33.563,-86.754,BHM,2420
                 ,egegik,city,,58.186,-157.375,EGX,2422
                 ,bradford,city,,41.803,-78.640,BFD,2428
-                ,columbus (us ga),city,,32.516,-84.939,CSG,2444
                 ,kona,city,,19.739,-156.046,KOA,2445
                 ,allakaket,city,,66.552,-152.622,AET,2446
                 ,nuiqsut,city,,70.210,-151.006,NUI,2448
@@ -2656,10 +2627,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,crooked creek,city,,,,CKD,2459
                 ,mcgrath,city,,62.953,-155.606,MCG,2469
                 ,dillingham,city,,59.045,-158.505,DLG,2472
-                ,grand rapids (us mn),city,,47.211,-93.510,GPZ,2474
                 ,teller mission,city,,65.331,-166.466,KTS,2476
-                ,charleston (us wv),city,,38.373,-81.593,CRW,2478
-                ,columbus (us oh),city,,39.998,-82.892,CMH,2479
                 ,wolf point,city,,48.095,-105.575,OLF,2482
                 ,nikolski,city,,52.942,-168.849,IKO,2484
                 ,cold bay,city,,55.206,-162.725,CDB,2487
@@ -2669,9 +2637,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,inyokern,city,,35.659,-117.830,IYK,2495
                 ,gambell,city,,63.767,-171.733,GAM,2498
                 ,galena,city,,64.736,-156.937,GAL,2499
-                ,watertown (us ny),city,,43.992,-76.022,ART,2504
                 ,arctic village,city,,68.115,-145.579,ARC,2505
-                ,greenville (us sc),city,,34.896,-82.219,GSP,2506
                 ,gustavus,city,,58.425,-135.707,GST,2507
                 ,iliamna,city,,59.754,-154.911,ILI,2509
                 ,healy lake,city,,,,HKB,2510
