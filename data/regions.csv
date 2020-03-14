@@ -2519,23 +2519,11 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,st. pierre and miquelon,country,
                 ,st pierre,city,,46.763,-56.173,FSP,1487
             ,united states of america|united states|us,country,
-                ,oneill,city,,,,ONL,2070
-                ,rampart,city,,,,RMP,2092
-                ,chicken,city,,,,CKX,2107
-                ,coldfoot,city,,,,CXF,2132
-                ,minto,city,,,,MNT,2138
-                ,kake,city,,,,KAE,2198
-                ,newtok,city,,,,WWT,2226
-                ,goodnews bay,city,,,,GNU,2237
-                ,stevens village,city,,,,SVS,2250
-                ,tanana,city,,,,TAL,2277
-                ,grand canyon west,city,,,,GCW,2287
-                ,point hope,city,,,,PHO,2337
                 ,crooked creek,city,,,,CKD,2459
-                ,healy lake,city,,,,HKB,2510
-                ,chignik,city,,,,KCQ,2535
-                ,tuntutuliak,city,,,,WTL,2536
+                ,grand canyon west,city,,,,GCW,2287
+                ,kake,city,,,,KAE,2198
                 ,pilot point,city,,,,UGB,2537
+                ,tanana,city,,,,TAL,2277
                 ,alabama,state,
                     ,birmingham (us),city,,33.563,-86.754,BHM,2420
                     ,mobile,city,0.318,30.691,-88.243,MOB,2118
@@ -2544,6 +2532,13 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,montgomery,city,0.256,32.301,-86.394,MGM,2315
                     ,muscle shoals,city,0.014,34.745,-87.610,MSL,2491
                 ,alaska,state,
+                    ,chicken,city,,,,CKX,2107
+                    ,coldfoot,city,,,,CXF,2132
+                    ,goodnews bay,city,,,,GNU,2237
+                    ,healy lake,city,,,,HKB,2510
+                    ,newtok,city,,,,WWT,2226
+                    ,rampart,city,,,,RMP,2092
+                    ,tuntutuliak,city,,,,WTL,2536
                     ,adak island,city,,51.878,-176.646,ADK,2150
                     ,akutan,city,,54.134,-165.779,KQA,2328
                     ,allakaket,city,,66.552,-152.622,AET,2446
@@ -2671,6 +2666,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,palm springs,city,0.048,33.830,-116.507,PSP,2503
                     ,chico,city,0.106,39.795,-121.858,CIC,2523
                 ,colorado,state,
+                    ,minto,city,,,,MNT,2138
                     ,durango (us),city,,37.152,-107.754,DRO,2128
                     ,telluride,city,,37.954,-107.908,TEX,2149
                     ,pueblo,city,0.142,38.289,-104.497,PUB,2182
@@ -2791,6 +2787,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,worcester,city,0.499,42.267,-71.876,ORH,2172
                     ,boston,city,4.638,42.364,-71.005,BOS,2489
                 ,michigan,state,
+                    ,stevens village,city,,,,SVS,2250
                     ,hancock,city,,47.168,-88.489,CMX,2171
                     ,pellston,city,,45.571,-84.797,PLN,2493
                     ,sault ste marie (us),city,,46.251,-84.472,CIU,2531
@@ -2828,6 +2825,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,laurel,city,0.026,31.467,-89.337,PIB,2360
                     ,gulfport,city,0.221,30.407,-89.070,GPT,2475
                 ,missouri,state,
+                    ,chignik,city,,,,KCQ,2535
                     ,st louis,city,,38.749,-90.370,STL,2190
                     ,columbia (us mo),city,,38.818,-92.220,COU,2227
                     ,springfield (us mo),city,,37.246,-93.389,SGF,2270
@@ -2853,6 +2851,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,billings,city,0.121,45.808,-108.543,BIL,2455
                     ,missoula,city,0.090,46.916,-114.091,MSO,2529
                 ,nebraska,state,
+                    ,oneill,city,,,,ONL,2070
                     ,grand island,city,0.053,40.967,-98.310,GRI,2063
                     ,lincoln,city,0.285,40.851,-96.759,LNK,2093
                     ,kearney,city,0.034,,,EAR,2159
@@ -2976,6 +2975,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,lewisburg,city,0.011,37.858,-80.399,LWB,2380
                     ,knoxville,city,0.585,35.811,-83.994,TYS,2435
                 ,texas,state,
+                    ,point hope,city,,,,PHO,2337
                     ,victoria,city,,28.853,-96.919,VCT,2102
                     ,wichita falls,city,0.100,33.989,-98.492,SPS,2056
                     ,midland,city,0.144,31.942,-102.202,MAF,2058
