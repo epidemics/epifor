@@ -1,5 +1,6 @@
 import logging
-
+import pathlib
+import sys
 
 from csse import CSSEData
 from foretold import FTData
@@ -39,5 +40,12 @@ def main():
 
     rs.write_est_csv("data/est_active.csv")
 
+    if len(sys.argv) >= 2:
+        fp = sys.argv[1]
+        p2 = pathlib.Path(fp).with_suffix('.updated.xml')
+        rs.update_gleamviz_seeds(fp, p2, est='est_active', compartment="Infectious", top=None)
+
+
 if __name__ == '__main__':
+    print("Usage: %s INPUT_XML" % sys.argv[0])
     main()

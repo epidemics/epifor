@@ -2,12 +2,12 @@ import csv
 import datetime
 import logging
 import sys
+import xml.etree.ElementTree as ET
 
 import numpy as np
 import pandas as pd
 
 from common import _n
-
 
 log = logging.getLogger()
 
@@ -217,6 +217,34 @@ class Regions:
             w = csv.writer(ff)
             w.writerow(['name', 'kind', 'pop', 'lat', 'lon', 'gv_id'] + list(cols))
             rec(self.root(), w)
+
+    def update_gleamviz_seeds(self, path, newpath, est='est_active', compartment="Infectious", top=None):
+        ET.register_namespace('', 'http://www.gleamviz.org/xmlns/gleamviz_v4_0')
+        tree = ET.parse(path)
+        root = tree.getroot()
+        ns = {'gv': 'http://www.gleamviz.org/xmlns/gleamviz_v4_0'}
+        sroots = root.findall('./gv:definition/gv:seeds', ns)
+        assert len(sroots) == 1
+        sroot = sroots[0]
+        sroot.clear()
+        regs = []
+
+        def rec(reg):
+            e = reg.est.get(est)
+            if reg.kind == 'city' and e is not None and e > 1.0:
+                regs.append((e, reg))
+            for r in reg.sub:
+                rec(r)
+    
+        rec(self.root())
+        regs.sort(key=lambda er: er[0], reverse=True)
+        for e, reg in regs[:top]:
+            ET.SubElement(sroot, 'seed', {'number': str(int(e)), "compartment": compartment, "city": str(reg.gv_id)})
+
+        sdef = root.findall('./gv:definition', ns)[0]
+        sdef.attrib['name'] += datetime.datetime.now().strftime("_FTup_%Y-%m-%d_%H:%M:%S") 
+
+        tree.write(newpath)
 
 
 def run():
