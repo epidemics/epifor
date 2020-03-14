@@ -1,6 +1,10 @@
+import json
+import pathlib
 import re
-from dateutil import parser
+
 import numpy as np
+from dateutil import parser
+
 
 class FTPrediction:
     def __init__(self):
@@ -20,3 +24,15 @@ class FTPrediction:
         self.subject = node["labelSubject"]
         self.name = re.sub('^@locations/n-', '', self.subject).replace('-', ' ').capitalize()
         return self
+
+
+def load_ft(path):
+    d = json.loads(pathlib.Path(path).read_text())["data"]["measurables"]['edges']
+    fts = {}
+    for p in d:
+        ft = FTPrediction.from_ft_node(p['node'])
+        if ft is None:
+            continue
+        if ft.name not in fts or ft.date > fts[ft.name].date:
+            fts[ft.name] = ft
+    return fts

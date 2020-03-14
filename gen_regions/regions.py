@@ -259,6 +259,7 @@ class Regions:
 
     def write_csv(self, file=sys.stdout):
         w = csv.writer(file)
+        w.writerow(['indent', 'names', 'kind', 'pop_mil', 'lat', 'lon', 'iana', 'gv_id'])
         def f(x, mult=1.0):
             return ("%.3f" % (x * mult)) if x is not None else None
         def rec(reg, ind=0):
