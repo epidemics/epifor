@@ -74,14 +74,14 @@ STATES = {
         ('Guangxi', None),('Inner Mongolia', None),('Ningxia', None),('Tibet', None),('Xinjiang', None),('Hong Kong', None),(['Macao', 'Macau'], None),('Beijing', None),('Chongqing', None),('Shanghai', None),('Tianjin', None),
     ],
     'Australia': [
-        ('New South Wales', None),('Victoria', None),('Queensland', None),('South Australia', None),('Western Australia', None),('Tasmania', None),('Northern Territory', None),
+        (['australian capital territory', 'Federal Capital Territory'], None), ('New South Wales', None),('Victoria', None),('Queensland', None),('South Australia', None),('Western Australia', None),('Tasmania', None),('Northern Territory', None),
     ],
 }
 
 UNABBREV = {}
-for c, ss in STATES.items():
-    for s, a in ss:
-        UNABBREV[a] = s
+for _c, _ss in STATES.items():
+    for _s, _a in _ss:
+        UNABBREV[_a] = _s
 
 ALIASES = (
     ['Egypt, Arab Rep.', 'Egypt'],
@@ -99,13 +99,18 @@ ALIASES = (
     ['Wuhan', 'Hubei'],
     ['Western Asia', 'Middle East'],
     ['United States of America', 'United states', 'us'],
+    ['korea, dem. rep.', 'korea, north'],
+    ['cape verde', 'cabo verde'],
+    ['lao pdr', 'laos'],
+    ['myanmar', 'burma'],
+    ['gambia', 'gambia, the'],
 )
 
 DROP = ['holy see', 'liechtenstein', 'andorra', 'san marino', 'north macedonia',
     'from diamond princess', 'cruise ship', 'saint barthelemy', 'gibraltar', 'faroe islands',
     'channel islands', 'st martin', 'diamond princess', 'grand princess']
 
-EU_STATES = ['Germany', 'Czechia'] ## TODO
+EU_STATES = ['Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Poland', 'Portugal', 'Romania', 'Slovakia', 'Slovenia', 'Spain', 'Sweden']
 
 MD_CITIES = Path("data/md_cities.tsv")
 

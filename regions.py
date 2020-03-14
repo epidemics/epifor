@@ -42,7 +42,7 @@ class Region:
     def __init__(self, names,  pop=None, abbrev=None, gv_id=None, kind=None, lat=None, lon=None, iana=None):
         if isinstance(names, str):
             names = [names]
-        names = names #[_n(n) for n in names]
+        names = [_n(n) for n in names]
         self.name = names[0]
         self.names = names
         self.pop = pop
@@ -88,8 +88,8 @@ class Regions:
 
     def alias(self, name, *aliases):
         r = self[name]
-        r.names.extend(aliases)
         for n in aliases:
+            r.names.append(_n(n))
             self.names_index[_n(n)] = r
 
     def add_md_cities_regions(self):
@@ -151,7 +151,6 @@ class Regions:
         _ncol(df, 'City', 'Country or Area')
         df = df[df['Value'].notna()]
         df = df.groupby(['City']).agg({'Value': max})
-        print(df)
         for reg in self.regions.values():
             if reg.kind == 'city':
                 try:
@@ -160,26 +159,31 @@ class Regions:
                 except KeyError:
                     pass
 
-    def sizes_to_cities2(self):
-        df = pd.read_csv(CITY_SIZES_W, header=0, index_col=1)
-        _ncol(df, 'country', 'admin_name')
+    def sizes_and_admin_to_cities2(self):
         def s(x):
             return re.sub('\s*\([a-zA-Z ]*\)\s*$', '', _n(x.replace('’', '')))
-        df.index = df.index.map(_n)
-        df = df.sort_values('population', ascending=False).groupby(df.index).first()
-#        df = df.groupby(df.index).agg({'population': max})
+        df = pd.read_csv(CITY_SIZES_W, header=0)
         df = df[df['population'].notna()]
+        #df = df[df['population'] > 10000]
+        df['city_ascii'] = df['city_ascii'].map(s)
+        _ncol(df, 'country', 'admin_name', 'city_ascii')
+        df = df.sort_values('population', ascending=False).groupby('city_ascii', as_index=False).first()
+        df = df.set_index('city_ascii')        
+#        df = df.groupby(df.index).agg({'population': max})
         for reg in self.regions.values():
             if reg.kind == 'city':
                 try:
-                    r = df.loc[s(reg.name)]
+                    r = df.loc[_n(reg.name)]
                     if isinstance(r['population'], float):
-                        reg.pop = float(r['population'])
-                        reg.admin = r['admin_name']
+                        if r['country'] in reg.parent.names:
+                            reg.pop = float(r['population'])
+                            reg.admin = r['admin_name']
+                        else:
+                            print("Mismatch in country:", reg.name, r['country'], reg.parent.names)
                     else:
                         print('Duplicate cities in s2c2', reg.name, r['population'])
                 except KeyError:
-                    print('City not found in s2c2', reg.name)
+                    #print('City not found in s2c2', reg.name)
                     pass
 
     def add_csse_regions(self, csse_data):
@@ -211,42 +215,21 @@ class Regions:
                 r.inf_csse = 0.0
             r.inf_csse += row['Infections']
 
-    def restructure_csse(self):
-        for c in ['US', 'Canada', 'Australia', 'China', 'UK']:       
-            self.rehang_all_to_closest('city', c)
+    def restructure(self):
+        for c in ['US', 'Canada', 'Australia', 'China']:
+            self.rehang_to_states('city', self[c])
 
-    def rehang_all_to_closest(self, kind, parent):
+    def rehang_to_states(self, kind, parent):
         rehang = []
-        anchors = []
+        states = {}
         for r in parent.sub:
-            rn = r.name
             if r.kind == kind:
-                if r.lat is not None:
-                    rehang.append(rn)
-                else:
-                    print("Warn: can't rehang", rn)
+                rehang.append(r)
             else:
-                if r.lat is not None:
-                    assert r.lon is not None
-                    anchors.append(rn)
-        print(pr.name, rehang, anchors)
-        for rn in rehang:
-            na = self.find_closest(rn, anchors)
-            if na is None:
-                na = parent
-            self.rehang(rn, na)
-
-    def find_closest(self, x, others):
-        md = 1e42
-        b = None
-        r = self[x]
-        for on in others:
-            o = self[on]
-            d = geo_dist(o.lat, r.lat, o.lon - r.lon)
-            if d < md:
-                b = on
-                md = d
-        return b
+                states[_n(r.name)] = r
+        for r in rehang:
+            if r.admin is not None: # and r.name not in SKIP_REHANG:
+                self.rehang(r, states[_n(r.admin)])
 
     def rehang(self, what, under):
         assert isinstance(what, Region)
@@ -269,7 +252,7 @@ class Regions:
             try:
                 r = self[ft.name]
             except KeyError:
-                print(ft.name)
+                print("FT Error", ft.name)
             if r.inf_ft is None:
                 r.inf_ft = 0.0
             r.inf_ft += ft.mean
@@ -347,9 +330,8 @@ def test():
     r.add_states()
     r.add_csse_regions(d.load_csse())
     r.add_ft_regions(d.ft)
-    
-    r.sizes_to_cities2()
-    #r.restructure_csse()
+    r.sizes_and_admin_to_cities2()
+    r.restructure()
 
     #r.tree()
     with open('data/regions.csv', 'wt') as f:
