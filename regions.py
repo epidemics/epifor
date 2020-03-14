@@ -1,3 +1,4 @@
+import csv
 import datetime
 import json
 import logging
@@ -41,7 +42,7 @@ class Region:
     def __init__(self, names,  pop=None, abbrev=None, gv_id=None, kind=None, lat=None, lon=None, iana=None):
         if isinstance(names, str):
             names = [names]
-        names = [_n(n) for n in names]
+        names = names #[_n(n) for n in names]
         self.name = names[0]
         self.names = names
         self.pop = pop
@@ -53,6 +54,7 @@ class Region:
         self.lon = lon
         self.iana = iana
         self.abbrev = abbrev
+        self.admin = None
 
         self.sub = []
         self.parent = None
@@ -78,9 +80,9 @@ class Regions:
     def _ar(self, names, pop_mils=None, parent=None, **kwargs):
         r = Region(names, pop_mils * 1e6 if pop_mils is not None else None, **kwargs)
         if parent:
-            p = self[parent]
-            r.parent = _n(p.name)
-            p.sub.append(_n(r.name))
+            assert isinstance(parent, Region)
+            r.parent = parent
+            parent.sub.append(r)
         self.add_reg(r)
         return r
 
@@ -98,7 +100,10 @@ class Regions:
             if isinstance(names, str):
                 names = [names]
             if names[0] not in self:
-                self._ar(names, None, parent, kind=t, gv_id=gv_id, **kw)
+                self._ar(names, None, self[parent], kind=t, gv_id=gv_id, **kw)
+            else:
+                if t == 'city':
+                    print("Duplicate in MD:", names[0])
             return self[names[0]]
 
         for _idx, row in df.iterrows():
@@ -109,7 +114,7 @@ class Regions:
             co_n = row['Country name']
             a(co_n, re_n, row['Country ID'], 'country')
             ci_n = row['City Name']
-            a(ci_n, co_n, row['City ID'], 'gv_city', iana=row['Airport code'])
+            a(ci_n, co_n, row['City ID'], 'city', iana=row['Airport code'])
 
         for x in ALIASES:
             self.alias(*x)
@@ -117,7 +122,7 @@ class Regions:
     def add_states(self):
         for c, ss in STATES.items():
             for s, a in ss:
-                self._ar(s, parent=c, abbrev=a, kind='state')
+                self._ar(s, parent=self[c], abbrev=a, kind='state')
 
     def apply_airport_coords_db(self):
         "Dataase invomplete, do not use"
@@ -132,7 +137,6 @@ class Regions:
                 r.lat, r.lon = d[r.iana]
 
     def apply_airport_coords(self):
-        "Dataase invomplete, do not use"
         df = pd.read_csv(AIRPORTS)
         d = {}
         for _i, row in df.iterrows():
@@ -149,11 +153,33 @@ class Regions:
         df = df.groupby(['City']).agg({'Value': max})
         print(df)
         for reg in self.regions.values():
-            if reg.kind == 'gv_city':
+            if reg.kind == 'city':
                 try:
                     r = df.loc[_n(reg.name)]
                     reg.pop = float(r['Value'].lower())
                 except KeyError:
+                    pass
+
+    def sizes_to_cities2(self):
+        df = pd.read_csv(CITY_SIZES_W, header=0, index_col=1)
+        _ncol(df, 'country', 'admin_name')
+        def s(x):
+            return re.sub('\s*\([a-zA-Z ]*\)\s*$', '', _n(x.replace('’', '')))
+        df.index = df.index.map(_n)
+        df = df.sort_values('population', ascending=False).groupby(df.index).first()
+#        df = df.groupby(df.index).agg({'population': max})
+        df = df[df['population'].notna()]
+        for reg in self.regions.values():
+            if reg.kind == 'city':
+                try:
+                    r = df.loc[s(reg.name)]
+                    if isinstance(r['population'], float):
+                        reg.pop = float(r['population'])
+                        reg.admin = r['admin_name']
+                    else:
+                        print('Duplicate cities in s2c2', reg.name, r['population'])
+                except KeyError:
+                    print('City not found in s2c2', reg.name)
                     pass
 
     def add_csse_regions(self, csse_data):
@@ -166,34 +192,34 @@ class Regions:
                 r = self[country]
             else:
                 lat, lon = row['Lat'], row['Long']
-                if country in ['US', 'Canada']:
+                if country in ['US', 'Canada', 'China', 'Australia']:
                     m = re.search(', (..)\s*$', province)
                     if m:
                         r = self[UNABBREV[m.groups()[0]]]
                     else:
                         r = self[province]
                 else:
-                    if province in self:
-                        r = self[province]
-                    else:
-                        r = self._ar(province, None, country, lat=lat, lon=lon, kind='csse_province')
-                if country not in ['US', 'Canada', 'Australia', 'China', 'UK']:
-                    print(country, province)
- 
+                    print("Extra Countre+Province:", country, province)
+                #     if province in self:
+                #         r = self[province]
+                #     else:
+                #         r = self._ar(province, None, self[country], lat=lat, lon=lon, kind='state')
+                # if country not in ['US', 'Canada', 'Australia', 'China']:
+                #     print(country, province)
+
             if r.inf_csse is None:
                 r.inf_csse = 0.0
             r.inf_csse += row['Infections']
 
     def restructure_csse(self):
         for c in ['US', 'Canada', 'Australia', 'China', 'UK']:       
-            self.rehang_all_to_closest('gv_city', c)
+            self.rehang_all_to_closest('city', c)
 
     def rehang_all_to_closest(self, kind, parent):
-        pr = self[parent]
         rehang = []
         anchors = []
-        for rn in pr.sub:
-            r = self[rn]
+        for r in parent.sub:
+            rn = r.name
             if r.kind == kind:
                 if r.lat is not None:
                     rehang.append(rn)
@@ -209,7 +235,7 @@ class Regions:
             if na is None:
                 na = parent
             self.rehang(rn, na)
-        
+
     def find_closest(self, x, others):
         md = 1e42
         b = None
@@ -223,18 +249,19 @@ class Regions:
         return b
 
     def rehang(self, what, under):
-        r = self[what]
-        p = self[r.parent]
-        p.sub.remove(_n(r.name))
-        r.parent = _n(under)
-        self[under].sub.append(_n(r.name))
+        assert isinstance(what, Region)
+        assert isinstance(under, Region)
+        p = what.parent
+        p.sub.remove(what)
+        what.parent = under
+        under.sub.append(what)
 
     def add_ft_regions(self, ftps):
-        self._ar(['European union', 'EU'], 512, 'Europe')
+        self._ar(['European union', 'EU'], 512, self['Europe'])
         self['Middle east'].pop = 371e6
         for s in EU_STATES:
-            self.rehang(s, 'EU')
-        self.rehang('Egypt', 'Middle east')
+            self.rehang(self[s], self['EU'])
+        self.rehang(self['Egypt'], self['Middle east'])
 
         for ft in ftps.values():
             if _n(ft.name) in DROP:
@@ -247,13 +274,27 @@ class Regions:
                 r.inf_ft = 0.0
             r.inf_ft += ft.mean
 
-    def tree(self):
-        def rec(rn, ind=0):
-            reg = self[rn]
-            print(f"{' ' * ind} {reg.name} [{reg.kind}]")
+    def write_csv(self, file=sys.stdout):
+        w = csv.writer(file)
+        def f(x, mult=1.0):
+            return ("%.3f" % (x * mult)) if x is not None else None
+        def rec(reg, ind=0):
+            id = reg.gv_id if reg.kind == 'city' else None
+            t = [' ' * ind, "|".join(reg.names), reg.kind, f(reg.pop, 1e-6), f(reg.lat), f(reg.lon), reg.iana, id]
+            while len(t) > 4 and t[-1] is None:
+                t.pop()
+            w.writerow(t)
             for i in reg.sub:
                 rec(i, ind + 4)
-        rec('World')
+        rec(self['World'])
+
+
+    def tree(self):
+        def rec(reg, ind=0):
+            print(f"{' ' * ind} {reg.name} [{reg.kind}]")
+            for i in reg.sub:
+                rec(i, ind + 2)
+        rec(self['World'])
 
 
 class Data:
@@ -302,15 +343,17 @@ def test():
 
     r = Regions()
     r.add_md_cities_regions()
+    r.apply_airport_coords()
     r.add_states()
     r.add_csse_regions(d.load_csse())
     r.add_ft_regions(d.ft)
     
-    #r.sizes_to_cities()
-    r.apply_airport_coords()
-    r.restructure_csse()
+    r.sizes_to_cities2()
+    #r.restructure_csse()
 
-    r.tree()
+    #r.tree()
+    with open('data/regions.csv', 'wt') as f:
+        r.write_csv(f)
 
     
 

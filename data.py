@@ -69,6 +69,13 @@ STATES = {
         ('Saskatchewan', 'SK'),
         ('Yukon', 'YT'),
     ],
+    'China': [
+        ('Anhui', None),('Fujian', None),('Gansu', None),('Guangdong', None),('Guizhou', None),('Hainan', None),('Hebei', None),('Heilongjiang', None),('Henan', None),('Hubei', None),('Hunan', None),('Jiangsu', None),('Jiangxi', None),('Jilin', None),('Liaoning', None),('Qinghai', None),('Shaanxi', None),('Shandong', None),('Shanxi', None),('Sichuan', None),('Yunnan', None),('Zhejiang', None),
+        ('Guangxi', None),('Inner Mongolia', None),('Ningxia', None),('Tibet', None),('Xinjiang', None),('Hong Kong', None),(['Macao', 'Macau'], None),('Beijing', None),('Chongqing', None),('Shanghai', None),('Tianjin', None),
+    ],
+    'Australia': [
+        ('New South Wales', None),('Victoria', None),('Queensland', None),('South Australia', None),('Western Australia', None),('Tasmania', None),('Northern Territory', None),
+    ],
 }
 
 UNABBREV = {}
@@ -103,6 +110,7 @@ EU_STATES = ['Germany', 'Czechia'] ## TODO
 MD_CITIES = Path("data/md_cities.tsv")
 
 CITY_SIZES = Path("data/population-city/data/unsd-citypopulation-year-both.csv")
+CITY_SIZES_W = Path("data/worldcities.csv")
 
 AIRPORTDB = Path("data/GlobalAirportDatabase.txt")
 
