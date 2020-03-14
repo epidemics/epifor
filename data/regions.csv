@@ -3053,103 +3053,10 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,laramie,city,0.034,41.312,-105.675,LAR,2395
                 ,"district of columbia|washington, d.c.",state,
             ,canada,country,
-                ,bearskin lake,city,,53.966,-91.027,XBE,2582
-                ,brandon,city,,49.910,-99.952,YBR,2583
-                ,pelly bay,city,,68.534,-89.808,YBB,2584
-                ,sanikiluaq,city,,56.538,-79.247,YSK,2585
-                ,st john,city,,45.316,-65.890,YSJ,2586
-                ,fort smith (ca),city,,60.020,-111.962,YSM,2587
-                ,lutselke snowdrift,city,,62.418,-110.682,YSG,2589
-                ,sachs harbour,city,,71.994,-125.243,YSY,2590
-                ,high level,city,,58.621,-117.165,YOJ,2591
-                ,old crow,city,,67.571,-139.839,YOC,2592
-                ,sault ste marie (ca),city,,46.485,-84.509,YAM,2594
-                ,bagotville,city,,48.331,-70.996,YBG,2596
-                ,umiujaq,city,,56.536,-76.518,YUD,2599
-                ,kasabonika,city,,53.525,-88.643,XKS,2600
-                ,rainbow lake,city,,58.491,-119.408,YOP,2601
-                ,kangiqsujuaq,city,,61.589,-71.929,YWB,2606
-                ,quaqtaq,city,,61.046,-69.618,YQC,2609
-                ,quebec,city,,46.791,-71.393,YQB,2610
-                ,sydney (ca),city,,46.161,-60.048,YQY,2611
-                ,summer beaver,city,,52.709,-88.542,SUR,2612
-                ,kashechewan,city,,52.283,-81.678,ZKE,2615
-                ,la grande,city,,53.625,-77.704,YGL,2616
-                ,kingston (ca),city,,44.225,-76.597,YGK,2617
-                ,kuujjuarapik,city,,55.282,-77.765,YGW,2619
-                ,iles de la madeleine,city,,47.425,-61.778,YGR,2620
-                ,geraldton (ca),city,,49.778,-86.939,YGQ,2621
-                ,whati,city,,63.132,-117.246,YLE,2624
-                ,akulivik,city,,60.819,-78.149,AKV,2627
-                ,snare lake,city,,64.191,-114.077,YFJ,2629
-                ,aupaluk,city,,59.297,-69.600,YPJ,2633
-                ,pickle lake,city,,51.446,-90.214,YPL,2635
-                ,st johns,city,,47.619,-52.752,YYT,2639
-                ,bella coola,city,,52.388,-126.596,QBC,2640
-                ,london (ca),city,,43.036,-81.154,YXU,2645
-                ,east main,city,,52.226,-78.522,ZEM,2646
-                ,webequie,city,,52.959,-87.375,YWP,2647
-                ,wabush,city,,52.922,-66.864,YWK,2650
-                ,kangiqsualujjuaq,city,,58.711,-65.993,XGR,2652
-                ,waskaganish,city,,51.473,-78.758,YKQ,2660
-                ,chisasibi,city,,53.806,-78.917,YKU,2661
-                ,north spirit lake,city,,52.490,-92.971,YNO,2662
-                ,deer lake (ca nl),city,,49.211,-57.391,YDF,2665
-                ,deer lake (ca on),city,,52.656,-94.061,YVZ,2668
-                ,qikiqtarjuaq,city,,67.546,-64.031,YVM,2669
-                ,churchill falls,city,,53.562,-64.106,ZUM,2670
-                ,tasiujuaq,city,,58.668,-69.956,YTQ,2675
-                ,klemtu,city,,,,YKT,2676
-                ,rouyn,city,,48.206,-78.836,YUY,2677
-                ,big trout lake,city,,53.818,-89.897,YTL,2683
-                ,alma,city,,48.509,-71.642,YTF,2684
-                ,tulita fort norman,city,,64.910,-125.573,ZFN,2688
-                ,round lake,city,,52.944,-91.313,ZRJ,2689
-                ,blanc sablon,city,,51.444,-57.185,YBX,2691
-                ,thompson,city,,55.801,-97.864,YTH,2696
-                ,ulukhaktok,city,,70.763,-117.806,YHI,2698
-                ,hopedale,city,,55.448,-60.229,YHO,2699
-                ,pikangikum,city,,51.820,-93.973,YPM,2702
-                ,sandy lake,city,,53.064,-93.344,ZSJ,2704
-                ,fort frances,city,,48.654,-93.440,YAG,2705
-                ,anahim lake,city,,52.452,-125.303,YAA,2706
-                ,dawson city,city,,64.043,-139.128,YDA,2709
-                ,goose bay,city,,53.319,-60.426,YYR,2712
-                ,mont joli,city,,48.609,-68.208,YYY,2713
-                ,ogoki,city,,51.659,-85.902,YOG,2719
-                ,bonaventure,city,,48.071,-65.460,YVB,2721
-                ,sachigo lake,city,,53.891,-92.196,ZPB,2723
-                ,fort st john,city,,56.238,-120.740,YXJ,2728
-                ,whale cove,city,,62.240,-92.598,YXN,2730
-                ,st anthony,city,,51.392,-56.083,YAY,2732
-                ,stephenville,city,,48.544,-58.550,YJT,2734
-                ,wemindji,city,,53.011,-78.831,YNC,2736
-                ,natuashish,city,,55.914,-61.184,YNP,2737
-                ,nemiscau,city,,51.691,-76.136,YNS,2738
-                ,masset,city,,54.028,-132.125,ZMT,2740
-                ,aklavik,city,,68.223,-135.006,LAK,2741
-                ,colville lake,city,,67.039,-126.080,YCK,2743
-                ,kugluktuk coppermine,city,,67.817,-115.144,YCO,2744
-                ,puvirnituq,city,,60.051,-77.287,YPX,2745
-                ,fort hope,city,,51.562,-87.908,YFH,2748
-                ,makkovik,city,,55.077,-59.186,YMN,2751
-                ,fox harbour,city,,52.373,-55.674,YFX,2752
-                ,havre st pierre,city,,50.282,-63.611,YGV,2754
-                ,peawanuck,city,,54.988,-85.443,YPO,2757
-                ,mont tremblant,city,,46.409,-74.780,YTM,2759
-                ,lloydminster,city,,53.309,-110.073,YLL,2761
-                ,hamilton (ca),city,,43.174,-79.935,YHM,2762
-                ,wunnummin lake,city,,52.894,-89.289,WNN,2763
-                ,comox,city,,49.711,-124.887,YQQ,2764
-                ,chibougamau,city,,49.772,-74.528,YMT,2767
-                ,gethsemani,city,,50.260,-60.679,ZGS,2768
-                ,pakuashipi,city,,51.212,-58.658,YIF,2772
-                ,clyde river,city,,70.486,-68.517,YCY,2773
-                ,charlo,city,,47.991,-66.330,YCL,2775
-                ,castlegar,city,,49.296,-117.632,YCG,2776
-                ,muskrat dam,city,,53.441,-91.763,MSA,2778
-                ,rae lakes,city,,64.116,-117.310,YRA,2779
                 ,alberta,state,
+                    ,high level,city,,58.621,-117.165,YOJ,2591
+                    ,lloydminster,city,,53.309,-110.073,YLL,2761
+                    ,rainbow lake,city,,58.491,-119.408,YOP,2601
                     ,grande prairie,city,0.041,55.180,-118.885,YQU,2613
                     ,fort chipewyan,city,0.003,58.767,-111.117,YPY,2631
                     ,lethbridge,city,0.071,49.630,-112.800,YQL,2638
@@ -3159,6 +3066,13 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,medicine hat,city,0.063,50.019,-110.721,YXH,2729
                     ,fort mcmurray,city,0.022,56.653,-111.222,YMM,2750
                 ,british columbia,state,
+                    ,anahim lake,city,,52.452,-125.303,YAA,2706
+                    ,bella coola,city,,52.388,-126.596,QBC,2640
+                    ,castlegar,city,,49.296,-117.632,YCG,2776
+                    ,comox,city,,49.711,-124.887,YQQ,2764
+                    ,fort st john,city,,56.238,-120.740,YXJ,2728
+                    ,klemtu,city,,,,YKT,2676
+                    ,masset,city,,54.028,-132.125,ZMT,2740
                     ,kelowna,city,0.125,49.956,-119.378,YLW,2623
                     ,williams lake,city,0.014,52.183,-122.054,YWL,2649
                     ,penticton,city,0.038,49.463,-119.602,YYF,2653
@@ -3177,6 +3091,9 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,cranbrook,city,0.019,49.611,-115.782,YXC,2758
                     ,vancouver,city,2.313,49.194,-123.184,YVR,2766
                 ,manitoba,state,
+                    ,brandon,city,,49.910,-99.952,YBR,2583
+                    ,thompson,city,,55.801,-97.864,YTH,2696
+                    ,charlo,city,,47.991,-66.330,YCL,2775
                     ,gillam,city,0.001,56.357,-94.711,YGX,2622
                     ,flin flon,city,0.006,54.678,-101.682,YFO,2637
                     ,winnipeg,city,0.632,49.910,-97.240,YWG,2648
@@ -3188,10 +3105,31 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,moncton,city,0.091,46.112,-64.679,YQM,2636
                     ,bathurst,city,0.006,47.630,-65.739,ZBF,2663
                 ,newfoundland and labrador,state,
+                    ,churchill falls,city,,53.562,-64.106,ZUM,2670
+                    ,deer lake (ca nl),city,,49.211,-57.391,YDF,2665
+                    ,goose bay,city,,53.319,-60.426,YYR,2712
+                    ,hopedale,city,,55.448,-60.229,YHO,2699
+                    ,makkovik,city,,55.077,-59.186,YMN,2751
+                    ,natuashish,city,,55.914,-61.184,YNP,2737
+                    ,st anthony,city,,51.392,-56.083,YAY,2732
+                    ,st john,city,,45.316,-65.890,YSJ,2586
+                    ,st johns,city,,47.619,-52.752,YYT,2639
+                    ,stephenville,city,,48.544,-58.550,YJT,2734
+                    ,wabush,city,,52.922,-66.864,YWK,2650
                     ,rigolet,city,0.000,54.180,-58.458,YRG,2604
                     ,gander,city,0.003,48.937,-54.568,YQX,2641
                     ,nain,city,0.001,56.549,-61.680,YDP,2666
                 ,northwest territories,state,
+                    ,aklavik,city,,68.223,-135.006,LAK,2741
+                    ,colville lake,city,,67.039,-126.080,YCK,2743
+                    ,fort smith (ca),city,,60.020,-111.962,YSM,2587
+                    ,lutselke snowdrift,city,,62.418,-110.682,YSG,2589
+                    ,rae lakes,city,,64.116,-117.310,YRA,2779
+                    ,sachs harbour,city,,71.994,-125.243,YSY,2590
+                    ,snare lake,city,,64.191,-114.077,YFJ,2629
+                    ,tulita fort norman,city,,64.910,-125.573,ZFN,2688
+                    ,ulukhaktok,city,,70.763,-117.806,YHI,2698
+                    ,whati,city,,63.132,-117.246,YLE,2624
                     ,fort good hope,city,0.001,66.241,-128.651,YGH,2618
                     ,fort simpson,city,0.000,61.760,-121.237,YFS,2630
                     ,paulatuk,city,0.000,69.361,-124.075,YPC,2632
@@ -3203,8 +3141,16 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,yellowknife,city,0.019,62.463,-114.440,YZF,2694
                     ,norman wells,city,0.001,65.282,-126.798,YVQ,2703
                 ,nova scotia,state,
+                    ,fox harbour,city,,52.373,-55.674,YFX,2752
+                    ,sydney (ca),city,,46.161,-60.048,YQY,2611
                     ,halifax,city,0.359,44.881,-63.509,YHZ,2701
                 ,nunavut,state,
+                    ,clyde river,city,,70.486,-68.517,YCY,2773
+                    ,kugluktuk coppermine,city,,67.817,-115.144,YCO,2744
+                    ,pelly bay,city,,68.534,-89.808,YBB,2584
+                    ,qikiqtarjuaq,city,,67.546,-64.031,YVM,2669
+                    ,sanikiluaq,city,,56.538,-79.247,YSK,2585
+                    ,whale cove,city,,62.240,-92.598,YXN,2730
                     ,arctic bay,city,0.001,73.006,-85.033,YAB,2595
                     ,coral harbour,city,0.001,64.193,-83.359,YZS,2597
                     ,resolute,city,0.000,74.717,-94.969,YRB,2603
@@ -3225,6 +3171,30 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,grise fiord,city,0.000,76.426,-82.909,YGZ,2760
                     ,chesterfield inlet,city,0.000,63.347,-90.731,YCS,2774
                 ,ontario,state,
+                    ,deer lake (ca on),city,,52.656,-94.061,YVZ,2668
+                    ,bearskin lake,city,,53.966,-91.027,XBE,2582
+                    ,big trout lake,city,,53.818,-89.897,YTL,2683
+                    ,fort frances,city,,48.654,-93.440,YAG,2705
+                    ,fort hope,city,,51.562,-87.908,YFH,2748
+                    ,geraldton (ca),city,,49.778,-86.939,YGQ,2621
+                    ,hamilton (ca),city,,43.174,-79.935,YHM,2762
+                    ,kasabonika,city,,53.525,-88.643,XKS,2600
+                    ,kashechewan,city,,52.283,-81.678,ZKE,2615
+                    ,kingston (ca),city,,44.225,-76.597,YGK,2617
+                    ,london (ca),city,,43.036,-81.154,YXU,2645
+                    ,muskrat dam,city,,53.441,-91.763,MSA,2778
+                    ,north spirit lake,city,,52.490,-92.971,YNO,2662
+                    ,ogoki,city,,51.659,-85.902,YOG,2719
+                    ,peawanuck,city,,54.988,-85.443,YPO,2757
+                    ,pickle lake,city,,51.446,-90.214,YPL,2635
+                    ,pikangikum,city,,51.820,-93.973,YPM,2702
+                    ,round lake,city,,52.944,-91.313,ZRJ,2689
+                    ,sachigo lake,city,,53.891,-92.196,ZPB,2723
+                    ,sandy lake,city,,53.064,-93.344,ZSJ,2704
+                    ,sault ste marie (ca),city,,46.485,-84.509,YAM,2594
+                    ,summer beaver,city,,52.709,-88.542,SUR,2612
+                    ,webequie,city,,52.959,-87.375,YWP,2647
+                    ,wunnummin lake,city,,52.894,-89.289,WNN,2763
                     ,sudbury,city,0.158,46.625,-80.799,YSB,2588
                     ,attawapiskat,city,0.002,52.928,-82.432,YAT,2593
                     ,red lake,city,0.002,51.067,-93.793,YRL,2602
@@ -3246,6 +3216,34 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,prince edward island,state,
                     ,charlottetown,city,0.042,46.290,-63.121,YYG,2715
                 ,quebec,state,
+                    ,akulivik,city,,60.819,-78.149,AKV,2627
+                    ,alma,city,,48.509,-71.642,YTF,2684
+                    ,aupaluk,city,,59.297,-69.600,YPJ,2633
+                    ,bagotville,city,,48.331,-70.996,YBG,2596
+                    ,blanc sablon,city,,51.444,-57.185,YBX,2691
+                    ,bonaventure,city,,48.071,-65.460,YVB,2721
+                    ,chibougamau,city,,49.772,-74.528,YMT,2767
+                    ,chisasibi,city,,53.806,-78.917,YKU,2661
+                    ,east main,city,,52.226,-78.522,ZEM,2646
+                    ,gethsemani,city,,50.260,-60.679,ZGS,2768
+                    ,havre st pierre,city,,50.282,-63.611,YGV,2754
+                    ,iles de la madeleine,city,,47.425,-61.778,YGR,2620
+                    ,kangiqsualujjuaq,city,,58.711,-65.993,XGR,2652
+                    ,kangiqsujuaq,city,,61.589,-71.929,YWB,2606
+                    ,kuujjuarapik,city,,55.282,-77.765,YGW,2619
+                    ,la grande,city,,53.625,-77.704,YGL,2616
+                    ,mont joli,city,,48.609,-68.208,YYY,2713
+                    ,mont tremblant,city,,46.409,-74.780,YTM,2759
+                    ,nemiscau,city,,51.691,-76.136,YNS,2738
+                    ,pakuashipi,city,,51.212,-58.658,YIF,2772
+                    ,puvirnituq,city,,60.051,-77.287,YPX,2745
+                    ,quaqtaq,city,,61.046,-69.618,YQC,2609
+                    ,quebec,city,,46.791,-71.393,YQB,2610
+                    ,rouyn,city,,48.206,-78.836,YUY,2677
+                    ,tasiujuaq,city,,58.668,-69.956,YTQ,2675
+                    ,umiujaq,city,,56.536,-76.518,YUD,2599
+                    ,waskaganish,city,,51.473,-78.758,YKQ,2660
+                    ,wemindji,city,,53.011,-78.831,YNC,2736
                     ,gaspe,city,0.004,48.775,-64.479,YGP,2598
                     ,inukjuak,city,0.002,58.472,-78.077,YPH,2634
                     ,kangirsuk,city,0.001,60.027,-69.999,YKG,2658
@@ -3263,6 +3261,8 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,saskatoon,city,0.199,52.171,-106.700,YXE,2733
                     ,prince albert,city,0.035,53.214,-105.673,YPA,2755
                 ,yukon,state,
+                    ,dawson city,city,,64.043,-139.128,YDA,2709
+                    ,old crow,city,,67.571,-139.839,YOC,2592
                     ,whitehorse,city,0.023,60.710,-135.067,YXY,2742
     ,oceania,continent,
         ,micronesia,region,
