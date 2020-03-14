@@ -1,6 +1,5 @@
 ### MILDLY WIP
 
-
 import json
 import pathlib
 import re
@@ -29,13 +28,36 @@ class FTPrediction:
         return self
 
 
-def load_ft(path):
-    d = json.loads(pathlib.Path(path).read_text())["data"]["measurables"]['edges']
-    fts = {}
-    for p in d:
-        ft = FTPrediction.from_ft_node(p['node'])
-        if ft is None:
-            continue
-        if ft.name not in fts or ft.date > fts[ft.name].date:
-            fts[ft.name] = ft
-    return fts
+class FTData:
+    def __init__(self):
+        # subject -> [FTPrediction asc by date]
+        self.subjects = {}
+        # day -> [FTPrediction]
+        self.days = {}
+        # subject -> FTPrediction
+        self.latest = {}
+        # All predictions, unsorted
+        self.predictions = []
+        # entire loaded json file
+        self._loaded = None
+
+    def load(self, path):
+        with open(path, 'rt') as f:
+            self._loaded = json.load(f)
+        d = self._loaded["data"]["measurables"]['edges']
+        for p in d:
+            ft = FTPrediction.from_ft_node(p['node'])
+            if ft is not None:
+                self.predictions.append(ft)
+        self._sort()
+
+    def _sort(self):
+        self.subjects, self.days, self.latest = {}, {}, {}
+        self.predictions.sort(key=lambda p: p.date)
+        for p in self.predictions:
+            self.subjects.setdefault(p.subject, []).append(p)
+            self.days.setdefault(p.date, []).append(p)
+            self.latest[p.subject] = p
+
+    def apply_to_regions(self, rs):
+        pass

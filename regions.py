@@ -15,8 +15,6 @@ import numpy as np
 import pandas as pd
 import unidecode
 
-from foretold import *
-
 log = logging.getLogger()
 
 
@@ -36,24 +34,26 @@ def geo_dist(lat1, lat2, dlong):
     return c * R
 
 
-
 class Region:
     def __init__(self, names, *, pop=None, gv_id=None, kind=None, lat=None, lon=None, iana=None):
         if isinstance(names, str):
             names = [names]
         names = [_n(n) for n in names]
         self.names = names
+
         self.pop = pop
         self.gv_id = gv_id
         self.kind = kind
-        self.inf_csse = None
-        self.inf_ft = None
         self.lat = lat
         self.lon = lon
         self.iana = iana
 
+        # Hierarchy, root=None
         self.sub = []
         self.parent = None
+
+        # Estimate variables dict
+        self.est = {}
 
     def __repr__(self):
         return "<Region {!r} [{}]>".format(self.name, self.kind)
@@ -61,6 +61,7 @@ class Region:
     @property
     def name(self):
         return self.names[0]
+
 
 class Regions:
 
@@ -85,6 +86,10 @@ class Regions:
             assert reg.parent is None
             reg.parent = parent
             parent.sub.append(reg)
+
+    def load(self, path):
+        with open(path, 'rt') as f:
+            self.read_csv(f)
 
     def read_csv(self, file):
         w = csv.reader(file)
@@ -130,6 +135,7 @@ class Regions:
                 rec(i, ind + 4)
         rec(self['World'][0])
 
+
 def test():
 
     logging.basicConfig(level=logging.DEBUG)
@@ -141,7 +147,7 @@ def test():
 
     with open('data/regions_2.csv', 'wt') as f:
         r.write_csv(f)
-    
+
 
 if __name__ == "__main__":
     test()
