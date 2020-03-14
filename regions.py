@@ -126,7 +126,19 @@ class Regions:
             w.writerow(t)
             for i in reg.sub:
                 rec(i, ind + 4)
-        rec(self['World'][0])
+        rec(self.root())
+
+    def print_tree(self, file=sys.stdout, kinds=('region', 'continent', 'world')):
+        def rec(reg, ind=0, parentpop=None):
+            if parentpop:
+                pp = " ({:.2f}%)".format(100.0 * reg.pop / parentpop)
+            else:
+                pp = ""
+            if reg.kind in kinds:
+                file.write("{}{} [{}] pop={}M{}\n".format(" " * ind, reg.name, reg.kind, reg.pop / 1e6, pp))
+            for i in reg.sub:
+                rec(i, ind + 4, reg.pop)
+        rec(self.root())
 
     def root(self):
         r = self['World']
@@ -145,7 +157,7 @@ class Regions:
             return reg.pop
         rec(self.root())
 
-    def heuristic_set_pops(self, of_parent=0.5, of_sybs=0.5):
+    def heuristic_set_pops(self, of_parent=1.0):
         """
         Top-down: set unset sizes to size of mean of syblings present (if >=3) or
         uniform fraction of parent (* of_parent).
@@ -154,10 +166,7 @@ class Regions:
             if reg.pop is None:
                 pa = reg.parent
                 syb_pops = [p.pop for p in pa.sub if p.pop is not None]
-                if len(syb_pops) >= 3:
-                    reg.pop = np.mean(syb_pops) * of_sybs
-                else:
-                    reg.pop = pa.pop * of_parent / len(pa.sub)
+                reg.pop = (pa.pop - sum(syb_pops)) * of_parent / (len(pa.sub) - len(syb_pops))
             for p in reg.sub:
                 rec(p)
         rec(self.root())

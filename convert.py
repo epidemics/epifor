@@ -26,7 +26,7 @@ def main():
 
     # Fix any missing / inconsistent pops
     rs.heuristic_set_pops()
-    rs.heuristic_set_pops()
+    rs.fix_min_pops()
 
     # Propagate estimates and fix for consistency
     ft.propagate_down(rs)
@@ -38,6 +38,7 @@ def main():
         if r.est.get('est_active') is None and r.kind == 'city':
             log.warning("{!r} has no 'est_active' estmate".format(r))
 
+    rs.print_tree(kinds=('region', 'continent', 'world', 'country'))
     rs.write_est_csv("data/est_active.csv")
 
     if len(sys.argv) >= 2:

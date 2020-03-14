@@ -32,7 +32,7 @@ class FTPrediction:
         # TODO: now this treats it like a discrete distribution with xs vals,
         #       this is fine for ~1000 samples from FT, but may need fixing otherwise
         p = np.concatenate((self.pred_ys[1:], [1.0])) - self.pred_ys
-        self.mean = np.dot(p, self.pred_xs)
+        self.mean = max(np.dot(p, self.pred_xs), 0.0)
         self.var = np.dot(p, np.abs(self.pred_xs - self.mean) ** 2)
         return self
 
@@ -105,7 +105,7 @@ class FTData:
                         _pss.append(csse_ps[i])
                 if not _pss:
                     _pss = [0.01] # any value just to make uniform est.
-                mean_pss = np.mean(_pss)
+                mean_pss = max(np.mean(_pss), 0.0)
                 # Set remaining csses (or all if none are set)
                 for i, p in enumerate(reg.sub):
                     if np.isnan(csses[i]):
@@ -119,7 +119,7 @@ class FTData:
                     rem_est = 0.0
 
                 # Set est_active
-                csse_ftnan_sum = np.sum(csses, where=np.isnan(fts))
+                csse_ftnan_sum = max(np.sum(csses, where=np.isnan(fts)), 0.0)
                 for i, p in enumerate(reg.sub):
                     if np.isnan(fts[i]):
                         p.est['est_active'] = rem_est * csses[i] / csse_ftnan_sum
