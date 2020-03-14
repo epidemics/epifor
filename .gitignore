@@ -1,3 +1,5 @@
 /data/foretold_data.json
 /data/CSSE-COVID-19/
 /data/population-city/
+.vscode
+__pycache__
