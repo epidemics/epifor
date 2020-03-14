@@ -6,8 +6,7 @@ import re
 import numpy as np
 import pandas as pd
 
-#from gen_regions.data import UNABBREV
-from regions import SKIP, _n, UNABBREV
+from common import SKIP, _n, UNABBREV
 
 log = logging.getLogger()
 

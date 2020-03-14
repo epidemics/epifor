@@ -7,7 +7,7 @@ import re
 import numpy as np
 from dateutil import parser
 
-from regions import SKIP, _n
+from common import SKIP, _n
 
 log = logging.getLogger()
 
