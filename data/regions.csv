@@ -2519,11 +2519,6 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,st. pierre and miquelon,country,
                 ,st pierre,city,,46.763,-56.173,FSP,1487
             ,united states of america|united states|us,country,
-                ,crooked creek,city,,,,CKD,2459
-                ,grand canyon west,city,,,,GCW,2287
-                ,kake,city,,,,KAE,2198
-                ,pilot point,city,,,,UGB,2537
-                ,tanana,city,,,,TAL,2277
                 ,alabama,state,
                     ,birmingham (us),city,,33.563,-86.754,BHM,2420
                     ,mobile,city,0.318,30.691,-88.243,MOB,2118
@@ -2532,6 +2527,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,montgomery,city,0.256,32.301,-86.394,MGM,2315
                     ,muscle shoals,city,0.014,34.745,-87.610,MSL,2491
                 ,alaska,state,
+                    ,tanana,city,,,,TAL,2277
                     ,chicken,city,,,,CKX,2107
                     ,coldfoot,city,,,,CXF,2132
                     ,goodnews bay,city,,,,GNU,2237
@@ -2623,6 +2619,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,kodiak,city,0.009,57.750,-152.494,ADQ,2483
                     ,ketchikan,city,0.011,55.356,-131.714,KTN,2522
                 ,arizona,state,
+                    ,grand canyon west,city,,,,GCW,2287
                     ,grand canyon,city,,35.952,-112.147,GCN,2086
                     ,prescott,city,0.043,34.654,-112.420,PRC,2073
                     ,tucson,city,0.868,32.116,-110.941,TUS,2098
@@ -2735,6 +2732,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,peoria,city,0.262,40.664,-89.693,PIA,2359
                     ,decatur,city,0.089,39.835,-88.866,DEC,2367
                 ,indiana,state,
+                    ,crooked creek,city,,,,CKD,2459
                     ,fort wayne,city,0.329,40.979,-85.195,FWA,2111
                     ,indianapolis,city,1.565,39.717,-86.294,IND,2175
                     ,south bend,city,0.281,41.709,-86.317,SBN,2185
@@ -2750,6 +2748,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,mason city,city,0.026,43.158,-93.331,MCW,2468
                     ,cedar rapids,city,0.186,41.885,-91.711,CID,2525
                 ,kansas,state,
+                    ,kake,city,,,,KAE,2198
                     ,great bend,city,0.016,38.344,-98.859,GBD,2113
                     ,wichita,city,0.483,37.650,-97.433,ICT,2274
                     ,garden city,city,0.030,37.928,-100.724,GCK,2312
@@ -2975,6 +2974,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,lewisburg,city,0.011,37.858,-80.399,LWB,2380
                     ,knoxville,city,0.585,35.811,-83.994,TYS,2435
                 ,texas,state,
+                    ,pilot point,city,,,,UGB,2537
                     ,point hope,city,,,,PHO,2337
                     ,victoria,city,,28.853,-96.919,VCT,2102
                     ,wichita falls,city,0.100,33.989,-98.492,SPS,2056
