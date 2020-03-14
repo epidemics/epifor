@@ -1,21 +1,12 @@
 ### HEAVILY WIP
 
-import csv
-import datetime
-import json
 import logging
-import math
-import os
-import pickle
 import re
-import subprocess
-import sys
-from math import pi
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
-import unidecode
+
+from common import SKIP, _n, UNABBREV
 
 log = logging.getLogger()
 
@@ -39,8 +30,41 @@ class CSSEData:
             del d2['Lat']
             del d2['Long']
             d = d.merge(d2, on=["Province/State", "Country/Region"], how='outer')
-        d['Infections'] = d['Confirmed'] - d['Deaths'] - d['Recovered']
+        d['Active'] = d['Confirmed'] - d['Deaths'] - d['Recovered']
         self.df = d
 
     def apply_to_regions(self, regions):
-        pass
+        "Add estimates to the regions. Note: adds to existing numbers!"
+        for _i, r in self.df.iterrows():
+            province, country = _n(r['Province/State']), _n(r['Country/Region'])
+            if _n(province) in SKIP or _n(country) in SKIP:
+                continue
+            name = country if province == 'nan' else province
+            kind = None
+
+            # Special handling of states, also US counties and cities with codes:
+            if country in ['us', 'china', 'canada', 'australia'] and province != 'nan':
+                m = re.search(', (..)\s*$', province)
+                if m:
+                    name = UNABBREV[m.groups()[0].upper()]
+                else:
+                    name = province
+                kind = "state"
+
+            regs = regions.get(name, kind)
+            if len(regs) < 1:
+                log.warning("CSSE region %r %r not found in Regions, skipping", name, (country, province))
+                continue
+            if len(regs) > 1:
+                log.warning("CSSE region %r %r matches several Regions: %r, skipping", name, (country, province), regs)
+                continue
+            reg = regs[0]
+
+            # Accumulation used in US counties/cities etc.
+            def app(name, col):
+                reg.est.setdefault(name, 0.0)
+                reg.est[name] += r[col]
+            app('csse_active', 'Active')
+            app('csse_confirmed', 'Confirmed')
+            app('csse_deaths', 'Deaths')
+            app('csse_recovered', 'Recovered')
