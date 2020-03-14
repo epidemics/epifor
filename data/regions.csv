@@ -1003,89 +1003,34 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,"korea, dem. rep.|korea, north",country,
                 ,pyongyang,city,3.300,39.224,125.670,FNJ,200
             ,china,country,
-                ,hailar,city,,49.205,119.825,HLD,314
-                ,xuzhou,city,,34.059,117.555,XUZ,316
-                ,bayannur,city,,40.926,107.743,RLK,317
-                ,xinyuan,city,,43.432,83.379,NLT,320
-                ,hami,city,,42.841,93.669,HMI,321
-                ,tianjin,city,,39.124,117.346,TSN,322
-                ,burqin,city,,48.222,86.996,KJI,324
-                ,chongqing,city,,29.719,106.642,CKG,325
-                ,daocheng,city,,29.323,100.053,DCY,326
-                ,baise,city,,23.721,106.960,AEB,331
-                ,jiuzhaigou,city,,32.853,103.682,JZH,333
-                ,wanzhou,city,,30.802,108.433,WXN,334
-                ,mohe,city,,52.913,122.430,OHE,335
-                ,yichun (jiangxi),city,,27.802,114.306,YIC,341
-                ,wuyishan,city,,27.702,118.001,WUS,344
-                ,ordos,city,,39.490,109.861,DSN,349
-                ,dongying,city,,37.509,118.788,DOY,352
-                ,erenhot,city,,43.422,112.097,ERL,356
-                ,enshi,city,,30.320,109.485,ENH,360
-                ,yan'an,city,,36.637,109.554,ENY,361
-                ,bole,city,,44.895,82.300,BPL,364
-                ,guyuan,city,,36.079,106.217,GYU,366
-                ,zhoushan,city,,29.934,122.362,HSN,370
-                ,yichun (heilongjiang),city,,47.752,129.019,LDS,374
-                ,lijiang,city,,26.680,100.246,LJG,375
-                ,deqen,city,,27.794,99.677,DIG,377
-                ,lianyungang,city,,34.572,118.874,LYG,380
-                ,yining,city,,43.956,81.330,YIN,383
-                ,xiahe,city,,34.810,102.645,GXH,384
-                ,yushu,city,,32.836,97.036,YUS,390
-                ,qianjiang,city,,29.513,108.831,JIQ,393
-                ,nyingchi,city,,29.303,94.335,LZY,396
-                ,jinghong,city,,21.974,100.760,JHG,399
-                ,aershan,city,,47.311,119.912,YIE,401
-                ,yichang,city,,30.557,111.480,YIH,402
-                ,yiwu,city,,29.345,120.032,YIW,403
-                ,zhangjiajie,city,,29.103,110.443,DYG,404
-                ,shiquande,city,,32.100,80.053,NGQ,409
-                ,shanghai,city,,31.143,121.805,PVG,412
-                ,mangshi,city,,24.401,98.532,LUM,414
-                ,lincang,city,,23.738,100.025,LNJ,416
-                ,panzhihua,city,,26.540,101.799,PZI,417
-                ,nanchong,city,,30.795,106.163,NAO,418
-                ,beijing,city,,40.080,116.585,PEK,420
-                ,tengchong,city,,24.938,98.486,TCZ,421
-                ,chizhou,city,,30.740,117.686,JUH,422
-                ,jiagedaqi,city,,50.371,124.118,JGD,426
-                ,huangshan,city,,29.733,118.256,TXN,443
-                ,kangding,city,,30.157,101.735,KGT,444
-                ,liping,city,,26.322,109.150,HZH,446
-                ,meixian,city,,24.350,116.133,MXZ,447
-                ,huai'an,city,,33.791,119.125,HIA,449
-                ,bijie,city,,27.267,105.472,BFJ,452
-                ,tianshui,city,,34.559,105.860,THQ,462
-                ,huaihua,city,,27.441,109.700,HJJ,463
-                ,wenshan,city,,,,WNH,464
-                ,zhongwei,city,,37.573,105.154,ZHY,466
-                ,xilinhot,city,,43.916,115.964,XIL,468
-                ,hong kong,city,,22.309,113.915,HKG,473
-                ,kashi,city,,39.543,76.020,KHG,474
-                ,libo,city,,25.453,107.962,LLB,478
-                ,yuncheng,city,,35.116,111.031,YCU,480
-                ,datong,city,,40.060,113.482,DAT,486
-                ,dazhou,city,,31.130,107.430,DAX,487
                 ,anhui,state,
+                    ,chizhou,city,,30.740,117.686,JUH,422
+                    ,huangshan,city,,29.733,118.256,TXN,443
                     ,hefei,city,2.035,31.780,117.298,HFE,438
                     ,anqing,city,0.580,30.582,117.050,AQG,471
                 ,fujian,state,
+                    ,wuyishan,city,,27.702,118.001,WUS,344
                     ,fuzhou,city,2.606,25.935,119.663,FOC,376
                     ,quanzhou,city,1.463,24.796,118.590,JJN,389
                     ,xiamen,city,2.519,24.544,118.128,XMN,430
                     ,longyan,city,0.368,25.675,116.747,LCX,467
                 ,gansu,state,
+                    ,tianshui,city,,34.559,105.860,THQ,462
+                    ,xiahe,city,,34.810,102.645,GXH,384
                     ,dunhuang,city,0.140,40.161,94.809,DNH,340
                     ,lanzhou,city,2.561,36.515,103.620,LHW,343
                     ,jinchang,city,0.144,38.542,102.348,JIC,392
                     ,zhangye,city,0.231,38.802,100.675,YZY,410
                     ,jiayuguan,city,0.148,39.857,98.341,JGN,425
                 ,guangdong,state,
+                    ,meixian,city,,24.350,116.133,MXZ,447
                     ,shantou,city,1.601,23.552,116.503,SWA,363
                     ,guangzhou,city,8.829,23.392,113.299,CAN,455
                     ,zhanjiang,city,1.590,21.214,110.358,ZHA,469
                 ,guizhou,state,
+                    ,bijie,city,,27.267,105.472,BFJ,452
+                    ,libo,city,,25.453,107.962,LLB,478
+                    ,liping,city,,26.322,109.150,HZH,446
                     ,zunyi,city,0.849,27.590,107.001,ZYI,330
                     ,anshun,city,0.849,26.261,105.873,AVA,337
                     ,tongren,city,0.118,27.883,109.309,TEN,338
@@ -1100,6 +1045,9 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,qinhuangdao,city,1.003,39.968,119.731,SHP,411
                     ,shijiazhuang,city,2.417,38.281,114.697,SJW,440
                 ,heilongjiang,state,
+                    ,jiagedaqi,city,,50.371,124.118,JGD,426
+                    ,mohe,city,,52.913,122.430,OHE,335
+                    ,yichun (heilongjiang),city,,47.752,129.019,LDS,374
                     ,daqing,city,1.693,46.746,125.141,DQA,329
                     ,jiamusi,city,1.020,46.843,130.465,JMU,336
                     ,jixi,city,0.965,45.293,131.193,JXA,357
@@ -1112,13 +1060,21 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,nanyang,city,1.944,32.981,112.615,NNY,432
                     ,zhengzhou,city,2.636,34.520,113.841,CGO,481
                 ,hubei,state,
+                    ,enshi,city,,30.320,109.485,ENH,360
+                    ,qianjiang,city,,29.513,108.831,JIQ,393
+                    ,yichang,city,,30.557,111.480,YIH,402
                     ,xiangyang,city,1.069,32.151,112.291,XFN,353
                     ,wuhan|hubei,city,7.243,30.784,114.208,WUH,477
                 ,hunan,state,
+                    ,huaihua,city,,27.441,109.700,HJJ,463
+                    ,zhangjiajie,city,,29.103,110.443,DYG,404
                     ,changsha,city,2.604,28.189,113.220,CSX,456
                     ,yongzhou,city,1.000,26.339,111.610,LLF,479
                     ,changde,city,1.469,28.919,111.640,CGD,482
                 ,jiangsu,state,
+                    ,huai'an,city,,33.791,119.125,HIA,449
+                    ,lianyungang,city,,34.572,118.874,LYG,380
+                    ,xuzhou,city,,34.059,117.555,XUZ,316
                     ,wuxi,city,1.749,31.494,120.429,WUX,346
                     ,changzhou,city,1.327,31.920,119.779,CZX,362
                     ,yangzhou,city,0.540,32.563,119.720,YTY,395
@@ -1127,6 +1083,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,nanjing,city,3.679,31.742,118.862,NKG,445
                     ,nantong,city,0.947,,,NTG,448
                 ,jiangxi,state,
+                    ,yichun (jiangxi),city,,27.802,114.306,YIC,341
                     ,jiujiang,city,0.546,29.477,115.801,JIU,318
                     ,ji'an,city,0.520,26.857,114.737,JGS,427
                     ,jingdezhen,city,0.457,29.339,117.176,JDZ,435
@@ -1144,11 +1101,14 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,shenyang,city,4.787,41.640,123.483,SHE,413
                     ,dandong,city,0.870,40.025,124.286,DDG,428
                 ,qinghai,state,
+                    ,yushu,city,,32.836,97.036,YUS,390
                     ,golmud,city,0.107,36.401,94.786,GOQ,369
                     ,xining,city,1.048,36.528,102.043,XNN,439
                 ,shaanxi,state,
+                    ,yan'an,city,,36.637,109.554,ENY,361
                     ,xi'an,city,4.009,34.447,108.752,XIY,348
                 ,shandong,state,
+                    ,dongying,city,,37.509,118.788,DOY,352
                     ,jining,city,1.186,35.293,116.347,JNG,312
                     ,weifang,city,1.553,36.647,119.119,WEF,327
                     ,weihai,city,0.560,37.187,122.229,WEH,328
@@ -1157,9 +1117,17 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,qingdao,city,2.866,36.266,120.374,TAO,391
                     ,jinan,city,2.798,36.857,117.216,TNA,476
                 ,shanxi,state,
+                    ,datong,city,,40.060,113.482,DAT,486
+                    ,yuncheng,city,,35.116,111.031,YCU,480
                     ,taiyuan,city,2.913,37.747,112.628,TYN,453
                     ,changzhi,city,0.706,36.248,113.126,CIH,485
                 ,sichuan,state,
+                    ,daocheng,city,,29.323,100.053,DCY,326
+                    ,dazhou,city,,31.130,107.430,DAX,487
+                    ,jiuzhaigou,city,,32.853,103.682,JZH,333
+                    ,kangding,city,,30.157,101.735,KGT,444
+                    ,nanchong,city,,30.795,106.163,NAO,418
+                    ,panzhihua,city,,26.540,101.799,PZI,417
                     ,chengdu,city,4.123,30.579,103.947,CTU,315
                     ,yibin,city,0.902,28.801,104.545,YBP,323
                     ,guangyuan,city,0.437,32.391,105.702,GYS,367
@@ -1167,18 +1135,28 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,xichang,city,0.380,27.989,102.184,XIC,400
                     ,mianyang,city,1.396,31.428,104.741,MIG,405
                 ,yunnan,state,
+                    ,deqen,city,,27.794,99.677,DIG,377
+                    ,jinghong,city,,21.974,100.760,JHG,399
+                    ,lijiang,city,,26.680,100.246,LJG,375
+                    ,lincang,city,,23.738,100.025,LNJ,416
+                    ,mangshi,city,,24.401,98.532,LUM,414
+                    ,tengchong,city,,24.938,98.486,TCZ,421
+                    ,wenshan,city,,,,WNH,464
                     ,baoshan,city,1.000,25.053,99.168,BSD,354
                     ,simao,city,0.163,22.793,100.959,SYM,371
                     ,dali,city,0.157,25.649,100.319,DLU,388
                     ,zhaotong,city,0.809,27.326,103.755,ZAT,419
                     ,kunming,city,2.931,25.102,102.929,KMG,458
                 ,zhejiang,state,
+                    ,yiwu,city,,29.345,120.032,YIW,403
+                    ,zhoushan,city,,29.934,122.362,HSN,370
                     ,ningbo,city,1.923,29.827,121.462,NGB,407
                     ,quzhou,city,0.370,28.966,118.899,JUZ,423
                     ,fuyang,city,0.771,32.882,115.734,FUG,454
                     ,hangzhou,city,3.007,30.229,120.434,HGH,457
                     ,wenzhou,city,2.350,27.912,120.852,WNZ,465
                 ,guangxi,state,
+                    ,baise,city,,23.721,106.960,AEB,331
                     ,wuzhou,city,0.442,23.457,111.248,WUZ,345
                     ,yulin,city,1.127,38.360,109.591,UYN,387
                     ,liuzhou,city,1.497,24.207,109.391,LZH,397
@@ -1186,6 +1164,12 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,guilin,city,0.987,25.218,110.039,KWL,461
                     ,nanning,city,2.167,22.608,108.172,NNG,470
                 ,inner mongolia,state,
+                    ,aershan,city,,47.311,119.912,YIE,401
+                    ,bayannur,city,,40.926,107.743,RLK,317
+                    ,erenhot,city,,43.422,112.097,ERL,356
+                    ,hailar,city,,49.205,119.825,HLD,314
+                    ,ordos,city,,39.490,109.861,DSN,349
+                    ,xilinhot,city,,43.916,115.964,XIL,468
                     ,ulanhot,city,0.242,46.195,122.008,HLH,313
                     ,wuhai,city,0.218,39.793,106.799,WUA,347
                     ,baotou,city,2.036,40.560,109.997,BAV,355
@@ -1194,12 +1178,22 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,hohhot,city,1.726,40.851,111.824,HET,429
                     ,chifeng,city,1.277,42.235,118.908,CIF,484
                 ,ningxia,state,
+                    ,guyuan,city,,36.079,106.217,GYU,366
+                    ,zhongwei,city,,37.573,105.154,ZHY,466
                     ,yinchuan,city,0.991,,,INC,350
                 ,tibet,state,
+                    ,nyingchi,city,,29.303,94.335,LZY,396
+                    ,shiquande,city,,32.100,80.053,NGQ,409
                     ,xigaze,city,0.080,29.352,89.311,RKZ,342
                     ,qamdo,city,0.100,30.554,97.108,BPX,365
                     ,lhasa|tibet,city,0.220,29.298,90.912,LXA,372
                 ,xinjiang,state,
+                    ,bole,city,,44.895,82.300,BPL,364
+                    ,burqin,city,,48.222,86.996,KJI,324
+                    ,hami,city,,42.841,93.669,HMI,321
+                    ,kashi,city,,39.543,76.020,KHG,474
+                    ,xinyuan,city,,43.432,83.379,NLT,320
+                    ,yining,city,,43.956,81.330,YIN,383
                     ,korla,city,0.206,41.698,86.129,KRL,310
                     ,aksu,city,0.340,41.263,80.292,AKU,351
                     ,urumqi,city,2.151,43.907,87.474,URC,379
@@ -1210,11 +1204,17 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                     ,karamay,city,0.109,45.467,84.953,KRY,431
                     ,altay,city,0.142,47.750,88.086,AAT,459
                 ,hong kong,state,
+                    ,hong kong,city,,22.309,113.915,HKG,473
                 ,macao|macau,state,
                 ,beijing,state,
+                    ,beijing,city,,40.080,116.585,PEK,420
                 ,chongqing,state,
+                    ,chongqing,city,,29.719,106.642,CKG,325
+                    ,wanzhou,city,,30.802,108.433,WXN,334
                 ,shanghai,state,
+                    ,shanghai,city,,31.143,121.805,PVG,412
                 ,tianjin,state,
+                    ,tianjin,city,,39.124,117.346,TSN,322
             ,mongolia,country,
                 ,bayankhongor,city,,46.163,100.704,BYN,845
                 ,dalanzadgad,city,0.015,43.592,104.430,DLZ,846
