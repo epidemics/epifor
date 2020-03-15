@@ -1,6 +1,6 @@
 indent,names,kind,pop_mil,lat,lon,iana,gv_id
 ,world|earth,world,7713.000
-    ,africa,continent,1275.92
+    ,africa,continent,1275.920
         ,angola,country,
             ,menongue,city,0.013,-14.658,17.720,SPP,0
             ,huambo,city,1.100,-12.809,15.760,NOV,1
@@ -561,7 +561,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,ganja,city,,40.738,46.318,KVD,2577
             ,lankaran,city,0.060,38.746,48.818,LLK,2578
         ,middle east,region,371.000
-            ,iran,country,78.8
+            ,iran,country,78.800
                 ,ilam,city,,33.587,46.405,IIL,2927
                 ,ramsar,city,,36.910,50.680,RZR,2928
                 ,bandar mahshahr,city,,30.556,49.152,MRX,2929
@@ -608,12 +608,12 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,khorramabad,city,0.375,33.435,48.283,KHD,2970
                 ,bandar lengeh,city,,26.532,54.825,BDH,2971
                 ,lar,city,,27.675,54.383,LRR,2972
-            ,qatar,country,1.6
+            ,qatar,country,1.600
                 ,doha,city,1.450,25.273,51.608,DOH,73
-            ,jordan,country,6.3
+            ,jordan,country,6.300
                 ,amman,city,1.060,31.723,35.993,AMM,151
                 ,aqaba,city,,29.612,35.018,AQJ,152
-            ,saudi arabia,country,27.1
+            ,saudi arabia,country,27.100
                 ,tabuk,city,0.548,28.365,36.619,TUU,245
                 ,turaif,city,,31.692,38.732,TUI,246
                 ,dammam,city,,26.471,49.798,DMM,247
@@ -640,9 +640,9 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,qaisumah,city,,28.335,46.125,AQI,268
                 ,al ula,city,,26.480,38.129,ULH,269
                 ,dawadmi,city,,24.450,44.121,DWD,270
-            ,lebanon,country,4.2
+            ,lebanon,country,4.200
                 ,beirut,city,1.846,33.821,35.488,BEY,271
-            ,yemen,country,23.5
+            ,yemen,country,23.500
                 ,aden,city,1.000,12.830,45.029,ADE,579
                 ,hodeidah,city,,14.753,42.976,HOD,580
                 ,mukalla,city,,14.663,49.375,RIY,581
@@ -652,17 +652,17 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,taizz,city,,13.686,44.139,TAI,585
                 ,ataq,city,,14.551,46.826,AXK,586
                 ,al ghaydah,city,,16.192,52.175,AAY,587
-            ,syria,country,23.7
+            ,syria,country,23.700
                 ,kamishly,city,,37.021,41.191,KAC,650
                 ,latakia,city,0.539,35.401,35.949,LTK,651
                 ,aleppo,city,2.738,36.181,37.224,ALP,652
                 ,damascus,city,2.466,33.411,36.516,DAM,653
-            ,israel,country,7.6
+            ,israel,country,7.600
                 ,nevatim,city,,31.208,35.012,VTM,1204
                 ,tel aviv,city,,32.011,34.887,TLV,1205
                 ,haifa,city,1.011,32.809,35.043,HFA,1206
                 ,eilat,city,,29.561,34.960,ETH,1207
-            ,turkey,country,73.7
+            ,turkey,country,73.700
                 ,konya,city,0.919,37.979,32.562,KYA,1740
                 ,sivas,city,0.264,39.814,36.904,VAS,1741
                 ,edremit,city,,39.555,27.014,EDO,1742
@@ -706,7 +706,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,bingol,city,0.081,38.859,40.596,BGG,1780
                 ,mus,city,0.083,38.748,41.661,MSR,1781
                 ,kocaeli,city,0.467,40.735,30.083,KCO,1782
-            ,oman,country,2.7
+            ,oman,country,2.700
                 ,muscat,city,0.735,23.593,58.284,MCT,1784
                 ,salalah,city,0.204,17.039,54.091,SLL,1785
                 ,khasab,city,,26.171,56.241,KHS,1786
@@ -731,7 +731,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,armenia,country,
                 ,yerevan,city,1.102,40.147,44.396,EVN,3233
                 ,gyumri,city,0.148,40.750,43.859,LWN,3234
-            ,"egypt, arab rep.|egypt",country,1.01
+            ,"egypt, arab rep.|egypt",country,1.010
                 ,mersa matruh,city,,31.325,27.222,MUH,48
                 ,sohag,city,,26.343,31.743,HMB,49
                 ,sharm el sheikh,city,,27.977,34.395,SSH,50
@@ -995,18 +995,18 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
         ,"korea, dem. rep.|korea, north",country,
             ,pyongyang,city,3.300,39.224,125.670,FNJ,200
         ,china,country,1427.647
-            ,anhui,state,
+            ,anhui,state,62.000
                 ,chizhou,city,,30.740,117.686,JUH,422
                 ,huangshan,city,,29.733,118.256,TXN,443
                 ,hefei,city,2.035,31.780,117.298,HFE,438
                 ,anqing,city,0.580,30.582,117.050,AQG,471
-            ,fujian,state,
+            ,fujian,state,38.565
                 ,wuyishan,city,,27.702,118.001,WUS,344
                 ,fuzhou,city,2.606,25.935,119.663,FOC,376
                 ,quanzhou,city,1.463,24.796,118.590,JJN,389
                 ,xiamen,city,2.519,24.544,118.128,XMN,430
                 ,longyan,city,0.368,25.675,116.747,LCX,467
-            ,gansu,state,
+            ,gansu,state,25.575
                 ,tianshui,city,,34.559,105.860,THQ,462
                 ,xiahe,city,,34.810,102.645,GXH,384
                 ,dunhuang,city,0.140,40.161,94.809,DNH,340
@@ -1014,12 +1014,12 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,jinchang,city,0.144,38.542,102.348,JIC,392
                 ,zhangye,city,0.231,38.802,100.675,YZY,410
                 ,jiayuguan,city,0.148,39.857,98.341,JGN,425
-            ,guangdong,state,
+            ,guangdong,state,113.460
                 ,meixian,city,,24.350,116.133,MXZ,447
                 ,shantou,city,1.601,23.552,116.503,SWA,363
                 ,guangzhou,city,8.829,23.392,113.299,CAN,455
                 ,zhanjiang,city,1.590,21.214,110.358,ZHA,469
-            ,guizhou,state,
+            ,guizhou,state,34.746
                 ,bijie,city,,27.267,105.472,BFJ,452
                 ,libo,city,,25.453,107.962,LLB,478
                 ,liping,city,,26.322,109.150,HZH,446
@@ -1028,15 +1028,15 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,tongren,city,0.118,27.883,109.309,TEN,338
                 ,xingyi,city,0.816,25.086,104.959,ACX,437
                 ,guiyang,city,3.662,26.538,106.801,KWE,460
-            ,hainan,state,
+            ,hainan,state,9.258
                 ,sanya,city,0.363,18.303,109.412,SYX,373
                 ,haikou,city,2.046,19.935,110.459,HAK,475
-            ,hebei,state,
+            ,hebei,state,74.700
                 ,tangshan,city,1.879,,,TVS,332
                 ,handan,city,1.631,36.526,114.426,HDG,408
                 ,qinhuangdao,city,1.003,39.968,119.731,SHP,411
                 ,shijiazhuang,city,2.417,38.281,114.697,SJW,440
-            ,heilongjiang,state,
+            ,heilongjiang,state,38.312
                 ,jiagedaqi,city,,50.371,124.118,JGD,426
                 ,mohe,city,,52.913,122.430,OHE,335
                 ,yichun (heilongjiang),city,,47.752,129.019,LDS,374
@@ -1047,23 +1047,23 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,heihe,city,0.109,50.172,127.309,HEK,433
                 ,mudanjiang,city,1.244,44.524,129.569,MDG,436
                 ,qiqihar,city,1.641,47.240,123.918,NDG,488
-            ,henan,state,
+            ,henan,state,95.324
                 ,luoyang,city,1.715,34.741,112.388,LYA,381
                 ,nanyang,city,1.944,32.981,112.615,NNY,432
                 ,zhengzhou,city,2.636,34.520,113.841,CGO,481
-            ,hubei,state,
+            ,hubei,state,58.500
                 ,enshi,city,,30.320,109.485,ENH,360
                 ,qianjiang,city,,29.513,108.831,JIQ,393
                 ,yichang,city,,30.557,111.480,YIH,402
                 ,xiangyang,city,1.069,32.151,112.291,XFN,353
                 ,wuhan|hubei,city,7.243,30.784,114.208,WUH,477
-            ,hunan,state,
+            ,hunan,state,67.370
                 ,huaihua,city,,27.441,109.700,HJJ,463
                 ,zhangjiajie,city,,29.103,110.443,DYG,404
                 ,changsha,city,2.604,28.189,113.220,CSX,456
                 ,yongzhou,city,1.000,26.339,111.610,LLF,479
                 ,changde,city,1.469,28.919,111.640,CGD,482
-            ,jiangsu,state,
+            ,jiangsu,state,80.400
                 ,huai'an,city,,33.791,119.125,HIA,449
                 ,lianyungang,city,,34.572,118.874,LYG,380
                 ,xuzhou,city,,34.059,117.555,XUZ,316
@@ -1074,32 +1074,32 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,yancheng,city,0.839,33.426,120.203,YNZ,442
                 ,nanjing,city,3.679,31.742,118.862,NKG,445
                 ,nantong,city,0.947,,,NTG,448
-            ,jiangxi,state,
+            ,jiangxi,state,45.200
                 ,yichun (jiangxi),city,,27.802,114.306,YIC,341
                 ,jiujiang,city,0.546,29.477,115.801,JIU,318
                 ,ji'an,city,0.520,26.857,114.737,JGS,427
                 ,jingdezhen,city,0.457,29.339,117.176,JDZ,435
                 ,ganzhou,city,1.500,25.853,114.779,KOW,450
                 ,nanchang,city,2.350,28.865,115.900,KHN,472
-            ,jilin,state,
+            ,jilin,state,27.462
                 ,baishan,city,0.330,42.067,127.602,NBS,339
                 ,yanji,city,0.489,42.883,129.451,YNJ,441
                 ,changchun,city,3.183,43.996,125.685,CGQ,483
-            ,liaoning,state,
+            ,liaoning,state,43.900
                 ,jinzhou,city,0.956,41.101,121.062,JNZ,311
                 ,chaoyang,city,0.470,41.538,120.435,CHG,319
                 ,dalian,city,3.167,38.966,121.539,DLC,394
                 ,anshan,city,1.639,41.105,122.854,AOG,406
                 ,shenyang,city,4.787,41.640,123.483,SHE,413
                 ,dandong,city,0.870,40.025,124.286,DDG,428
-            ,qinghai,state,
+            ,qinghai,state,5.627
                 ,yushu,city,,32.836,97.036,YUS,390
                 ,golmud,city,0.107,36.401,94.786,GOQ,369
                 ,xining,city,1.048,36.528,102.043,XNN,439
-            ,shaanxi,state,
+            ,shaanxi,state,37.327
                 ,yan'an,city,,36.637,109.554,ENY,361
                 ,xi'an,city,4.009,34.447,108.752,XIY,348
-            ,shandong,state,
+            ,shandong,state,100.472
                 ,dongying,city,,37.509,118.788,DOY,352
                 ,jining,city,1.186,35.293,116.347,JNG,312
                 ,weifang,city,1.553,36.647,119.119,WEF,327
@@ -1108,12 +1108,12 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,linyi,city,2.082,35.046,118.412,LYI,382
                 ,qingdao,city,2.866,36.266,120.374,TAO,391
                 ,jinan,city,2.798,36.857,117.216,TNA,476
-            ,shanxi,state,
+            ,shanxi,state,36.500
                 ,datong,city,,40.060,113.482,DAT,486
                 ,yuncheng,city,,35.116,111.031,YCU,480
                 ,taiyuan,city,2.913,37.747,112.628,TYN,453
                 ,changzhi,city,0.706,36.248,113.126,CIH,485
-            ,sichuan,state,
+            ,sichuan,state,81.100
                 ,daocheng,city,,29.323,100.053,DCY,326
                 ,dazhou,city,,31.130,107.430,DAX,487
                 ,jiuzhaigou,city,,32.853,103.682,JZH,333
@@ -1126,7 +1126,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,luzhou,city,1.537,28.852,105.393,LZO,398
                 ,xichang,city,0.380,27.989,102.184,XIC,400
                 ,mianyang,city,1.396,31.428,104.741,MIG,405
-            ,yunnan,state,
+            ,yunnan,state,45.966
                 ,deqen,city,,27.794,99.677,DIG,377
                 ,jinghong,city,,21.974,100.760,JHG,399
                 ,lijiang,city,,26.680,100.246,LJG,375
@@ -1139,7 +1139,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,dali,city,0.157,25.649,100.319,DLU,388
                 ,zhaotong,city,0.809,27.326,103.755,ZAT,419
                 ,kunming,city,2.931,25.102,102.929,KMG,458
-            ,zhejiang,state,
+            ,zhejiang,state,57.370
                 ,yiwu,city,,29.345,120.032,YIW,403
                 ,zhoushan,city,,29.934,122.362,HSN,370
                 ,ningbo,city,1.923,29.827,121.462,NGB,407
@@ -1147,7 +1147,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,fuyang,city,0.771,32.882,115.734,FUG,454
                 ,hangzhou,city,3.007,30.229,120.434,HGH,457
                 ,wenzhou,city,2.350,27.912,120.852,WNZ,465
-            ,guangxi,state,
+            ,guangxi,state,48.380
                 ,baise,city,,23.721,106.960,AEB,331
                 ,wuzhou,city,0.442,23.457,111.248,WUZ,345
                 ,yulin,city,1.127,38.360,109.591,UYN,387
@@ -1155,7 +1155,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,beihai,city,0.729,21.539,109.294,BHY,451
                 ,guilin,city,0.987,25.218,110.039,KWL,461
                 ,nanning,city,2.167,22.608,108.172,NNG,470
-            ,inner mongolia,state,
+            ,inner mongolia,state,24.706
                 ,aershan,city,,47.311,119.912,YIE,401
                 ,bayannur,city,,40.926,107.743,RLK,317
                 ,erenhot,city,,43.422,112.097,ERL,356
@@ -1169,17 +1169,17 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,tongliao,city,0.884,43.557,122.200,TGO,368
                 ,hohhot,city,1.726,40.851,111.824,HET,429
                 ,chifeng,city,1.277,42.235,118.908,CIF,484
-            ,ningxia,state,
+            ,ningxia,state,6.301
                 ,guyuan,city,,36.079,106.217,GYU,366
                 ,zhongwei,city,,37.573,105.154,ZHY,466
                 ,yinchuan,city,0.991,,,INC,350
-            ,tibet,state,
+            ,tibet,state,3.180
                 ,nyingchi,city,,29.303,94.335,LZY,396
                 ,shiquande,city,,32.100,80.053,NGQ,409
                 ,xigaze,city,0.080,29.352,89.311,RKZ,342
                 ,qamdo,city,0.100,30.554,97.108,BPX,365
                 ,lhasa|tibet,city,0.220,29.298,90.912,LXA,372
-            ,xinjiang,state,
+            ,xinjiang,state,23.600
                 ,bole,city,,44.895,82.300,BPL,364
                 ,burqin,city,,48.222,86.996,KJI,324
                 ,hami,city,,42.841,93.669,HMI,321
@@ -2503,14 +2503,14 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
         ,st. pierre and miquelon,country,
             ,st pierre,city,,46.763,-56.173,FSP,1487
         ,united states of america|united states|us,country,328.239
-            ,alabama,state,
+            ,alabama,state,4.889
                 ,birmingham (us),city,,33.563,-86.754,BHM,2420
                 ,mobile,city,0.318,30.691,-88.243,MOB,2118
                 ,dothan,city,0.072,31.321,-85.450,DHN,2134
                 ,huntsville,city,0.310,34.637,-86.775,HSV,2222
                 ,montgomery,city,0.256,32.301,-86.394,MGM,2315
                 ,muscle shoals,city,0.014,34.745,-87.610,MSL,2491
-            ,alaska,state,
+            ,alaska,state,0.738
                 ,tanana,city,,,,TAL,2277
                 ,chicken,city,,,,CKX,2107
                 ,coldfoot,city,,,,CXF,2132
@@ -2602,7 +2602,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,fairbanks,city,0.065,64.815,-147.856,FAI,2357
                 ,kodiak,city,0.009,57.750,-152.494,ADQ,2483
                 ,ketchikan,city,0.011,55.356,-131.714,KTN,2522
-            ,arizona,state,
+            ,arizona,state,6.392
                 ,grand canyon west,city,,,,GCW,2287
                 ,grand canyon,city,,35.952,-112.147,GCN,2086
                 ,prescott,city,0.043,34.654,-112.420,PRC,2073
@@ -2615,14 +2615,14 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,bullhead city,city,0.050,,,IFP,2436
                 ,phoenix,city,4.082,33.434,-112.012,PHX,2441
                 ,show low,city,0.011,34.265,-110.006,SOW,2500
-            ,arkansas,state,
+            ,arkansas,state,3.020
                 ,fort smith (us),city,,35.337,-94.367,FSM,2230
                 ,fayetteville (us ar),city,,36.282,-94.307,XNA,2197
                 ,jonesboro,city,0.074,35.832,-90.646,JBR,2072
                 ,hot springs,city,0.058,34.478,-93.096,HOT,2164
                 ,little rock,city,0.443,34.729,-92.224,LIT,2194
                 ,el dorado,city,0.018,33.221,-92.813,ELD,2259
-            ,california,state,
+            ,california,state,39.512
                 ,inyokern,city,,35.659,-117.830,IYK,2495
                 ,santa rosa (us),city,,38.509,-122.813,STS,2191
                 ,monterey,city,0.029,36.587,-121.843,MRY,2075
@@ -2646,7 +2646,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,merced,city,0.144,37.285,-120.514,MCE,2466
                 ,palm springs,city,0.048,33.830,-116.507,PSP,2503
                 ,chico,city,0.106,39.795,-121.858,CIC,2523
-            ,colorado,state,
+            ,colorado,state,5.684
                 ,minto,city,,,,MNT,2138
                 ,durango (us),city,,37.152,-107.754,DRO,2128
                 ,telluride,city,,37.954,-107.908,TEX,2149
@@ -2659,13 +2659,13 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,cortez,city,0.009,37.303,-108.628,CEZ,2442
                 ,aspen,city,0.009,39.223,-106.869,ASE,2447
                 ,montrose,city,0.023,38.510,-107.894,MTJ,2502
-            ,connecticut,state,
+            ,connecticut,state,3.589
                 ,new haven,city,0.568,41.264,-72.887,HVN,2323
                 ,hartford,city,0.915,41.939,-72.683,BDL,2398
                 ,bethel,city,0.020,60.780,-161.838,BET,2457
-            ,delaware,state,
+            ,delaware,state,0.971
                 ,dover,city,0.115,39.130,-75.466,DOV,2179
-            ,florida,state,
+            ,florida,state,21.312
                 ,melbourne (us),city,,28.103,-80.645,MLB,2133
                 ,panama city (us),city,,30.357,-85.795,ECP,2094
                 ,valparaiso,city,,30.483,-86.525,VPS,2187
@@ -2680,7 +2680,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,miami,city,6.382,25.793,-80.291,MIA,2305
                 ,key west,city,0.033,24.556,-81.760,EYW,2431
                 ,orlando,city,1.777,28.429,-81.309,MCO,2532
-            ,georgia,state,
+            ,georgia,state,10.545
                 ,athens (us),city,,33.949,-83.326,AHN,2278
                 ,albany (us ga),city,,31.535,-84.195,ABY,2419
                 ,augusta (us ga),city,,33.370,-81.965,AGS,2055
@@ -2691,13 +2691,13 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,savannah,city,0.280,32.128,-81.202,SAV,2386
                 ,macon,city,0.153,32.693,-83.649,MCN,2463
                 ,roswell,city,0.095,33.302,-104.531,ROW,2515
-            ,hawaii,state,
+            ,hawaii,state,1.426
                 ,kauai island,city,,21.976,-159.339,LIH,2193
                 ,kona,city,,19.739,-156.046,KOA,2445
                 ,kahului,city,0.031,20.899,-156.430,OGG,2318
                 ,hilo,city,0.046,19.721,-155.048,ITO,2452
                 ,honolulu,city,0.834,21.321,-157.924,HNL,2511
-            ,idaho,state,
+            ,idaho,state,1.754
                 ,pocatello,city,0.071,42.910,-112.596,PIH,2115
                 ,twin falls,city,0.054,42.482,-114.488,TWF,2155
                 ,eagle,city,0.026,64.776,-141.151,EAA,2157
@@ -2705,7 +2705,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,hayden,city,0.015,40.481,-107.218,HDN,2308
                 ,meridian,city,0.100,32.333,-88.752,MEI,2377
                 ,idaho falls,city,0.098,43.515,-112.071,IDA,2520
-            ,illinois,state,
+            ,illinois,state,12.419
                 ,belleville,city,,38.545,-89.835,BLV,2284
                 ,springfield (us il),city,,39.844,-89.678,SPI,2066
                 ,champaign,city,0.157,40.039,-88.278,CMI,2170
@@ -2715,14 +2715,14 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,bloomington,city,0.135,40.477,-88.916,BMI,2309
                 ,peoria,city,0.262,40.664,-89.693,PIA,2359
                 ,decatur,city,0.089,39.835,-88.866,DEC,2367
-            ,indiana,state,
+            ,indiana,state,6.700
                 ,crooked creek,city,,,,CKD,2459
                 ,fort wayne,city,0.329,40.979,-85.195,FWA,2111
                 ,indianapolis,city,1.565,39.717,-86.294,IND,2175
                 ,south bend,city,0.281,41.709,-86.317,SBN,2185
                 ,seymour,city,0.023,,,SER,2215
                 ,evansville,city,0.232,38.037,-87.532,EVV,2356
-            ,iowa,state,
+            ,iowa,state,3.161
                 ,burlington (us ia),city,,40.783,-91.126,BRL,2152
                 ,dubuque,city,0.069,42.402,-90.710,DBQ,2082
                 ,sioux city,city,0.106,42.403,-96.384,SUX,2146
@@ -2731,7 +2731,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,waterloo,city,0.112,42.557,-92.400,ALO,2407
                 ,mason city,city,0.026,43.158,-93.331,MCW,2468
                 ,cedar rapids,city,0.186,41.885,-91.711,CID,2525
-            ,kansas,state,
+            ,kansas,state,2.919
                 ,kake,city,,,,KAE,2198
                 ,great bend,city,0.016,38.344,-98.859,GBD,2113
                 ,wichita,city,0.483,37.650,-97.433,ICT,2274
@@ -2740,11 +2740,11 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,hays,city,0.022,38.842,-99.273,HYS,2350
                 ,liberal,city,0.020,37.044,-100.960,LBL,2426
                 ,salina,city,0.047,38.791,-97.652,SLN,2460
-            ,kentucky,state,
+            ,kentucky,state,4.472
                 ,paducah,city,0.049,37.061,-88.774,PAH,2106
                 ,louisville,city,1.012,38.174,-85.736,SDF,2241
                 ,lexington,city,0.316,38.036,-84.606,LEX,2265
-            ,louisiana,state,
+            ,louisiana,state,4.683
                 ,alexandria (us),city,,31.327,-92.550,AEX,2114
                 ,baton rouge,city,0.584,30.533,-91.150,BTR,2088
                 ,lafayette,city,0.266,30.205,-91.988,LFT,2148
@@ -2753,23 +2753,23 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,central,city,0.029,65.574,-144.783,CEM,2439
                 ,lake charles,city,0.154,30.126,-93.223,LCH,2480
                 ,new orleans,city,1.029,29.993,-90.258,MSY,2524
-            ,maine,state,
+            ,maine,state,1.342
                 ,augusta (us me),city,,44.321,-69.797,AUG,2180
                 ,portland (us me),city,,43.646,-70.309,PWM,2242
                 ,presque isle,city,0.006,46.689,-68.045,PQI,2081
                 ,lewiston,city,0.059,46.375,-117.015,LWS,2378
                 ,bar harbor,city,0.005,44.450,-68.362,BHB,2421
                 ,bangor,city,0.059,44.807,-68.828,BGR,2471
-            ,maryland,state,
+            ,maryland,state,6.080
                 ,baltimore|washington,city,2.171,39.175,-76.668,BWI,2335
                 ,salisbury,city,0.106,38.340,-75.510,SBY,2384
                 ,hagerstown,city,0.186,39.708,-77.729,HGR,2443
-            ,massachusetts,state,
+            ,massachusetts,state,6.896
                 ,quincy,city,0.094,39.943,-91.195,UIN,2131
                 ,rockland,city,0.018,44.060,-69.099,RKD,2158
                 ,worcester,city,0.499,42.267,-71.876,ORH,2172
                 ,boston,city,4.638,42.364,-71.005,BOS,2489
-            ,michigan,state,
+            ,michigan,state,9.991
                 ,stevens village,city,,,,SVS,2250
                 ,hancock,city,,47.168,-88.489,CMX,2171
                 ,pellston,city,,45.571,-84.797,PLN,2493
@@ -2788,7 +2788,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,detroit,city,3.522,42.212,-83.353,DTW,2397
                 ,manistee,city,0.009,44.272,-86.247,MBL,2497
                 ,saginaw,city,0.119,43.533,-84.080,MBS,2501
-            ,minnesota,state,
+            ,minnesota,state,5.628
                 ,st cloud,city,,45.547,-94.060,STC,2189
                 ,grand rapids (us mn),city,,47.211,-93.510,GPZ,2474
                 ,rochester (us mn),city,,43.908,-92.500,RST,2302
@@ -2800,14 +2800,14 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,bemidji,city,0.017,47.509,-94.934,BJI,2349
                 ,hibbing,city,0.011,47.387,-92.839,HIB,2414
                 ,minneapolis,city,2.927,44.882,-93.222,MSP,2528
-            ,mississippi,state,
+            ,mississippi,state,2.983
                 ,golden triangle,city,,33.450,-88.591,GTR,2322
                 ,greenville (us ms),city,,33.483,-90.986,GLH,2176
                 ,jackson (us ms),city,,32.311,-90.076,JAN,2077
                 ,tupelo,city,0.045,34.268,-88.770,TUP,2338
                 ,laurel,city,0.026,31.467,-89.337,PIB,2360
                 ,gulfport,city,0.221,30.407,-89.070,GPT,2475
-            ,missouri,state,
+            ,missouri,state,6.136
                 ,chignik,city,,,,KCQ,2535
                 ,st louis,city,,38.749,-90.370,STL,2190
                 ,columbia (us mo),city,,38.818,-92.220,COU,2227
@@ -2819,7 +2819,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,fort leonard wood,city,0.016,37.742,-92.141,TBN,2300
                 ,kansas city,city,1.616,39.298,-94.714,MCI,2465
                 ,cape girardeau,city,0.055,37.225,-89.571,CGI,2521
-            ,montana,state,
+            ,montana,state,1.062
                 ,glasgow (us),city,,48.213,-106.615,GGW,2404
                 ,west yellowstone,city,,44.688,-111.118,WYS,2091
                 ,wolf point,city,,48.095,-105.575,OLF,2482
@@ -2833,7 +2833,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,bozeman,city,0.054,45.778,-111.153,BZN,2403
                 ,billings,city,0.121,45.808,-108.543,BIL,2455
                 ,missoula,city,0.090,46.916,-114.091,MSO,2529
-            ,nebraska,state,
+            ,nebraska,state,1.933
                 ,oneill,city,,,,ONL,2070
                 ,grand island,city,0.053,40.967,-98.310,GRI,2063
                 ,lincoln,city,0.285,40.851,-96.759,LNK,2093
@@ -2843,17 +2843,17 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,omaha,city,0.828,41.303,-95.894,OMA,2453
                 ,mccook,city,0.007,40.206,-100.592,MCK,2464
                 ,chadron,city,0.005,42.838,-103.095,CDR,2492
-            ,nevada,state,
+            ,nevada,state,3.057
                 ,ely,city,,39.300,-114.842,ELY,2261
                 ,sun valley,city,0.021,43.504,-114.296,SUN,2145
                 ,reno,city,0.433,39.499,-119.768,RNO,2234
                 ,elko,city,0.021,40.825,-115.792,EKO,2285
                 ,las vegas,city,2.073,36.080,-115.152,LAS,2396
-            ,new hampshire,state,
-            ,new jersey,state,
+            ,new hampshire,state,1.351
+            ,new jersey,state,9.033
                 ,trenton,city,0.297,40.277,-74.813,TTN,2109
                 ,atlantic city,city,0.241,39.458,-74.577,ACY,2371
-            ,new mexico,state,
+            ,new mexico,state,2.091
                 ,santa fe (us),city,,35.617,-106.089,SAF,2391
                 ,hobbs,city,0.041,32.688,-103.217,HOB,2162
                 ,farmington,city,0.053,36.741,-108.230,FMN,2291
@@ -2877,7 +2877,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,saranac lake,city,0.008,44.385,-74.206,SLK,2461
                 ,binghamton,city,0.151,42.209,-75.980,BGM,2470
                 ,massena,city,0.011,44.936,-74.846,MSS,2527
-            ,north carolina,state,
+            ,north carolina,state,10.390
                 ,fayetteville (us nc),city,,34.991,-78.880,FAY,2352
                 ,greenville (us nc),city,,35.635,-77.385,PGV,2298
                 ,jacksonville (us nc),city,,34.829,-77.612,OAJ,2095
@@ -2887,7 +2887,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,raleigh,city,1.018,35.878,-78.787,RDU,2257
                 ,greensboro,city,0.336,36.098,-79.937,GSO,2508
                 ,new bern,city,0.051,35.073,-77.043,EWN,2516
-            ,north dakota,state,
+            ,north dakota,state,0.755
                 ,jamestown (us nd),city,,46.930,-98.678,JMS,2137
                 ,minot,city,0.050,48.259,-101.280,MOT,2117
                 ,williston,city,0.026,48.178,-103.642,ISN,2207
@@ -2896,7 +2896,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,bismarck,city,0.097,46.773,-100.746,BIS,2458
                 ,grand forks,city,0.066,47.949,-97.176,GFK,2467
                 ,devils lake,city,0.008,48.114,-98.909,DVL,2481
-            ,ohio,state,
+            ,ohio,state,11.695
                 ,columbus (us oh),city,,39.998,-82.892,CMH,2479
                 ,marion,city,0.045,37.755,-89.011,MWA,2140
                 ,cleveland,city,1.730,41.412,-81.850,CLE,2212
@@ -2907,18 +2907,18 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,sidney,city,0.021,47.707,-104.193,SDY,2326
                 ,toledo,city,0.489,41.587,-83.808,TOL,2411
                 ,dayton,city,0.718,39.902,-84.219,DAY,2534
-            ,oklahoma,state,
+            ,oklahoma,state,3.941
                 ,tulsa,city,0.672,36.198,-95.888,TUL,2099
                 ,oklahoma city,city,0.956,35.393,-97.601,OKC,2354
                 ,lawton,city,0.091,34.568,-98.417,LAW,2394
-            ,oregon,state,
+            ,oregon,state,4.200
                 ,portland (us or),city,,45.589,-122.598,PDX,2299
                 ,klamath falls,city,0.042,42.156,-121.733,LMT,2067
                 ,eugene,city,0.268,44.125,-123.212,EUG,2096
                 ,pendleton,city,0.017,45.695,-118.841,PDT,2213
                 ,north bend,city,0.010,43.417,-124.246,OTH,2330
                 ,medford,city,0.168,42.374,-122.873,MFR,2473
-            ,pennsylvania,state,
+            ,pennsylvania,state,12.824
                 ,bradford,city,,41.803,-78.640,BFD,2428
                 ,lehigh valley,city,,40.652,-75.441,ABE,2415
                 ,pittsburgh,city,1.715,40.492,-80.233,PIT,2125
@@ -2932,23 +2932,23 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,philadelphia,city,5.638,39.872,-75.241,PHL,2432
                 ,dubois,city,0.011,41.178,-78.899,DUJ,2449
                 ,ambler,city,0.007,67.106,-157.857,ABL,2486
-            ,rhode island,state,
+            ,rhode island,state,1.062
                 ,block island,city,,41.168,-71.578,BID,2456
                 ,providence,city,1.207,41.733,-71.420,PVD,2517
-            ,south carolina,state,
+            ,south carolina,state,5.089
                 ,florence (us),city,,34.185,-79.724,FLO,2251
                 ,charleston (us sc),city,,32.899,-80.040,CHS,2078
                 ,columbia (us sc),city,,33.939,-81.119,CAE,2295
                 ,greenville (us sc),city,,34.896,-82.219,GSP,2506
                 ,myrtle beach,city,0.260,33.680,-78.928,MYR,2120
-            ,south dakota,state,
+            ,south dakota,state,0.878
                 ,aberdeen (us),city,,45.449,-98.422,ABR,2418
                 ,watertown (us sd),city,,44.914,-97.155,ATY,2208
                 ,huron,city,0.013,44.385,-98.229,HON,2163
                 ,sioux falls,city,0.180,43.582,-96.742,FSD,2245
                 ,pierre,city,0.015,44.383,-100.286,PIR,2363
                 ,rapid city,city,0.089,44.045,-103.057,RAP,2485
-            ,tennessee,state,
+            ,tennessee,state,6.783
                 ,tri cities,city,,36.475,-82.407,TRI,2253
                 ,jackson (us tn),city,,35.600,-88.916,MKL,2269
                 ,chattanooga,city,0.407,35.035,-85.204,CHA,2074
@@ -2957,7 +2957,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,memphis,city,1.069,35.042,-89.977,MEM,2316
                 ,lewisburg,city,0.011,37.858,-80.399,LWB,2380
                 ,knoxville,city,0.585,35.811,-83.994,TYS,2435
-            ,texas,state,
+            ,texas,state,28.704
                 ,pilot point,city,,,,UGB,2537
                 ,point hope,city,,,,PHO,2337
                 ,victoria,city,,28.853,-96.919,VCT,2102
@@ -2984,7 +2984,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,corpus christi,city,0.341,27.770,-97.501,CRP,2477
                 ,laredo,city,0.260,27.544,-99.462,LRD,2519
                 ,dallas,city,5.733,32.897,-97.038,DFW,2533
-            ,utah,state,
+            ,utah,state,3.159
                 ,st george (us),city,,37.036,-113.510,SGU,2268
                 ,vernal,city,0.020,40.441,-109.510,VEL,2168
                 ,provo,city,0.504,40.219,-111.723,PVU,2209
@@ -2992,17 +2992,17 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,moab,city,0.007,38.755,-109.755,CNY,2271
                 ,salt lake city,city,1.098,40.788,-111.978,SLC,2303
                 ,cedar city,city,0.037,37.701,-113.099,CDC,2488
-            ,vermont,state,
+            ,vermont,state,0.624
                 ,burlington (us vt),city,,44.472,-73.153,BTV,2139
                 ,rutland,city,0.019,43.529,-72.950,RUT,2235
-            ,virginia,state,
+            ,virginia,state,8.526
                 ,richmond (us),city,,37.505,-77.320,RIC,2223
                 ,lynchburg,city,0.125,37.327,-79.200,LYH,2247
                 ,charlottesville,city,0.102,38.139,-78.453,CHO,2313
                 ,norfolk,city,0.245,36.895,-76.201,ORF,2437
                 ,petersburg,city,0.032,56.802,-132.945,PSG,2496
                 ,roanoke,city,0.216,37.325,-79.975,ROA,2514
-            ,washington,state,
+            ,washington,state,7.536
                 ,pasco,city,0.073,46.265,-119.119,PSC,2116
                 ,wenatchee,city,0.072,47.399,-120.207,EAT,2161
                 ,port angeles,city,0.024,48.120,-123.500,CLM,2211
@@ -3012,12 +3012,12 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,bellingham,city,0.126,48.793,-122.538,BLI,2351
                 ,walla walla,city,0.058,46.095,-118.288,ALW,2409
                 ,seattle,city,3.644,47.449,-122.309,SEA,2429
-            ,west virginia,state,
+            ,west virginia,state,1.803
                 ,charleston (us wv),city,,38.373,-81.593,CRW,2478
                 ,morgantown,city,0.072,39.643,-79.916,MGW,2317
                 ,beckley,city,0.060,37.787,-81.124,BKW,2373
                 ,parkersburg,city,0.064,39.345,-81.439,PKB,2440
-            ,wisconsin,state,
+            ,wisconsin,state,5.818
                 ,la crosse,city,0.102,43.879,-91.257,LSE,2059
                 ,wausau,city,0.074,44.778,-89.667,CWA,2103
                 ,eau claire,city,0.107,44.866,-91.484,EAU,2160
@@ -3025,7 +3025,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,milwaukee,city,1.378,42.947,-87.897,MKE,2288
                 ,rhinelander,city,0.009,45.631,-89.467,RHI,2513
                 ,madison,city,0.440,43.140,-89.338,MSN,2530
-            ,wyoming,state,
+            ,wyoming,state,0.574
                 ,jackson (us wy),city,,43.607,-110.738,JAC,2079
                 ,cheyenne,city,0.079,41.156,-104.812,CYS,2100
                 ,rock springs,city,0.027,41.594,-109.065,RKS,2156
@@ -3035,7 +3035,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,casper,city,0.067,42.908,-106.464,CPR,2389
                 ,worland,city,0.005,43.966,-107.951,WRL,2390
                 ,laramie,city,0.034,41.312,-105.675,LAR,2395
-            ,"district of columbia|washington, d.c.",state,
+            ,"district of columbia|washington, d.c.",state,0.704
         ,canada,country,37.797
             ,alberta,state,
                 ,high level,city,,58.621,-117.165,YOJ,2591
@@ -3049,7 +3049,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,calgary,city,1.110,51.114,-114.020,YYC,2716
                 ,medicine hat,city,0.063,50.019,-110.721,YXH,2729
                 ,fort mcmurray,city,0.022,56.653,-111.222,YMM,2750
-            ,british columbia,state,
+            ,british columbia,state,4.648
                 ,anahim lake,city,,52.452,-125.303,YAA,2706
                 ,bella coola,city,,52.388,-126.596,QBC,2640
                 ,castlegar,city,,49.296,-117.632,YCG,2776
@@ -3154,7 +3154,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,iqaluit,city,0.006,63.756,-68.556,YFB,2747
                 ,grise fiord,city,0.000,76.426,-82.909,YGZ,2760
                 ,chesterfield inlet,city,0.000,63.347,-90.731,YCS,2774
-            ,ontario,state,
+            ,ontario,state,13.448
                 ,deer lake (ca on),city,,52.656,-94.061,YVZ,2668
                 ,bearskin lake,city,,53.966,-91.027,XBE,2582
                 ,big trout lake,city,,53.818,-89.897,YTL,2683
@@ -3329,7 +3329,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
         ,australia,country,
             ,australian capital territory|federal capital territory,state,
                 ,canberra,city,0.328,-35.307,149.195,CBR,1655
-            ,new south wales,state,
+            ,new south wales,state,8.090
                 ,avalon,city,,-38.039,144.469,AVV,1594
                 ,cobar,city,,-31.538,145.794,CAZ,1628
                 ,grafton,city,,-29.759,153.030,GFN,1670
@@ -3356,13 +3356,13 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,mudgee,city,0.005,-32.562,149.611,DGE,1667
                 ,armidale,city,0.023,-30.528,151.617,ARM,1680
                 ,cooma,city,0.007,-36.301,148.974,OOM,1693
-            ,victoria,state,
+            ,victoria,state,6.595
                 ,melbourne (au),city,,-37.673,144.843,MEL,1648
                 ,mount hotham,city,,-37.048,147.334,MHU,1676
                 ,portland (au),city,,-38.318,141.471,PTJ,1591
                 ,richmond (au),city,,-20.702,143.115,RCM,1643
                 ,mildura,city,0.048,-34.229,142.086,MQL,1583
-            ,queensland,state,
+            ,queensland,state,5.095
                 ,arrabury,city,,,,AAB,1668
                 ,aurukun ,city,,-13.354,141.721,AUU,1601
                 ,blackall,city,,-24.428,145.429,BKQ,1647
@@ -3411,7 +3411,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,longreach,city,0.003,-23.434,144.280,LRE,1688
                 ,gold coast,city,0.528,-28.164,153.505,OOL,1691
                 ,quilpie,city,0.001,-26.612,144.253,ULP,1692
-            ,south australia,state,
+            ,south australia,state,1.752
                 ,coober pedy,city,,-29.040,134.721,CPD,1651
                 ,kingscote,city,,-35.714,137.521,KGC,1649
                 ,mount gunson,city,,,,GSN,1681
@@ -3424,7 +3424,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,port augusta,city,0.014,-32.507,137.717,PUG,1652
                 ,ceduna,city,0.002,-32.131,133.710,CED,1664
                 ,port lincoln,city,0.014,-34.605,135.880,PLO,1678
-            ,western australia,state,
+            ,western australia,state,2.622
                 ,albany,city,,-34.943,117.809,ALH,1656
                 ,argyle,city,,-16.637,128.451,GYL,1606
                 ,derby,city,,-17.581,123.828,DCN,1582
@@ -3442,14 +3442,14 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,broome,city,0.013,-17.945,122.232,BME,1635
                 ,port hedland,city,0.014,-20.378,118.626,PHE,1640
                 ,karratha,city,0.017,-20.712,116.773,KTA,1661
-            ,tasmania,state,
+            ,tasmania,state,0.534
                 ,flinders island,city,,-40.092,147.993,FLS,1654
                 ,king island,city,,-39.877,143.878,KNS,1602
                 ,burnie,city,0.020,-40.999,145.731,BWT,1569
                 ,launceston,city,0.072,-41.545,147.214,LST,1571
                 ,devonport,city,0.019,-41.170,146.430,DPO,1575
                 ,hobart,city,0.081,-42.836,147.510,HBA,1618
-            ,northern territory,state,
+            ,northern territory,state,0.246
                 ,ayers rock,city,,-25.186,130.976,AYQ,1634
                 ,elcho island,city,,-12.019,135.571,ELC,1625
                 ,groote eylandt,city,,-13.975,136.460,GTE,1637
