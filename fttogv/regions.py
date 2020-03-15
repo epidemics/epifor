@@ -233,6 +233,8 @@ class Regions:
             w = csv.writer(ff)
             w.writerow(['name', 'kind', 'pop', 'lat', 'lon', 'gv_id'] + list(cols))
             rec(self.root(), w)
+        log.info("Written per-city estimates CSV to {!r}".format(path))
+
 
     def update_gleamviz_seeds(self, path, newpath, est='est_active', compartment="Infectious", top=None):
         ET.register_namespace('', 'http://www.gleamviz.org/xmlns/gleamviz_v4_0')
@@ -262,6 +264,7 @@ class Regions:
         sdef.attrib['name'] += datetime.datetime.now().strftime("_FTup_%Y-%m-%d_%H:%M:%S") 
 
         tree.write(newpath)
+        log.info("Written GleamViz XML to {!r} (updated from {!r})".format(newpath, path))
 
     def check_missing_estimates(self, name):
         miss_c = []

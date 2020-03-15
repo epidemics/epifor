@@ -72,7 +72,7 @@ def main():
         "-D",
         "--by_date",
         type=str,
-        default="now",
+        default=None,
         help="Use latest Foretold and CSSE data before this date&time (no interpolation is done).",
     )
     ap.add_argument(
@@ -91,11 +91,9 @@ def main():
     args = ap.parse_args()
     if args.debug:
         logging.root.setLevel(logging.DEBUG)
-    if args.INPUT_XML and args.output_Xxml is None:
+    if args.INPUT_XML and args.output_xml is None:
         args.output_xml = str(pathlib.Path(args.INPUT_XML).with_suffix(".updated.xml"))
-    if args.by_date == "now":
-        args.by_date = datetime.datetime.now().astimezone()
-    else:
+    if args.by_date is not None:
         args.by_date = dateutil.parser.parse(args.by_date).astimezone()
 
     rs = Regions()
