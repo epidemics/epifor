@@ -1,6 +1,9 @@
-/data/foretold_data.json
 /data/CSSE-COVID-19/
 /data/population-city/
 .vscode
 __pycache__
 notebooks/.ipynb_checkpoints/
+/export
+
+estimated_active.csv
+foretold_data.json

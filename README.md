@@ -14,7 +14,7 @@ python -m pip install pandas numpy dateutil unidecode requests
 
 Run `./fetch_csse.sh` to get/update the CSSE published confirmed cases into `data/CSSE-COVID-19`.
 
-Run `./fetch_foretold.sh CHANNEL_ID` to fetch Foretold estimates into `data/foretold_data.json`. (`CHANNEL_ID` is non-public.)
+Run `./fetch_foretold.sh CHANNEL_ID` to fetch Foretold estimates into `foretold_data.json`. (`CHANNEL_ID` is non-public.)
 
 ## Running
 

@@ -4,10 +4,7 @@ import logging
 import sys
 import xml.etree.ElementTree as ET
 
-import numpy as np
-import pandas as pd
-
-from common import _n
+from .common import _n
 
 log = logging.getLogger()
 

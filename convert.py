@@ -5,9 +5,9 @@ import pathlib
 import sys
 import datetime
 
-from csse import CSSEData
-from foretold import FTData
-from regions import Regions
+from fttogv.csse import CSSEData
+from fttogv.foretold import FTData
+from fttogv.regions import Regions
 
 log = logging.getLogger()
 
@@ -19,7 +19,7 @@ def main():
 
     # Load and apply FT
     ft = FTData()
-    ft.load("data/foretold_data.json")
+    ft.load("foretold_data.json")
     ft.apply_to_regions(rs, before=datetime.datetime(2020, 3, 17).astimezone())
 
     # Load and apply CSSE
