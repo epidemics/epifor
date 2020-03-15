@@ -487,7 +487,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,rajahmundry,city,0.305,17.110,81.818,RJA,1062
             ,coimbatore,city,1.696,11.030,77.043,CJB,1063
             ,porbandar,city,0.235,21.649,69.657,PBD,1064
-            ,tiruchchirappalli,city,,10.765,78.710,TRZ,1065
+            ,tiruchchirappalli,city,0.866,10.765,78.710,TRZ,1065
             ,surat,city,3.842,21.114,72.742,STV,1066
             ,kanpur,city,2.823,26.404,80.410,KNU,1067
             ,amritsar,city,1.212,31.710,74.797,ATQ,1068
@@ -530,7 +530,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,bhavnagar,city,0.555,21.752,72.185,BHU,1105
             ,rajkot,city,1.260,22.309,70.780,RAJ,1106
             ,varanasi,city,1.352,25.452,82.859,VNS,1107
-            ,pondicherry,city,,11.968,79.812,PNY,1108
+            ,pondicherry,city,0.506,11.968,79.812,PNY,1108
             ,khajuraho,city,,24.817,79.919,HJR,1109
             ,kullu,city,,31.877,77.154,KUU,1110
             ,gaya,city,0.424,24.744,84.951,GAY,1111
@@ -566,7 +566,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,ramsar,city,,36.910,50.680,RZR,2928
                 ,bandar mahshahr,city,,30.556,49.152,MRX,2929
                 ,sabzevar,city,0.226,36.168,57.595,AFZ,2930
-                ,ahwaz,city,,31.337,48.762,AWZ,2931
+                ,ahwaz,city,1.112,31.337,48.762,AWZ,2931
                 ,gorgan,city,0.281,36.909,54.401,GBT,2932
                 ,bushehr,city,0.165,28.945,50.835,BUZ,2933
                 ,sari,city,0.255,36.636,53.194,SRY,2934
@@ -604,7 +604,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,tehran,city,7.873,35.689,51.313,THR,2966
                 ,bam,city,0.099,29.084,58.450,BXR,2967
                 ,gheshm island,city,,,,GSM,2968
-                ,khoy,city,,38.428,44.974,KHY,2969
+                ,khoy,city,0.201,38.428,44.974,KHY,2969
                 ,khorramabad,city,0.375,33.435,48.283,KHD,2970
                 ,bandar lengeh,city,,26.532,54.825,BDH,2971
                 ,lar,city,0.027,27.675,54.383,LRR,2972
@@ -829,7 +829,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,marinduque,city,,13.361,121.826,MRQ,590
             ,dumaguete,city,0.114,9.334,123.300,DGT,591
             ,tuguegarao,city,0.115,17.643,121.733,TUG,592
-            ,cauayan,city,,16.930,121.753,CYZ,593
+            ,cauayan,city,0.122,16.930,121.753,CYZ,593
             ,pagadian,city,0.160,7.831,123.461,PAG,594
             ,virac,city,0.015,13.576,124.206,VRC,595
             ,manila,city,11.100,14.509,121.020,MNL,596
@@ -839,7 +839,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,zamboanga,city,0.458,6.922,122.060,ZAM,600
             ,ilo ilo,city,,10.833,122.493,ILO,601
             ,kalibo,city,,11.679,122.376,KLO,602
-            ,ozamis,city,,8.179,123.842,OZC,603
+            ,ozamis,city,0.132,8.179,123.842,OZC,603
             ,coron,city,,12.122,120.100,USU,604
             ,sanga sanga,city,,,,SGS,605
             ,tagbilaran,city,,9.665,123.854,TAG,606
@@ -851,8 +851,8 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,laoag,city,0.207,18.178,120.532,LAO,612
             ,cotabato,city,0.280,7.165,124.210,CBO,613
             ,del carmen,city,,9.859,126.014,IAO,614
-            ,cebu,city,,10.307,123.979,CEB,615
-            ,angeles,city,,15.186,120.560,CRK,616
+            ,cebu,city,0.866,10.307,123.979,CEB,615
+            ,angeles,city,0.326,15.186,120.560,CRK,616
             ,catarman,city,0.047,12.502,124.636,CRM,617
             ,naga,city,0.029,13.585,123.270,WNP,618
             ,davao,city,1.402,7.126,125.646,DVO,619
@@ -912,7 +912,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,tanjung pandan,city,0.062,-2.746,107.755,TJQ,1237
             ,denpasar,city,0.732,-8.748,115.167,DPS,1238
             ,pontianak,city,0.607,-0.151,109.404,PNK,1239
-            ,batam,city,,1.121,104.119,BTH,1240
+            ,batam,city,0.944,1.121,104.119,BTH,1240
             ,banda aceh,city,0.514,5.523,95.421,BTJ,1241
             ,fak fak,city,,-2.920,132.267,FKQ,1242
             ,padang,city,0.855,-0.787,100.281,PDG,1243
@@ -1039,7 +1039,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,heilongjiang,state,38.312
                 ,jiagedaqi,city,0.136,50.371,124.118,JGD,426
                 ,mohe,city,,52.913,122.430,OHE,335
-                ,yichun (heilongjiang),city,,47.752,129.019,LDS,374
+                ,yichun (heilongjiang),city,0.814,47.752,129.019,LDS,374
                 ,daqing,city,1.693,46.746,125.141,DQA,329
                 ,jiamusi,city,1.020,46.843,130.465,JMU,336
                 ,jixi,city,0.965,45.293,131.193,JXA,357
@@ -1065,8 +1065,8 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,changde,city,1.469,28.919,111.640,CGD,482
             ,jiangsu,state,80.400
                 ,huai'an,city,0.555,33.791,119.125,HIA,449
-                ,lianyungang,city,,34.572,118.874,LYG,380
-                ,xuzhou,city,,34.059,117.555,XUZ,316
+                ,lianyungang,city,0.687,34.572,118.874,LYG,380
+                ,xuzhou,city,1.680,34.059,117.555,XUZ,316
                 ,wuxi,city,1.749,31.494,120.429,WUX,346
                 ,changzhou,city,1.327,31.920,119.779,CZX,362
                 ,yangzhou,city,0.540,32.563,119.720,YTY,395
@@ -1075,7 +1075,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,nanjing,city,3.679,31.742,118.862,NKG,445
                 ,nantong,city,0.947,,,NTG,448
             ,jiangxi,state,45.200
-                ,yichun (jiangxi),city,,27.802,114.306,YIC,341
+                ,yichun (jiangxi),city,0.920,27.802,114.306,YIC,341
                 ,jiujiang,city,0.546,29.477,115.801,JIU,318
                 ,ji'an,city,0.520,26.857,114.737,JGS,427
                 ,jingdezhen,city,0.457,29.339,117.176,JDZ,435
@@ -1097,10 +1097,10 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,golmud,city,0.107,36.401,94.786,GOQ,369
                 ,xining,city,1.048,36.528,102.043,XNN,439
             ,shaanxi,state,37.327
-                ,yan'an,city,,36.637,109.554,ENY,361
+                ,yan'an,city,0.404,36.637,109.554,ENY,361
                 ,xi'an,city,4.009,34.447,108.752,XIY,348
             ,shandong,state,100.472
-                ,dongying,city,,37.509,118.788,DOY,352
+                ,dongying,city,0.789,37.509,118.788,DOY,352
                 ,jining,city,1.186,35.293,116.347,JNG,312
                 ,weifang,city,1.553,36.647,119.119,WEF,327
                 ,weihai,city,0.560,37.187,122.229,WEH,328
@@ -1119,7 +1119,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,jiuzhaigou,city,,32.853,103.682,JZH,333
                 ,kangding,city,0.100,30.157,101.735,KGT,444
                 ,nanchong,city,7.150,30.795,106.163,NAO,418
-                ,panzhihua,city,,26.540,101.799,PZI,417
+                ,panzhihua,city,0.691,26.540,101.799,PZI,417
                 ,chengdu,city,4.123,30.579,103.947,CTU,315
                 ,yibin,city,0.902,28.801,104.545,YBP,323
                 ,guangyuan,city,0.437,32.391,105.702,GYS,367
@@ -1148,7 +1148,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,hangzhou,city,3.007,30.229,120.434,HGH,457
                 ,wenzhou,city,2.350,27.912,120.852,WNZ,465
             ,guangxi,state,48.380
-                ,baise,city,,23.721,106.960,AEB,331
+                ,baise,city,0.340,23.721,106.960,AEB,331
                 ,wuzhou,city,0.442,23.457,111.248,WUZ,345
                 ,yulin,city,1.127,38.360,109.591,UYN,387
                 ,liuzhou,city,1.497,24.207,109.391,LZH,397
@@ -1180,12 +1180,12 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,qamdo,city,0.100,30.554,97.108,BPX,365
                 ,lhasa|tibet,city,0.220,29.298,90.912,LXA,372
             ,xinjiang,state,23.600
-                ,bole,city,,44.895,82.300,BPL,364
+                ,bole,city,0.225,44.895,82.300,BPL,364
                 ,burqin,city,,48.222,86.996,KJI,324
                 ,hami,city,0.137,42.841,93.669,HMI,321
                 ,kashi,city,,39.543,76.020,KHG,474
                 ,xinyuan,city,0.300,43.432,83.379,NLT,320
-                ,yining,city,,43.956,81.330,YIN,383
+                ,yining,city,0.358,43.956,81.330,YIN,383
                 ,korla,city,0.206,41.698,86.129,KRL,310
                 ,aksu,city,0.340,41.263,80.292,AKU,351
                 ,urumqi,city,2.151,43.907,87.474,URC,379
@@ -1306,15 +1306,15 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,ust kamenogorsk,city,,50.037,82.494,UKK,656
             ,aktau,city,0.147,43.860,51.092,SCO,657
             ,kyzylorda,city,0.300,44.707,65.592,KZO,658
-            ,aktobe,city,,50.246,57.207,AKX,659
+            ,aktobe,city,0.313,50.246,57.207,AKX,659
             ,pavlodar,city,0.329,52.195,77.074,PWQ,660
             ,zaysan,city,0.018,,,SZI,661
             ,astana,city,0.346,51.022,71.467,TSE,662
             ,atyrau,city,0.183,47.122,51.821,GUW,663
-            ,uralsk,city,,51.151,51.543,URA,664
+            ,uralsk,city,0.244,51.151,51.543,URA,664
             ,kostanay,city,0.210,53.207,63.550,KSN,665
             ,zhezkazgan,city,,47.708,67.733,DZN,666
-            ,karaganda,city,,49.671,73.334,KGF,667
+            ,karaganda,city,0.466,49.671,73.334,KGF,667
             ,almaty,city,1.209,43.352,77.040,ALA,668
             ,kokshetau,city,0.129,53.329,69.595,KOV,669
             ,taraz,city,0.358,42.854,71.304,DMB,670
@@ -1332,12 +1332,12 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,zarafshan,city,,41.614,64.233,AFS,2836
             ,namangan,city,0.750,40.985,71.557,NMA,2837
             ,nukus,city,0.230,42.488,59.623,NCU,2838
-            ,karshi,city,,38.834,65.922,KSQ,2839
-            ,andizhan,city,,40.728,72.294,AZN,2840
+            ,karshi,city,0.205,38.834,65.922,KSQ,2839
+            ,andizhan,city,0.338,40.728,72.294,AZN,2840
             ,tashkent,city,2.184,41.258,69.281,TAS,2841
             ,samarkand,city,0.708,39.701,66.984,SKD,2842
-            ,navoi,city,,40.117,65.171,NVI,2843
-            ,termez,city,,37.287,67.310,TMJ,2844
+            ,navoi,city,0.138,40.117,65.171,NVI,2843
+            ,termez,city,0.116,37.287,67.310,TMJ,2844
             ,bukhara,city,0.319,39.775,64.483,BHK,2845
             ,fergana,city,0.164,40.359,71.745,FEG,2846
             ,urgench,city,,41.584,60.642,UGC,2847
@@ -1347,7 +1347,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
     ,europe,continent,746.419
         ,belarus,country,
             ,gomel,city,0.481,52.527,31.017,GME,902
-            ,grodno,city,,53.602,24.054,GNA,903
+            ,grodno,city,0.350,53.602,24.054,GNA,903
             ,brest (by),city,,52.108,23.898,BQT,904
             ,minsk,city,1.805,53.882,28.031,MSQ,905
         ,moldova,country,
@@ -1365,7 +1365,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,mineralnye vody,city,0.076,44.225,43.082,MRV,1805
             ,veliky ustyug,city,,60.788,46.260,VUS,1806
             ,khanty mansiysk,city,0.068,61.028,69.086,HMA,1807
-            ,novy urengoy,city,,66.069,76.520,NUX,1808
+            ,novy urengoy,city,0.114,66.069,76.520,NUX,1808
             ,bratsk,city,0.246,56.371,101.698,BTK,1809
             ,chokurdakh,city,0.003,70.623,147.902,CKH,1810
             ,magnitogorsk,city,0.413,53.393,58.756,MQF,1811
@@ -1382,7 +1382,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,murmansk,city,0.319,68.782,32.751,MMK,1822
             ,yerbogachen,city,,61.275,108.030,ERG,1823
             ,turukhansk,city,0.005,65.797,87.935,THX,1824
-            ,stavropol,city,,45.109,42.113,STW,1825
+            ,stavropol,city,0.409,45.109,42.113,STW,1825
             ,samara,city,1.137,53.505,50.164,KUF,1826
             ,sashylakh,city,,71.928,114.080,SYS,1827
             ,neryungri,city,0.066,56.914,124.914,NER,1828
@@ -1393,7 +1393,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,bugulma,city,,54.640,52.802,UUA,1833
             ,evensk,city,0.002,,,SWV,1834
             ,taganrog,city,0.279,47.198,38.849,TGK,1835
-            ,nizhny novgorod,city,,56.230,43.784,GOJ,1836
+            ,nizhny novgorod,city,1.266,56.230,43.784,GOJ,1836
             ,tarko sale,city,,64.931,77.818,TQL,1837
             ,gorno altaysk,city,0.060,51.967,85.833,RGK,1838
             ,leshukonskoye,city,,64.896,45.723,LDG,1839
@@ -1478,7 +1478,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,irkutsk,city,0.587,52.268,104.389,IKT,1918
             ,beloyarsky,city,,63.687,66.699,EYK,1919
             ,tambov,city,0.301,52.806,41.483,TBW,1920
-            ,arkhangelsk,city,,64.600,40.717,ARH,1921
+            ,arkhangelsk,city,0.357,64.600,40.717,ARH,1921
             ,iturup island,city,,,,BVV,1922
             ,kirov,city,0.457,58.503,49.348,KVX,1923
             ,rostov,city,0.034,47.494,39.925,ROV,1924
@@ -1507,7 +1507,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,ivano frankivsk,city,,48.884,24.686,IFO,2793
             ,krivyi rih,city,,48.043,33.210,KWG,2794
             ,zaporizhia,city,0.796,47.867,35.316,OZH,2795
-            ,kiev,city,,50.345,30.895,KBP,2796
+            ,kiev,city,2.804,50.345,30.895,KBP,2796
         ,gibraltar,country,
         ,montenegro,country,
             ,podgorica,city,0.146,42.359,19.252,TGD,844
@@ -1797,7 +1797,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,siteia,city,0.009,35.216,26.101,JSH,930
                 ,skiathos,city,,39.177,23.504,JSI,931
                 ,mykonos,city,,37.435,25.348,JMK,932
-                ,patrai,city,,38.151,21.426,GPA,933
+                ,patrai,city,0.167,38.151,21.426,GPA,933
                 ,kythira,city,,36.274,23.017,KIT,934
                 ,kefallinia,city,,38.120,20.500,EFL,935
                 ,mytilini,city,0.029,39.057,26.598,MJT,936
@@ -1951,7 +1951,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,salamanca,city,0.198,40.952,-5.502,SLM,2908
                 ,santiago de compostela,city,0.092,42.896,-8.415,SCQ,2909
                 ,ceuta,city,0.079,,,JCU,2910
-                ,palma de mallorca,city,,39.552,2.739,PMI,2911
+                ,palma de mallorca,city,0.403,39.552,2.739,PMI,2911
             ,sweden,country,
                 ,kramfors,city,,63.049,17.769,KRF,2540
                 ,sveg,city,,62.048,14.423,EVG,2541
@@ -2057,7 +2057,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,talara,city,0.099,-4.577,-81.254,TYL,1226
             ,tacna,city,0.280,-18.053,-70.276,TCQ,1227
             ,iquitos,city,0.459,-3.785,-73.309,IQT,1228
-            ,cuzco,city,,-13.536,-71.939,CUZ,1229
+            ,cuzco,city,0.349,-13.536,-71.939,CUZ,1229
             ,chiclayo,city,0.597,-6.787,-79.828,CIX,1230
             ,arequipa,city,0.815,-16.341,-71.583,AQP,1231
         ,colombia,country,
@@ -2263,7 +2263,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,coari,city,0.053,-4.134,-63.133,CIZ,2047
             ,araraquara,city,0.168,-21.812,-48.133,AQA,2048
         ,argentina,country,
-            ,catamarca,city,,-28.596,-65.752,CTC,3182
+            ,catamarca,city,0.216,-28.596,-65.752,CTC,3182
             ,san rafael,city,0.109,-34.588,-68.404,AFA,3183
             ,tucuman,city,,-26.841,-65.105,TUC,3184
             ,san carlos de bariloche,city,0.095,-41.151,-71.158,BRC,3185
@@ -2425,7 +2425,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,cozumel,city,0.074,20.522,-86.926,CZM,996
             ,puerto vallarta,city,0.187,20.680,-105.254,PVR,997
             ,colima,city,0.223,19.277,-103.577,CLQ,998
-            ,tuxtla gutierrez,city,,16.564,-93.022,TGZ,999
+            ,tuxtla gutierrez,city,0.641,16.564,-93.022,TGZ,999
             ,morelia,city,0.644,19.850,-101.025,MLM,1000
             ,tepic,city,0.319,21.419,-104.843,TPQ,1001
             ,jalapa,city,0.046,19.475,-96.798,JAL,1002
@@ -2437,7 +2437,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,tampico,city,0.859,22.296,-97.866,TAM,1008
             ,nuevo laredo,city,0.350,27.444,-99.571,NLD,1009
             ,huatulco,city,,15.775,-96.263,HUX,1010
-            ,lazaro cardenas,city,,18.002,-102.221,LZC,1011
+            ,lazaro cardenas,city,0.179,18.002,-102.221,LZC,1011
             ,reynosa,city,0.499,26.009,-98.228,REX,1012
             ,veracruz,city,0.579,19.146,-96.187,VER,1013
             ,loreto,city,0.011,25.989,-111.348,LTO,1014
@@ -3382,7 +3382,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,roma,city,0.011,-26.545,148.775,RMA,1581
                 ,spring creek,city,0.013,,,SCG,1598
                 ,st george (au),city,,-28.050,148.595,SGO,1682
-                ,sunshine coast,city,,-26.603,153.091,MCY,1671
+                ,sunshine coast,city,0.286,-26.603,153.091,MCY,1671
                 ,winton,city,0.011,-22.364,143.086,WIN,1690
                 ,bedourie,city,0.000,-24.346,139.460,BEU,1570
                 ,charleville,city,0.002,-26.413,146.262,CTL,1573
