@@ -170,8 +170,8 @@ class Regions:
             for r in popless:
                 r.pop = int(pop_est)
             subpops = sum(r.pop for r in reg.sub)                
-            if subpops > reg.pop * 1.1:
-                log.warning("Pop inconsistency at {!r}: {} set vs {} total in subs".format(reg, reg.pop, subpops))
+            if subpops > reg.pop * 1.3:
+                log.warning("Pop inconsistency at {!r}: {} vs {} total in subs".format(reg, reg.pop, subpops))
 #            assert sum(r.pop for r in reg.sub) <= reg.pop * 1.1
             for r in reg.sub:
                 rec(r)
