@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import logging
 import pathlib
 import sys
@@ -40,7 +42,7 @@ def main():
             log.warning("{!r} has no 'est_active' estmate".format(r))
 
     rs.print_tree(kinds=('region', 'continent', 'world', 'country'))
-    rs.write_est_csv("data/est_active.csv")
+    rs.write_est_csv("estimated_active.csv")
 
     if len(sys.argv) >= 2:
         fp = sys.argv[1]

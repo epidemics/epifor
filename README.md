@@ -1,7 +1,31 @@
+# Foretold + CSSE -> Gleamviz
 
+## Install
 
+Needs Python 3.6+, `git` and `curl`.
 
-## Data sources
+Install the python dependencies using e.g.:
+
+```sh
+python -m pip install pandas numpy dateutil unidecode requests
+```
+
+## Fetch data
+
+Run `./fetch_csse.sh` to get/update the CSSE published confirmed cases into `data/CSSE-COVID-19`.
+
+Run `./fetch_foretold.sh CHANNEL_ID` to fetch Foretold estimates into `data/foretold_data.json`. (`CHANNEL_ID` is non-public.)
+
+## Running
+
+You will need a GleamViz simulation definition XML with a single simulation.
+
+Then run `python convert.py YOUR_SIM.xml` in the git direcotry. This will produce:
+
+* `YOUR_SIM.updated.xml` with all the pops estimated to be non-zero.
+* `estimated_active.csv` with the estimates exported as CSV.
+
+## Used data sources and notes
 
 ### COVID
 
@@ -21,11 +45,8 @@ https://www.kaggle.com/max-mind/world-cities-database/data
 https://github.com/datasets/population-city
 
 
+### Recheck countries in structure
 
-
-
-
-## Recheck
 Duplicate in MD gibraltar
 Duplicate in MD djibouti
 Duplicate in MD christmas island
