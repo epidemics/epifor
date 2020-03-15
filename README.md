@@ -18,12 +18,45 @@ Run `./fetch_foretold.sh CHANNEL_ID` to fetch Foretold estimates into `foretold_
 
 ## Running
 
-You will need a GleamViz simulation definition XML with a single simulation.
+Then run `python convert.py` in the git direcotry (to find libs and data). This can produce:
 
-Then run `python convert.py YOUR_SIM.xml` in the git direcotry. This will produce:
+* `INPUT.updated.xml` (with `INPUT.xml`, the GleamViz simulation definition XML), the updated file for GleamViz.
+* `estimated_active.csv` (with `-O ...`), the city estimates exported as CSV.
 
-* `YOUR_SIM.updated.xml` with all the pops estimated to be non-zero.
-* `estimated_active.csv` with the estimates exported as CSV.
+```text
+usage: convert.py [-h] [-o OUTPUT_XML] [--output_xml_limit OUTPUT_XML_LIMIT]
+                  [-O OUTPUT_EST] [-r REGIONS] [-f FORETOLD] [-C CSSE_DIR]
+                  [-d BY_DATE] [-T]
+                  [INPUT_XML]
+
+positional arguments:
+  INPUT_XML             GleamViz template to use (optional). (default: None)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -o OUTPUT_XML, --output_xml OUTPUT_XML
+                        Override output XML path (default is
+                        'INPUT.updated.xml'). (default: None)
+  --output_xml_limit OUTPUT_XML_LIMIT
+                        Only output top # of most-infected cities in the XML.
+                        (default: None)
+  -O OUTPUT_EST, --output_est OUTPUT_EST
+                        Also write the city estimates as a csv file. (default:
+                        None)
+  -r REGIONS, --regions REGIONS
+                        Regions csv file to use. (default: data/regions.csv)
+  -f FORETOLD, --foretold FORETOLD
+                        Foretold JSON to use. (default: foretold_data.json)
+  -C CSSE_DIR, --csse_dir CSSE_DIR
+                        Directory with CSSE 'time_series_19-covid-*.csv'
+                        files. (default: data/CSSE-COVID-19/csse_covid_19_data
+                        /csse_covid_19_time_series/)
+  -d BY_DATE, --by_date BY_DATE
+                        Use latest Foretold and CSSE data before this
+                        date&time. (default: now)
+  -T, --show_tree       Debug: display final region tree with various values.
+                        (default: False)
+```
 
 ## Used data sources and notes
 
@@ -45,7 +78,7 @@ https://www.kaggle.com/max-mind/world-cities-database/data
 https://github.com/datasets/population-city
 
 
-### Recheck countries in structure
+### Recheck countries in structure (name duplicates)
 
 Duplicate in MD gibraltar
 Duplicate in MD djibouti

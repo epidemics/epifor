@@ -1,9 +1,12 @@
 #!/usr/bin/python3
 
+import argparse
+import datetime
 import logging
 import pathlib
 import sys
-import datetime
+
+import dateutil
 
 from fttogv.csse import CSSEData
 from fttogv.foretold import FTData
@@ -12,46 +15,124 @@ from fttogv.regions import Regions
 log = logging.getLogger()
 
 
-
 def main():
+    logging.basicConfig(level=logging.DEBUG)
+
+    ap = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    ap.add_argument(
+        "INPUT_XML",
+        nargs="?",
+        default=None,
+        help="GleamViz template to use (optional).",
+    )
+    ap.add_argument(
+        "-o",
+        "--output_xml",
+        type=str,
+        default=None,
+        help="Override output XML path (default is 'INPUT.updated.xml').",
+    )
+    ap.add_argument(
+        "--output_xml_limit",
+        type=int,
+        default=None,
+        help="Only output top # of most-infected cities in the XML.",
+    )
+    ap.add_argument(
+        "-O",
+        "--output_est",
+        type=str,
+        default=None,
+        help="Also write the city estimates as a csv file.",
+    )
+
+    ap.add_argument(
+        "-r",
+        "--regions",
+        type=str,
+        default="data/regions.csv",
+        help="Regions csv file to use.",
+    )
+    ap.add_argument(
+        "-f",
+        "--foretold",
+        type=str,
+        default="foretold_data.json",
+        help="Foretold JSON to use.",
+    )
+    ap.add_argument(
+        "-C",
+        "--csse_dir",
+        type=str,
+        default="data/CSSE-COVID-19/csse_covid_19_data/csse_covid_19_time_series/",
+        help="Directory with CSSE 'time_series_19-covid-*.csv' files.",
+    )
+
+    ap.add_argument(
+        "-d",
+        "--by_date",
+        type=str,
+        default="now",
+        help="Use latest Foretold and CSSE data before this date&time.",
+    )
+    ap.add_argument(
+        "-T",
+        "--show_tree",
+        action="store_true",
+        help="Debug: display final region tree with various values.",
+    )
+    args = ap.parse_args()
+    if args.INPUT_XML and args.output_Xxml is None:
+        args.output_xml = str(pathlib.Path(args.INPUT_XML).with_suffix(".updated.xml"))
+    if args.by_date == "now":
+        args.by_date = datetime.datetime.now().astimezone()
+    else:
+        args.by_date = dateutil.parser.parse(args.by_date).astimezone()
+
     rs = Regions()
-    rs.load("data/regions.csv")
+    rs.load(args.regions)
 
     # Load and apply FT
     ft = FTData()
-    ft.load("foretold_data.json")
-    ft.apply_to_regions(rs, before=datetime.datetime(2020, 3, 17).astimezone())
+    ft.load(args.foretold)
+    ft.apply_to_regions(rs, before=args.by_date)
 
     # Load and apply CSSE
     csse = CSSEData()
-    csse.load("data/CSSE-COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-{}.csv")
+    csse.load(args.csse_dir + "/time_series_19-covid-{}.csv")
     csse.apply_to_regions(rs)
 
     # Fix any missing / inconsistent pops
     rs.heuristic_set_pops()
     rs.fix_min_pops()
 
-    # Propagate estimates and fix for consistency
+    # Main computation: propagate estimates and fix for consistency with CSSE
     ft.propagate_down(rs)
 
-    # rs.hack_fill_downward_with('est_active', 'csse_active')
-    rs.fix_min_est('est_active', keep_nones=True)
+    # Propagate estimates upwards to super-regions
+    rs.fix_min_est("est_active", keep_nones=True)
 
     miss_c = []
     for r in rs.regions:
-        if r.est.get('est_active') is None and r.kind == 'city':
+        if r.est.get("est_active") is None and r.kind == "city":
             miss_c.append(r.name)
     log.info("{} cities have no 'est_active' estmate: {}".format(len(miss_c), miss_c))
 
-    #rs.print_tree(kinds=('region', 'continent', 'world', 'country'))
-    rs.write_est_csv("estimated_active.csv")
+    if args.show_tree:
+        rs.print_tree(kinds=("region", "continent", "world", "country"))
 
-    if len(sys.argv) >= 2:
-        fp = sys.argv[1]
-        p2 = pathlib.Path(fp).with_suffix('.updated.xml')
-        rs.update_gleamviz_seeds(fp, p2, est='est_active', compartment="Infectious", top=None)
+    if args.output_est:
+        rs.write_est_csv(args.output_est)
+
+    if args.INPUT_XML:
+        rs.update_gleamviz_seeds(
+            args.INPUT_XML,
+            args.output_xml,
+            est="est_active",
+            compartment="Infectious",
+            top=args.output_xml_limit,
+        )
 
 
-if __name__ == '__main__':
-    print("Usage: %s INPUT_XML" % sys.argv[0])
+if __name__ == "__main__":
     main()
