@@ -23,12 +23,15 @@ Then run `python convert.py` in the git direcotry (to find libs and data). This 
 * `INPUT.updated.xml` (with `INPUT.xml`, the GleamViz simulation definition XML), the updated file for GleamViz.
 * `estimated_active.csv` (with `-O ...`), the city estimates exported as CSV.
 
-Minimal arguments are just `python convert.py INPUT.xml`.
+Minimal arguments are just `python convert.py INPUT.xml`. Recommended arguments:
+
+* `-D 2020-03-16` to use consistent estimate dates.
+* `-E 1.4` to add Exposed population prportional to Infectious.
 
 ```text
 usage: convert.py [-h] [-o OUTPUT_XML] [--output_xml_limit OUTPUT_XML_LIMIT]
-                  [-O OUTPUT_EST] [-r REGIONS] [-f FORETOLD] [-C CSSE_DIR]
-                  [-D BY_DATE] [-T] [-d]
+                  [-E ADD_EXPOSED_MULT] [-O OUTPUT_EST] [-r REGIONS]
+                  [-f FORETOLD] [-C CSSE_DIR] [-D BY_DATE] [-T] [-d]
                   [INPUT_XML]
 
 positional arguments:
@@ -42,6 +45,9 @@ optional arguments:
   --output_xml_limit OUTPUT_XML_LIMIT
                         Only output top # of most-infected cities in the XML.
                         (default: None)
+  -E ADD_EXPOSED_MULT, --add_exposed_mult ADD_EXPOSED_MULT
+                        If present, add (Infectious * this) as Exposed to
+                        every city. (default: None)
   -O OUTPUT_EST, --output_est OUTPUT_EST
                         Also write the city estimates as a csv file. (default:
                         None)
@@ -55,7 +61,7 @@ optional arguments:
                         /csse_covid_19_time_series/)
   -D BY_DATE, --by_date BY_DATE
                         Use latest Foretold and CSSE data before this
-                        date&time (no interpolation is done). (default: now)
+                        date&time (no interpolation is done). (default: None)
   -T, --show_tree       Debug: display final region tree with various values.
                         (default: False)
   -d, --debug           Display debugging mesages. (default: False)

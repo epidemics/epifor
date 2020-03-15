@@ -39,13 +39,19 @@ def main():
         help="Only output top # of most-infected cities in the XML.",
     )
     ap.add_argument(
+        "-E",
+        "--add_exposed_mult",
+        type=float,
+        default=None,
+        help="If present, add (Infectious * this) as Exposed to every city.",
+    )
+    ap.add_argument(
         "-O",
         "--output_est",
         type=str,
         default=None,
         help="Also write the city estimates as a csv file.",
     )
-
     ap.add_argument(
         "-r",
         "--regions",
@@ -82,10 +88,7 @@ def main():
         help="Debug: display final region tree with various values.",
     )
     ap.add_argument(
-        "-d",
-        "--debug",
-        action="store_true",
-        help="Display debugging mesages.",
+        "-d", "--debug", action="store_true", help="Display debugging mesages.",
     )
 
     args = ap.parse_args()
@@ -119,7 +122,7 @@ def main():
     # Propagate estimates upwards to super-regions
     rs.fix_min_est("est_active", keep_nones=True)
 
-    rs.check_missing_estimates('est_active')
+    rs.check_missing_estimates("est_active")
 
     if args.show_tree:
         rs.print_tree(kinds=("region", "continent", "world", "country"))
@@ -132,7 +135,7 @@ def main():
             args.INPUT_XML,
             args.output_xml,
             est="est_active",
-            compartment="Infectious",
+            compartments={"Infectious": 1.0, "Exposed": args.add_exposed_mult},
             top=args.output_xml_limit,
         )
 

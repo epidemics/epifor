@@ -236,7 +236,7 @@ class Regions:
         log.info("Written per-city estimates CSV to {!r}".format(path))
 
 
-    def update_gleamviz_seeds(self, path, newpath, est='est_active', compartment="Infectious", top=None):
+    def update_gleamviz_seeds(self, path, newpath, est='est_active', compartments={"Infectious": 1.0}, top=None):
         ET.register_namespace('', 'http://www.gleamviz.org/xmlns/gleamviz_v4_0')
         tree = ET.parse(path)
         root = tree.getroot()
@@ -258,7 +258,9 @@ class Regions:
         rec(self.root())
         regs.sort(key=lambda er: er[0], reverse=True)
         for e, reg in regs[:top]:
-            ET.SubElement(sroot, 'seed', {'number': str(int(e)), "compartment": compartment, "city": str(reg.gv_id)})
+            for com_n, com_f in compartments.items():
+                if com_f and e * com_f >= 1.0:
+                    ET.SubElement(sroot, 'seed', {'number': str(int(e * com_f)), "compartment": com_n, "city": str(reg.gv_id)})
 
         sdef = root.findall('./gv:definition', ns)[0]
         sdef.attrib['name'] += datetime.datetime.now().strftime("_FTup_%Y-%m-%d_%H:%M:%S") 
