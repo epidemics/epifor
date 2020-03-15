@@ -34,14 +34,16 @@ def main():
     # Propagate estimates and fix for consistency
     ft.propagate_down(rs)
 
-    rs.hack_fill_downward_with('est_active', 'csse_active')
+    # rs.hack_fill_downward_with('est_active', 'csse_active')
     rs.fix_min_est('est_active', keep_nones=True)
 
+    miss_c = []
     for r in rs.regions:
         if r.est.get('est_active') is None and r.kind == 'city':
-            log.warning("{!r} has no 'est_active' estmate".format(r))
+            miss_c.append(r.name)
+    log.info("{} cities have no 'est_active' estmate: {}".format(len(miss_c), miss_c))
 
-    rs.print_tree(kinds=('region', 'continent', 'world', 'country'))
+    #rs.print_tree(kinds=('region', 'continent', 'world', 'country'))
     rs.write_est_csv("estimated_active.csv")
 
     if len(sys.argv) >= 2:

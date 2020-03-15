@@ -145,7 +145,7 @@ class Regions:
 
     def fix_min_pops(self):
         """
-        Bottom-up: set pop to be at least sum of lower pops.
+        Bottom-up: set pop to be at least sum of lower pops, for consistency.
         """
         def rec(reg):
             sizes = [rec(r) for r in reg.sub]
@@ -156,21 +156,31 @@ class Regions:
 
     def heuristic_set_pops(self, of_parent=1.0):
         """
-        Top-down: set unset sizes to size of mean of syblings present (if >=3) or
-        uniform fraction of parent (* of_parent).
+        Top-down: set unset children pops to min of:
+        * uniform fraction of remaining population from parent
+        * smallest known size (the unknown cities tend to be the smallest ones)
         """
         def rec(reg):
-            if reg.pop is None:
-                pa = reg.parent
-                syb_pops = [p.pop for p in pa.sub if p.pop is not None]
-                reg.pop = (pa.pop - sum(syb_pops)) * of_parent / (len(pa.sub) - len(syb_pops))
-            for p in reg.sub:
-                rec(p)
+            assert reg.pop is not None
+            popless = [r for r in reg.sub if r.pop is None]
+            if popless:
+                syb_pops = [r.pop for r in reg.sub if r.pop is not None]
+                pop_est = (reg.pop - sum(syb_pops)) / len(popless)
+                pop_est = max(min([pop_est] + syb_pops), 0)
+            for r in popless:
+                r.pop = int(pop_est)
+            subpops = sum(r.pop for r in reg.sub)                
+            if subpops > reg.pop * 1.1:
+                log.warning("Pop inconsistency at {!r}: {} set vs {} total in subs".format(reg, reg.pop, subpops))
+#            assert sum(r.pop for r in reg.sub) <= reg.pop * 1.1
+            for r in reg.sub:
+                rec(r)
+
         rec(self.root())
 
     def fix_min_est(self, name, minimum=0, keep_nones=False):
         """
-        Bottom-up: set est[name] to be at least sum of lower ests, also minimum.
+        Bottom-up: set est[name] to be at least sum of lower ests, and at least minimum.
         """
         def rec(reg):
             vs = [rec(r) for r in reg.sub]

@@ -160,6 +160,10 @@ class FTData:
                     if np.isnan(fts[i]):
                         p.est['est_active'] = rem_est * csses[i] / csse_ftnan_sum
 
+            if reg.est['est_active'] is None and reg.est.get('csse_active') is not None:
+                log.info("Node {!r}: Setting est_active={:.1f} from CSSE".format(reg, reg.est['csse_active']))
+                reg.est['est_active'] = reg.est['csse_active']
+
             for p in reg.sub:
                 rec(p)
 
