@@ -16,7 +16,7 @@ log = logging.getLogger()
 
 
 def main():
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
 
     ap = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     ap.add_argument(
@@ -69,11 +69,11 @@ def main():
     )
 
     ap.add_argument(
-        "-d",
+        "-D",
         "--by_date",
         type=str,
         default="now",
-        help="Use latest Foretold and CSSE data before this date&time.",
+        help="Use latest Foretold and CSSE data before this date&time (no interpolation is done).",
     )
     ap.add_argument(
         "-T",
@@ -81,7 +81,16 @@ def main():
         action="store_true",
         help="Debug: display final region tree with various values.",
     )
+    ap.add_argument(
+        "-d",
+        "--debug",
+        action="store_true",
+        help="Display debugging mesages.",
+    )
+
     args = ap.parse_args()
+    if args.debug:
+        logging.root.setLevel(logging.DEBUG)
     if args.INPUT_XML and args.output_Xxml is None:
         args.output_xml = str(pathlib.Path(args.INPUT_XML).with_suffix(".updated.xml"))
     if args.by_date == "now":
@@ -112,11 +121,7 @@ def main():
     # Propagate estimates upwards to super-regions
     rs.fix_min_est("est_active", keep_nones=True)
 
-    miss_c = []
-    for r in rs.regions:
-        if r.est.get("est_active") is None and r.kind == "city":
-            miss_c.append(r.name)
-    log.info("{} cities have no 'est_active' estmate: {}".format(len(miss_c), miss_c))
+    rs.check_missing_estimates('est_active')
 
     if args.show_tree:
         rs.print_tree(kinds=("region", "continent", "world", "country"))

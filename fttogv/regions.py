@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 
 from .common import _n
 
-log = logging.getLogger()
+log = logging.getLogger("fttogv.regions")
 
 
 class Region:
@@ -262,6 +262,15 @@ class Regions:
         sdef.attrib['name'] += datetime.datetime.now().strftime("_FTup_%Y-%m-%d_%H:%M:%S") 
 
         tree.write(newpath)
+
+    def check_missing_estimates(self, name):
+        miss_c = []
+        for r in self.regions:
+            if r.est.get(name) is None and r.kind == "city":
+                miss_c.append(r)
+        log.info("Cities missing {} estmate: {} (total pop {:.3f} milion)".format(name, len(miss_c), sum(r.pop for r in miss_c) / 1e6))
+        log.debug("-- full list of cities with no {} estimate: {}".format(name, [r.name for r in miss_c]))
+
 
 
 def run():

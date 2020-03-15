@@ -10,7 +10,7 @@ from dateutil import parser
 
 from .common import SKIP, _n
 
-log = logging.getLogger()
+log = logging.getLogger("fttogv.foretold")
 
 
 class FTPrediction:
@@ -105,6 +105,8 @@ class FTData:
             d = self.last_before(before)
         else:
             d = self.latest
+        dlist =[i.strftime("%Y-%m-%d") for i in set([r.date.date() for r in d.values()])]
+        log.info("Using foretold {} predictions from days {}".format(len(d), ', '.join(dlist)))
         for p in d.values():
             if _n(p.name) in SKIP:
                 continue
@@ -161,7 +163,7 @@ class FTData:
                         p.est['est_active'] = rem_est * csses[i] / csse_ftnan_sum
 
             if reg.est['est_active'] is None and reg.est.get('csse_active') is not None:
-                log.info("Node {!r}: Setting est_active={:.1f} from CSSE".format(reg, reg.est['csse_active']))
+                log.debug("Node {!r}: Setting est_active={:.1f} from CSSE".format(reg, reg.est['csse_active']))
                 reg.est['est_active'] = reg.est['csse_active']
 
             for p in reg.sub:

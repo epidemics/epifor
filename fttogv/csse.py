@@ -8,7 +8,7 @@ import pandas as pd
 
 from .common import SKIP, _n, UNABBREV
 
-log = logging.getLogger()
+log = logging.getLogger("fttogv.csse")
 
 class CSSEData:
 

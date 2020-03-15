@@ -23,10 +23,12 @@ Then run `python convert.py` in the git direcotry (to find libs and data). This 
 * `INPUT.updated.xml` (with `INPUT.xml`, the GleamViz simulation definition XML), the updated file for GleamViz.
 * `estimated_active.csv` (with `-O ...`), the city estimates exported as CSV.
 
+Minimal arguments are just `python convert.py INPUT.xml`.
+
 ```text
 usage: convert.py [-h] [-o OUTPUT_XML] [--output_xml_limit OUTPUT_XML_LIMIT]
                   [-O OUTPUT_EST] [-r REGIONS] [-f FORETOLD] [-C CSSE_DIR]
-                  [-d BY_DATE] [-T]
+                  [-D BY_DATE] [-T] [-d]
                   [INPUT_XML]
 
 positional arguments:
@@ -51,11 +53,12 @@ optional arguments:
                         Directory with CSSE 'time_series_19-covid-*.csv'
                         files. (default: data/CSSE-COVID-19/csse_covid_19_data
                         /csse_covid_19_time_series/)
-  -d BY_DATE, --by_date BY_DATE
+  -D BY_DATE, --by_date BY_DATE
                         Use latest Foretold and CSSE data before this
-                        date&time. (default: now)
+                        date&time (no interpolation is done). (default: now)
   -T, --show_tree       Debug: display final region tree with various values.
                         (default: False)
+  -d, --debug           Display debugging mesages. (default: False)
 ```
 
 ## Used data sources and notes
