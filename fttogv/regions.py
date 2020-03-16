@@ -2,7 +2,6 @@ import csv
 import datetime
 import logging
 import sys
-import xml.etree.ElementTree as ET
 
 from .common import _n
 
@@ -235,39 +234,6 @@ class Regions:
             rec(self.root(), w)
         log.info("Written per-city estimates CSV to {!r}".format(path))
 
-
-    def update_gleamviz_seeds(self, path, newpath, est='est_active', compartments={"Infectious": 1.0}, top=None):
-        ET.register_namespace('', 'http://www.gleamviz.org/xmlns/gleamviz_v4_0')
-        tree = ET.parse(path)
-        root = tree.getroot()
-        ns = {'gv': 'http://www.gleamviz.org/xmlns/gleamviz_v4_0'}
-        sroots = root.findall('./gv:definition/gv:seeds', ns)
-        assert len(sroots) == 1
-        sroot = sroots[0]
-        sroot.clear()
-        regs = []
-
-        def rec(reg):
-            e = reg.est.get(est)
-            if reg.kind == 'city' and e is not None and e > 1:
-                e = max(int(min(e, reg.pop - 1)), 1)
-                regs.append((e, reg))
-            for r in reg.sub:
-                rec(r)
-    
-        rec(self.root())
-        regs.sort(key=lambda er: er[0], reverse=True)
-        for e, reg in regs[:top]:
-            for com_n, com_f in compartments.items():
-                if com_f and e * com_f >= 1.0:
-                    ET.SubElement(sroot, 'seed', {'number': str(int(e * com_f)), "compartment": com_n, "city": str(reg.gv_id)})
-
-        sdef = root.findall('./gv:definition', ns)[0]
-        sdef.attrib['name'] += datetime.datetime.now().strftime("_FTup_%Y-%m-%d_%H:%M:%S") 
-
-        tree.write(newpath)
-        log.info("Written GleamViz XML to {!r} (updated from {!r})".format(newpath, path))
-
     def check_missing_estimates(self, name):
         miss_c = []
         for r in self.regions:
@@ -275,7 +241,6 @@ class Regions:
                 miss_c.append(r)
         log.info("Cities missing {} estmate: {} (total pop {:.3f} milion)".format(name, len(miss_c), sum(r.pop for r in miss_c) / 1e6))
         log.debug("-- full list of cities with no {} estimate: {}".format(name, [r.name for r in miss_c]))
-
 
 
 def run():

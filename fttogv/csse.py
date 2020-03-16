@@ -10,6 +10,9 @@ from .common import SKIP, _n, UNABBREV
 
 log = logging.getLogger("fttogv.csse")
 
+EXTERNAL_US = ['puerto rico', 'virgin islands, u.s.', 'guam']
+
+
 class CSSEData:
 
     def __init__(self):
@@ -49,7 +52,8 @@ class CSSEData:
                     name = UNABBREV[m.groups()[0].upper()]
                 else:
                     name = province
-                kind = "state"
+                if _n(name) not in EXTERNAL_US:
+                    kind = "state" 
 
             regs = regions.get(name, kind)
             if len(regs) < 1:

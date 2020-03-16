@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import argparse
 import datetime
@@ -11,6 +11,7 @@ import dateutil
 from fttogv.csse import CSSEData
 from fttogv.foretold import FTData
 from fttogv.regions import Regions
+from fttogv.gleamdef import GleamDef
 
 log = logging.getLogger()
 
@@ -90,6 +91,21 @@ def main():
     ap.add_argument(
         "-d", "--debug", action="store_true", help="Display debugging mesages.",
     )
+    ap.add_argument(
+        "--only_params", action="store_true", help="Only change params & name.",
+    )
+
+    ap.add_argument(
+        "-P",
+        "--params",
+        type=str, default=[],
+        action="append",
+        metavar=("seasonality,airtraffic,mitigation",),
+        help="Override the three params, can be repeated for multiple outputs.",
+    )
+    ap.add_argument(
+        "--name", type=str, default=None, help="Base name of def.xml.",
+    )
 
     args = ap.parse_args()
     if args.debug:
@@ -98,47 +114,63 @@ def main():
         args.output_xml = str(pathlib.Path(args.INPUT_XML).with_suffix(".updated.xml"))
     if args.by_date is not None:
         args.by_date = dateutil.parser.parse(args.by_date).astimezone()
+    if len(args.params) > 1:
+        args.output_xml = None
+
+    params_list = []
+    for p in args.params:
+        pfs = [float(x) for x in p.split(",")]
+        assert len(pfs) == 3
+        params_list.append(pfs)
+    if not params_list:
+        params_list = [None]
 
     rs = Regions()
     rs.load(args.regions)
-
-    # Load and apply FT
-    ft = FTData()
-    ft.load(args.foretold)
-    ft.apply_to_regions(rs, before=args.by_date)
-
-    # Load and apply CSSE
-    csse = CSSEData()
-    csse.load(args.csse_dir + "/time_series_19-covid-{}.csv")
-    csse.apply_to_regions(rs)
 
     # Fix any missing / inconsistent pops
     rs.heuristic_set_pops()
     rs.fix_min_pops()
 
-    # Main computation: propagate estimates and fix for consistency with CSSE
-    ft.propagate_down(rs)
+    if not args.only_params:
+        # Load and apply FT
+        ft = FTData()
+        ft.load(args.foretold)
+        ft.apply_to_regions(rs, before=args.by_date)
 
-    # Propagate estimates upwards to super-regions
-    rs.fix_min_est("est_active", keep_nones=True)
+        # Load and apply CSSE
+        csse = CSSEData()
+        csse.load(args.csse_dir + "/time_series_19-covid-{}.csv")
+        csse.apply_to_regions(rs)
 
-    rs.check_missing_estimates("est_active")
+        # Main computation: propagate estimates and fix for consistency with CSSE
+        ft.propagate_down(rs)
+
+        # Propagate estimates upwards to super-regions
+        rs.fix_min_est("est_active", keep_nones=True)
+
+        rs.check_missing_estimates("est_active")
+
+        if args.output_est:
+            rs.write_est_csv(args.output_est)
 
     if args.show_tree:
         rs.print_tree(kinds=("region", "continent", "world", "country"))
 
-    if args.output_est:
-        rs.write_est_csv(args.output_est)
-
     if args.INPUT_XML:
-        rs.update_gleamviz_seeds(
-            args.INPUT_XML,
-            args.output_xml,
-            est="est_active",
-            compartments={"Infectious": 1.0, "Exposed": args.add_exposed_mult},
-            top=args.output_xml_limit,
-        )
-
+        gv = GleamDef(args.INPUT_XML, base_name=args.name)
+        # Update
+        if not args.only_params:
+            gv.clear_seeds()
+            gv.add_seeds(rs, est_key="est_active", compartments={"Infectious": 1.0, "Exposed": args.add_exposed_mult}, top=args.output_xml_limit)
+        # Write
+        for ps in params_list:
+            if ps is not None:
+                gv.param_seasonality = ps[0]
+                gv.param_air_traffic = ps[1]
+                gv.params_mitigaton = ps[2]
+            gv.save(args.output_xml)
+        
 
 if __name__ == "__main__":
     main()

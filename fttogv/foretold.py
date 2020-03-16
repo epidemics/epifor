@@ -49,6 +49,14 @@ class FTPrediction:
         })
 
 
+SELECT_KINDS = {
+    'washington': 'city',
+    'new york': 'city',
+    'hong kong': 'city',
+    'georgia': 'state',
+}
+
+
 class FTData:
     def __init__(self):
         # subject -> [FTPrediction asc by date]
@@ -111,7 +119,7 @@ class FTData:
             if _n(p.name) in SKIP:
                 continue
             try:
-                regs = regions[p.name]
+                regs = regions.get(p.name, kinds=SELECT_KINDS.get(_n(p.name)))
             except KeyError:
                 log.warning("Foretold region %r not found in Regions, skipping", p.name)
                 continue
