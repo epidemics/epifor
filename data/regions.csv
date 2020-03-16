@@ -48,7 +48,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,bukavu,city,0.437,-2.309,28.809,BKY,1343
             ,kananga,city,0.765,-5.900,22.469,KGA,1344
             ,goma,city,0.144,-1.671,29.239,GOM,1542
-        ,"congo, rep.",country,5.126
+        ,"congo, rep.|congo (brazzaville)",country,5.126
             ,pointe noire,city,,-4.816,11.887,PNR,1345
             ,brazzaville,city,1.355,-4.252,15.253,BZV,1346
         ,equatorial guinea,country,1.221
@@ -2317,7 +2317,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,kingston (jm),city,,17.936,-76.787,KIN,492
         ,st. maarten,country,
             ,st maarten,city,,18.041,-63.109,SXM,645
-        ,virgin islands (u.s.),country,0.103
+        ,"virgin islands (u.s.)|virgin islands, u.s.",country,0.103
             ,st croix island,city,,17.702,-64.799,STX,648
             ,st thomas island,city,,18.337,-64.973,STT,649
         ,turks and caicos islands,country,0.035
@@ -2647,7 +2647,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,palm springs,city,0.048,33.830,-116.507,PSP,2503
                 ,chico,city,0.106,39.795,-121.858,CIC,2523
             ,colorado,state,5.684
-                ,minto,city,,,,MNT,2138
+                ,minto,city,0.012,,,MNT,2138
                 ,durango (us),city,,37.152,-107.754,DRO,2128
                 ,telluride,city,,37.954,-107.908,TEX,2149
                 ,pueblo,city,0.142,38.289,-104.497,PUB,2182
