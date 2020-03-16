@@ -16,6 +16,7 @@ class GleamDef:
         self.base_name = base_name or self.path.stem
         self.updated = datetime.datetime.now()
         self.updated_fmt = self.updated.strftime("%Y-%m-%d_%H:%M:%S")
+        self._mitigation = None
 
     def full_name(self):
         return "{} {} {}".format(self.base_name, self.updated_fmt, self.fmt_params())
@@ -53,7 +54,7 @@ class GleamDef:
         for e, reg in regs[:top]:
             for com_n, com_f in compartments.items():
                 if com_f and e * com_f >= 1.0:
-                    ET.SubElement(sroot, 'seed', {'number': str(int(e * com_f)), "compartment": com_n, "city": str(reg.gv_id)})
+                    ET.SubElement(sroot, 'gv:seed', {'number': str(int(e * com_f)), "compartment": com_n, "city": str(reg.gv_id)})
 
         log.info("Added {} seeds for compartments {!r}".format(len(regs[:top]), list(compartments)))
 
@@ -82,17 +83,33 @@ class GleamDef:
             if e.attrib['continents'] == "1 2 4 3 5":
                 for v in e.findall('./gv:variable', namespaces=self.ns):
                     if v.attrib['name'] == 'beta':
-                        return v
+                        return e, v
+                return e, None
         raise Exception("Global mitigation Exception node (with continents='1 2 4 3 5') not found")
 
     @property
     def params_mitigaton(self):
-        return float(self.get_mitigation_variable_node().attrib['value'])
+        if self._mitigation is not None:
+            return self._mitigation
+        _en, vn = self.get_mitigation_variable_node()
+        if vn is not None:
+            return float(vn.attrib['value'])
+        else:
+            return 0.0  ### NOTE: Hacky? Better return None?
 
     @params_mitigaton.setter
     def params_mitigaton(self, val):
         assert val <= 2.0
-        self.get_mitigation_variable_node().attrib['value'] = "{:.3f}".format(val)
+        self._mitigation = val
+        en, vn = self.get_mitigation_variable_node()
+        if val == 0.0:
+            if vn is not None:
+                en.remove(vn)
+                vn = None
+        else:
+            if vn is None:
+                vn = ET.SubElement(en, 'variable', {'name': 'beta'})
+            vn.attrib['value'] = "{:.3f}".format(val)
 
     def fmt_params(self):
         return "seasonality={:.3f} airtraffic={:.3f} mitigation={:.3f}".format(self.param_seasonality, self.param_air_traffic, self.params_mitigaton)

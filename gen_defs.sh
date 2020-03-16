@@ -9,6 +9,6 @@ for MITIG in 0.0 0.3 0.4 0.5; do
     done
 done
 
-python convert.py "$@" $REQS
+python convert.py "$@" $REQS --only_params
 
 
