@@ -130,9 +130,9 @@ def main():
 
     # Load and update
     if args.INPUT_XML:
-        gv = GleamDef(args.INPUT_XML, base_name=args.name)
+        gv = GleamDef(args.INPUT_XML)
         gv.clear_seeds()
-        gv.add_seeds(rs, est_key="est_active", compartments={"Infectious": 1.0, "Exposed": args.add_exposed_mult}, top=args.output_xml_limit)
+        gv.add_seeds(rs, est_key="est_active", compartments={"Infectious": 1.0, "Exposed": args.add_exposed_mult}, top=args.keep_cities)
         gv.save(args.output_xml)
 
 

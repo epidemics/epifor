@@ -9,10 +9,10 @@ def test_imports():
     import epifor
     from epifor import Regions, Region
     from epifor.data import CSSEData, FTPrediction, FTData
-    from epifor.gleam import GleamDef
+    from epifor.gleam import GleamDef, Simulation, SimSet
 
 
-SCRIPTS = ["estimate.py", "fetch_foretold.py", "parameterize.py"]
+SCRIPTS = ["estimate.py", "fetch_foretold.py", "parameterize.py", "process_h5s.py"]
 
 
 @pytest.mark.parametrize("path", SCRIPTS)

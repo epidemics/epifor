@@ -7,22 +7,21 @@ log = logging.getLogger("fttogv.gleamdef")
 
 
 class GleamDef:
-    def __init__(self, path, base_name=None):
-        ET.register_namespace('', 'http://www.gleamviz.org/xmlns/gleamviz_v4_0')
+    def __init__(self, path):
+        ET.register_namespace('', 'http://www.gleamviz.org/xmlns/gleamviz_v4_0')        
         self.ns = {'gv': 'http://www.gleamviz.org/xmlns/gleamviz_v4_0'}
-        self.path = pathlib.Path(path)
+        self.path = pathlib.Path(path).resolve()
         self.tree = ET.parse(self.path)
         self.root = self.tree.getroot()
-        self.base_name = base_name or self.path.stem
+
         self.updated = datetime.datetime.now()
         self.updated_fmt = self.updated.strftime("%Y-%m-%d_%H:%M:%S")
+
+        # Exception chached elements
         self._exceptions = self.f1('gv:definition/gv:exceptions')
         self._mitigation_ex = self.f1('gv:definition/gv:exceptions/gv:exception[@continents="1 2 4 3 5"]')
         self._mitigation_val = self._mitigation_ex.find('gv:variable[@name="beta"]', namespaces=self.ns)
         assert self._mitigation_val is not None
-
-    def full_name(self):
-        return "{} {} {}".format(self.base_name, self.updated_fmt, self.fmt_params())
 
     def fa(self, query):
         return self.root.findall(query, namespaces=self.ns)
@@ -33,17 +32,22 @@ class GleamDef:
             raise Exception("Expected one XML object at query {!r}, found {!r}".format(query, x))
         return x[0]
 
-    def save(self, newpath=None):
-        if not newpath:
-            newpath = self.path.parent / (self.full_name().replace(' ', '_') + ".xml")
-        self.f1('./gv:definition').attrib['name'] = self.full_name()
-        self.tree.write(newpath)
-        log.info("Written GleamViz XML to {!r} (updated from {!r})".format(newpath, self.path))
+    def save(self, filename=None, *, prefix=None):
+        if filename is None:
+            assert prefix is not None
+            prefix = pathlib.Path(prefix)
+            filename = prefix.parent / (self.full_name(prefix.stem).replace(' ', '_') + ".xml")
+        filename = pathlib.Path(filename)
+        self.name = filename.stem
+        self.tree.write(filename) #, default_namespace=self.ns['gv'])
+        log.info("Written Gleam definition XML to {!r} (updated from {!r})".format(filename, self.path))
 
     def clear_seeds(self):        
         self.f1('./gv:definition/gv:seeds').clear()
 
-    def add_seeds(self, regions, est_key='est_active', compartments={"Infectious": 1.0}, top=None):
+    def add_seeds(self, regions, est_key='est_active', compartments=None, top=None):
+        if compartments is None:
+            compartments = {"Infectious": 1.0}
         regs = []
 
         def rec(reg):
@@ -65,13 +69,21 @@ class GleamDef:
         log.info("Added {} seeds for compartments {!r}".format(len(regs[:top]), list(compartments)))
 
     @property
+    def name(self):
+        return self.f1('./gv:definition').attrib['name']
+
+    @name.setter
+    def name(self, val):
+        self.f1('./gv:definition').attrib['name'] = val
+
+    @property
     def param_seasonality(self):
         return float(self.f1('./gv:definition/gv:parameters').attrib['seasonalityAlphaMin'])
 
     @param_seasonality.setter
     def param_seasonality(self, val):
         assert val <= 2.0
-        self.f1('./gv:definition/gv:parameters').attrib['seasonalityAlphaMin'] = "{:.3f}".format(val)
+        self.f1('./gv:definition/gv:parameters').attrib['seasonalityAlphaMin'] = "{:.2f}".format(val)
 
     @property
     def param_air_traffic(self):
@@ -90,7 +102,7 @@ class GleamDef:
     @params_mitigaton.setter
     def params_mitigaton(self, val):
         assert val <= 2.0
-        self._mitigation_val.set('value', "{:.3f}".format(val))
+        self._mitigation_val.set('value', "{:.2f}".format(val))
         if val == 0.0:
             if self._mitigation_ex in self._exceptions:
                 self._exceptions.remove(self._mitigation_ex)
@@ -99,4 +111,8 @@ class GleamDef:
                 self._exceptions.append(self._mitigation_ex)
 
     def fmt_params(self):
-        return "seasonality={:.3f} airtraffic={:.3f} mitigation={:.3f}".format(self.param_seasonality, self.param_air_traffic, self.params_mitigaton)
+        return "seasonality={:.2f} airtraffic={:.2f} mitigation={:.2f}".format(self.param_seasonality, self.param_air_traffic, self.params_mitigaton)
+
+    def full_name(self, base_name):
+        return "{} {} {}".format(base_name, self.updated_fmt, self.fmt_params())
+

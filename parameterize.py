@@ -51,9 +51,14 @@ def main():
 
     params_list = []
     for ptext in args.params:
-        p1 = json.loads("[" + ptext + "]")
+        p0 = "[" + ptext + "]"
+        try:
+            p1 = json.loads(p0)
+        except json.decoder.JSONDecodeError:
+            log.error("Can't decode value {!r} as JSON".format(p0))
+            raise
         assert len(p1) == 3
-        p2 = [p if isinstance(p, list) else [p] for x in p]
+        p2 = [p if isinstance(p, list) else [p] for p in p1]
         params_list.extend(itertools.product(*p2))
     log.info(
         "Creating definitions for {} parameters: {!r}".format(
@@ -61,13 +66,13 @@ def main():
         )
     )
 
-    gv = GleamDef(args.INPUT_XML, base_name=args.name)
+    gv = GleamDef(args.INPUT_XML)
 
     for ps in params_list:
         gv.param_seasonality = ps[0]
         gv.param_air_traffic = ps[1]
         gv.params_mitigaton = ps[2]
-        gv.save(args.output_xml)
+        gv.save(prefix=args.PREFIX)
 
 
 if __name__ == "__main__":
