@@ -69,10 +69,11 @@ def main():
     gv = GleamDef(args.INPUT_XML)
 
     for ps in params_list:
-        gv.param_seasonality = ps[0]
-        gv.param_air_traffic = ps[1]
-        gv.params_mitigaton = ps[2]
-        gv.save(prefix=args.PREFIX)
+        gv2 = gv.copy()
+        gv2.param_seasonality = ps[0]
+        gv2.param_air_traffic = ps[1]
+        gv2.param_mitigation = ps[2]
+        gv2.save(prefix=args.PREFIX)
 
 
 if __name__ == "__main__":

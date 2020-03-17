@@ -46,9 +46,6 @@ def write_csv_v2(simset, sel_tsv_path, dest_path):
         for at in PS_AT:
             for s in PS_S:
                 hdr.append("Cumulative Median_s={:g}_at={:g}".format(s, at))
-        print(",".join(hdr))
-        print(HDR0)
-        # assert ','.join(hdr) == HDR0
         w.writerow(hdr)
 
         sel = read_selection_tsv(sel_tsv_path)

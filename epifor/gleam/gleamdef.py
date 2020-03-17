@@ -2,6 +2,7 @@ import pathlib
 import xml.etree.ElementTree as ET
 import logging
 import datetime
+import copy
 
 log = logging.getLogger("fttogv.gleamdef")
 
@@ -17,11 +18,8 @@ class GleamDef:
         self.updated = datetime.datetime.now()
         self.updated_fmt = self.updated.strftime("%Y-%m-%d_%H:%M:%S")
 
-        # Exception chached elements
-        self._exceptions = self.f1('gv:definition/gv:exceptions')
-        self._mitigation_ex = self.f1('gv:definition/gv:exceptions/gv:exception[@continents="1 2 4 3 5"]')
-        self._mitigation_val = self._mitigation_ex.find('gv:variable[@name="beta"]', namespaces=self.ns)
-        assert self._mitigation_val is not None
+    def copy(self):
+        return copy.deepcopy(self)
 
     def fa(self, query):
         return self.root.findall(query, namespaces=self.ns)
@@ -95,23 +93,35 @@ class GleamDef:
         v = int(max(min(val * 100, 100), 0))
         self.f1('./gv:definition/gv:parameters').attrib['occupancyRate'] = str(v)
 
-    @property
-    def params_mitigaton(self):
-        return float(self._mitigation_val.get('value'))
+    def _mitigation_nodes(self):
+        return self.fa('gv:definition/gv:exceptions/gv:exception[@continents="1 2 4 3 5"]/gv:variable[@name="beta"]')
 
-    @params_mitigaton.setter
-    def params_mitigaton(self, val):
+    @property
+    def param_mitigation(self):
+        mns = self._mitigation_nodes()
+        if len(mns) == 0:
+            return 0.0
+        if len(mns) > 1:
+            raise Exception("Multiple global mitigation nodes: {}!".format(mns))
+        return float(mns[0].get('value'))
+
+    @param_mitigation.setter
+    def param_mitigation(self, val):
         assert val <= 2.0
-        self._mitigation_val.set('value', "{:.2f}".format(val))
+        mns = self._mitigation_nodes()
+        if len(mns) > 1:
+            raise Exception("Multiple global mitigation nodes: {}!".format(mns))
         if val == 0.0:
-            if self._mitigation_ex in self._exceptions:
-                self._exceptions.remove(self._mitigation_ex)
+            if len(mns) > 0:
+                pt = self.f1('gv:definition/gv:exceptions/gv:exception[@continents="1 2 4 3 5"]')
+                self.f1('gv:definition/gv:exceptions').remove(pt)
         else:
-            if self._mitigation_ex not in self._exceptions:
-                self._exceptions.append(self._mitigation_ex)
+            if len(mns) == 0:
+                raise Exception("Can't set mitigation >0 in file withou global mitigation Exception node.")
+            mns[0].set('value', "{:.2f}".format(val))
 
     def fmt_params(self):
-        return "seasonality={:.2f} airtraffic={:.2f} mitigation={:.2f}".format(self.param_seasonality, self.param_air_traffic, self.params_mitigaton)
+        return "seasonality={:.2f} airtraffic={:.2f} mitigation={:.2f}".format(self.param_seasonality, self.param_air_traffic, self.param_mitigation)
 
     def full_name(self, base_name):
         return "{} {} {}".format(base_name, self.updated_fmt, self.fmt_params())

@@ -55,7 +55,7 @@ class SimSet:
             return None
         k = (
             s.definition.param_seasonality,
-            s.definition.param_airtraffic,
+            s.definition.param_air_traffic,
             s.definition.param_mitigation,
         )
         assert k not in self.by_param
