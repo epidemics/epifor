@@ -77,27 +77,14 @@ def main():
     ap.add_argument(
         "-S",
         "--selection_tsv",
-        default="country_selection.tsv",
+        default="data/country_selection.tsv",
         help="Country/city selecton TSV (must contain IDs).",
     )
     ap.add_argument(
         "-O",
         "--output_csv",
-        default="line-data-v2.csv",
+        default="line-data.csv",
         help="Write CSV (line-data-v2) output to this file.",
-    )
-
-    ap.add_argument(
-        "-P",
-        "--params",
-        type=str,
-        default=[],
-        action="append",
-        metavar=("seasonality,airtraffic,mitigation",),
-        help="Override the three params, can be repeated for multiple outputs.",
-    )
-    ap.add_argument(
-        "--name", type=str, default=None, help="Base name of def.xml.",
     )
 
     args = ap.parse_args()

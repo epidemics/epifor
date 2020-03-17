@@ -1,73 +1,51 @@
-# Foretold + CSSE -> Gleamviz
+# Epidemic Forecasting library and tools
 
-## Install
+Libraries and utilities for data handling, estimation and modelling of epidemics. Part of https://github.com/epidemics/ project.
 
-Needs Python 3.6+, `git` and `curl`.
+* Needs Python 3.7+, git, poetry.
+* Install requirements with `poetry install`.
 
-Install the python dependencies using e.g.:
+## Pipeline overview
 
-```sh
-python -m pip install pandas numpy dateutil unidecode requests
-```
+(Uppercase filenames are just placeholders, others are changeable defaults.)
 
-## Fetch data
+### Fetch and create data
 
-Run `./fetch_csse.sh` to get/update the CSSE published confirmed cases into `data/CSSE-COVID-19`.
+* Foretold predictions fetched into `foretold_data.json` with `fetch_foretold.py`.
+* CSSE github data fetched&updated into `data/CSSE-COVID-19/` with `fetch_csse.sh`.
+* Create/update GleamViz `DEF.xml` by hand or in the GUI.
 
-Run `./fetch_foretold.sh CHANNEL_ID` to fetch Foretold estimates into `foretold_data.json`. (`CHANNEL_ID` is non-public.)
+### Estimate and parameterize
 
-## Running
+* Estimate the infected populations from the above using `estimate.py`, creating `DEF.est.xml`.
+* Create multiple versions `PREFIX_XXX.xml` of a simulation def using `parameterize.py`. The project currently uses `-P [1.0,0.85,0.7],[0.2,0.7],[0.0,0.3,0.4,0.5]`.
+  * This also autonames the simulations with params, but the parameters are not read from the name.
 
-Then run `python convert.py` in the git direcotry (to find libs and data). This can produce:
+### Run Gleam
 
-* `INPUT.updated.xml` (with `INPUT.xml`, the GleamViz simulation definition XML), the updated file for GleamViz.
-* `estimated_active.csv` (with `-O ...`), the city estimates exported as CSV.
+The simulations imported into GleamViz reside in `GLEAMDIR/data/sims`, one dir each.
 
-Minimal arguments are just `python convert.py INPUT.xml`. Recommended arguments:
+* Open GleamViz. Remove any simulations. (Warning - this also removes the on-disk dirs!)
+* Import all definitions (one by one).
+* Run all the simulations (normal users are allowed 2 at a time).
+* For each finished sim, click "Retrieve simulation".
+  * Do **not** "export" them, this is slow and unnecessary.
 
-* `-D 2020-03-16` to use consistent estimate dates.
-* `-E 1.4` to add Exposed population prportional to Infectious.
+### Create data for the web
 
-```text
-usage: convert.py [-h] [-o OUTPUT_XML] [--output_xml_limit OUTPUT_XML_LIMIT]
-                  [-E ADD_EXPOSED_MULT] [-O OUTPUT_EST] [-r REGIONS]
-                  [-f FORETOLD] [-C CSSE_DIR] [-D BY_DATE] [-T] [-d]
-                  [INPUT_XML]
-
-positional arguments:
-  INPUT_XML             GleamViz template to use (optional). (default: None)
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -o OUTPUT_XML, --output_xml OUTPUT_XML
-                        Override output XML path (default is
-                        'INPUT.updated.xml'). (default: None)
-  --output_xml_limit OUTPUT_XML_LIMIT
-                        Only output top # of most-infected cities in the XML.
-                        (default: None)
-  -E ADD_EXPOSED_MULT, --add_exposed_mult ADD_EXPOSED_MULT
-                        If present, add (Infectious * this) as Exposed to
-                        every city. (default: None)
-  -O OUTPUT_EST, --output_est OUTPUT_EST
-                        Also write the city estimates as a csv file. (default:
-                        None)
-  -r REGIONS, --regions REGIONS
-                        Regions csv file to use. (default: data/regions.csv)
-  -f FORETOLD, --foretold FORETOLD
-                        Foretold JSON to use. (default: foretold_data.json)
-  -C CSSE_DIR, --csse_dir CSSE_DIR
-                        Directory with CSSE 'time_series_19-covid-*.csv'
-                        files. (default: data/CSSE-COVID-19/csse_covid_19_data
-                        /csse_covid_19_time_series/)
-  -D BY_DATE, --by_date BY_DATE
-                        Use latest Foretold and CSSE data before this
-                        date&time (no interpolation is done). (default: None)
-  -T, --show_tree       Debug: display final region tree with various values.
-                        (default: False)
-  -d, --debug           Display debugging mesages. (default: False)
-```
+* Optionally update the `data/country_selection.tsv` file with country/area/city selection.
+  * Needs the Gleam IDs and types (kinds), found in `md_cities.csv`, `md_countries.csv` etc. (Will likely be automated?)
+* Run `./process_h5s.py ALL_GVH5_DIRS ...` to create `line-data.csv`.
+  * Currently needs exactly the right 24 simulation dirs with parameters above in `P`.
+  * Parameters are inferred from `EVERY_GVH5_DIR/definition.xml`.
+* Publish `line-data.csv` to the web where-ever [lines.js](https://github.com/epidemics/covid/blob/master/src/server/static/js/lines.js#L75) expects it.
+  * Beware of caching in GCS buckets! See https://github.com/epidemics/covid/issues/116
 
 ## Used data sources and notes
+
+### Foretold COVID estimates
+
+https://github.com/epidemics/covid
 
 ### COVID
 
@@ -79,40 +57,4 @@ https://openflights.org/data.html - airport coordinates
 https://simplemaps.com/data/world-cities - populations
 https://simplemaps.com/data/us-cities - us cities, counties and states
 
-
-### Unused
-
-https://github.com/datasets/population-city
-https://www.kaggle.com/max-mind/world-cities-database/data
-https://github.com/datasets/population-city
-
-
-### Recheck countries in structure (name duplicates)
-
-Duplicate in MD gibraltar
-Duplicate in MD djibouti
-Duplicate in MD christmas island
-Duplicate in MD malta
-Duplicate in MD niue
-Duplicate in MD dominica
-Duplicate in MD montserrat
-Duplicate in MD guam
-Duplicate in MD liberia
-Duplicate in MD bermuda
-Duplicate in MD norfolk island
-Duplicate in MD st barthelemy
-Duplicate in MD grenada
-Duplicate in MD mauritius
-Duplicate in MD luxembourg
-Duplicate in MD guernsey
-Duplicate in MD curacao
-Duplicate in MD jersey
-Duplicate in MD isle of man
-Duplicate in MD barbados
-Duplicate in MD lebanon
-Duplicate in MD anguilla
-Duplicate in MD singapore
-Duplicate in MD kuwait
-Duplicate in MD aruba
-Duplicate in MD monaco
-Duplicate in MD bahrain
+(list incomplete)
