@@ -35,8 +35,10 @@ class GleamDef:
             assert prefix is not None
             prefix = pathlib.Path(prefix)
             filename = prefix.parent / (self.full_name(prefix.stem).replace(' ', '_') + ".xml")
-        filename = pathlib.Path(filename)
-        self.name = filename.stem
+            self.name = self.full_name(prefix.stem)
+        else:
+            filename = pathlib.Path(filename)
+            self.name = self.full_name(filename.stem)
         self.tree.write(filename) #, default_namespace=self.ns['gv'])
         log.info("Written Gleam definition XML to {!r} (updated from {!r})".format(filename, self.path))
 
@@ -62,7 +64,7 @@ class GleamDef:
         for e, reg in regs[:top]:
             for com_n, com_f in compartments.items():
                 if com_f and e * com_f >= 1.0:
-                    ET.SubElement(sroot, 'gv:seed', {'number': str(int(e * com_f)), "compartment": com_n, "city": str(reg.gv_id)})
+                    ET.SubElement(sroot, 'seed', {'number': str(int(e * com_f)), "compartment": com_n, "city": str(reg.gv_id)})
 
         log.info("Added {} seeds for compartments {!r}".format(len(regs[:top]), list(compartments)))
 
@@ -119,6 +121,12 @@ class GleamDef:
             if len(mns) == 0:
                 raise Exception("Can't set mitigation >0 in file withou global mitigation Exception node.")
             mns[0].set('value', "{:.2f}".format(val))
+
+    def get_id(self):
+        return self.f1('gv:definition').get('id')
+
+    def set_id(self, val):
+        return self.f1('gv:definition').set('id', str(val))
 
     def fmt_params(self):
         return "seasonality={:.2f} airtraffic={:.2f} mitigation={:.2f}".format(self.param_seasonality, self.param_air_traffic, self.param_mitigation)

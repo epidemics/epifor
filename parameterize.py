@@ -7,6 +7,7 @@ import json
 import logging
 import pathlib
 import sys
+import random
 
 import dateutil
 
@@ -23,7 +24,7 @@ def main():
         "INPUT_XML", help="Gleam definition template to use.",
     )
     ap.add_argument(
-        "PREFIX", help="Prefix for output defs, can be 'PATH/PREFIX'.",
+        "PREFIX", help="Prefix for output defs, can be 'PATH/PREFIX'. With -D, it should be the GLEAMViz/data/sims/ dir",
     )
     ap.add_argument(
         "-P",
@@ -38,11 +39,14 @@ def main():
             This is parsed as a JSON array (adding "[]").
             If any of the params is an array of values, a cartesian product will be created.
             
-            Example: `-P [1.0,0.85,0.7],[0.2,0.7],[0.0,0.3,0.4,0.5]`
+            Example: `-P [0.85,0.7,0.5],[0.2,0.7],[0.0,0.3,0.4,0.5]`
             """,
     )
     ap.add_argument(
         "-d", "--debug", action="store_true", help="Display debugging mesages.",
+    )
+    ap.add_argument(
+        "-D", "--gleam_dirs", action="store_true", help="Create gleam dirs and set random IDs. PREFIX should be the GLEAMViz/data/sims/ dir.",
     )
 
     args = ap.parse_args()
@@ -68,12 +72,23 @@ def main():
 
     gv = GleamDef(args.INPUT_XML)
 
+    if args.gleam_dirs:
+        args.PREFIX = pathlib.Path(args.PREFIX)
+        assert args.PREFIX.is_dir()
+
     for ps in params_list:
         gv2 = gv.copy()
         gv2.param_seasonality = ps[0]
         gv2.param_air_traffic = ps[1]
         gv2.param_mitigation = ps[2]
-        gv2.save(prefix=args.PREFIX)
+        if args.gleam_dirs:
+            gvid = "{}.574".format(random.randint(5000000000000, 5010000000000))
+            gv2.set_id(gvid)
+            p = args.PREFIX / "{}.gvh5".format(gvid)
+            p.mkdir()
+            gv2.save(p / "definition.xml")
+        else:
+            gv2.save(prefix=args.PREFIX)
 
 
 if __name__ == "__main__":
