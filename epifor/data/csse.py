@@ -6,7 +6,7 @@ import re
 import numpy as np
 import pandas as pd
 
-from .common import SKIP, _n, UNABBREV
+from ..common import SKIP, _n, UNABBREV
 
 log = logging.getLogger("fttogv.csse")
 

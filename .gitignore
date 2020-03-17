@@ -1,9 +1,10 @@
 /data/CSSE-COVID-19/
 /data/population-city/
-.vscode
+/.vscode/
 __pycache__
-notebooks/.ipynb_checkpoints/
-/export
-
+/notebooks/.ipynb_checkpoints/
+/export/
+/attic/
+/epifor.egg-info/
 estimated_active.csv
 foretold_data.json

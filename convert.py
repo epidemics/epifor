@@ -8,10 +8,9 @@ import sys
 
 import dateutil
 
-from fttogv.csse import CSSEData
-from fttogv.foretold import FTData
-from fttogv.regions import Regions
-from fttogv.gleamdef import GleamDef
+from epifor.data import CSSEData, FTData
+from epifor import Regions
+from epifor.gleam import GleamDef
 
 log = logging.getLogger()
 
@@ -152,7 +151,7 @@ def main():
         rs.check_missing_estimates("est_active")
 
         if args.output_est:
-            rs.write_est_csv(args.output_est)
+            rs.write_est_csv(args.output_est, kinds=None)
 
     if args.show_tree:
         rs.print_tree(kinds=("region", "continent", "world", "country"))

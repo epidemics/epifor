@@ -219,7 +219,7 @@ class Regions:
             return str(int(x)) if x is not None else None
 
         def rec(reg, w):
-            if reg.kind in kinds:
+            if (kinds is None) or (reg.kind in kinds):
                 gv_id = reg.gv_id if reg.kind == 'city' else None
                 t = [reg.name, reg.kind, fi(reg.pop), f(reg.lat), f(reg.lon), gv_id]
                 for c in cols:
@@ -232,7 +232,7 @@ class Regions:
             w = csv.writer(ff)
             w.writerow(['name', 'kind', 'pop', 'lat', 'lon', 'gv_id'] + list(cols))
             rec(self.root(), w)
-        log.info("Written per-city estimates CSV to {!r}".format(path))
+        log.info("Written region estimates CSV to {!r}".format(path))
 
     def check_missing_estimates(self, name):
         miss_c = []

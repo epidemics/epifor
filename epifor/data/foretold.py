@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 from dateutil import parser
 
-from .common import SKIP, _n
+from ..common import SKIP, _n
 
 log = logging.getLogger("fttogv.foretold")
 
