@@ -15,7 +15,6 @@ class Region:
         if key is None:
             key = _n(names[0])
 
-        self.name = names[0]
         self.names = names
         self.key = key
 
@@ -42,6 +41,10 @@ class Region:
     @property
     def pop(self):
         return self.population
+
+    @property
+    def name(self):
+        return self.names[0]
 
     def to_json_rec(self, nones=False):
         s = [s.to_json_rec(nones=nones) for s in self.sub] if self.sub else None
@@ -81,7 +84,7 @@ class Regions:
     def __contains__(self, key):
         if isinstance(key, Region):
             key = key.key
-        return key.key in self.key_index
+        return key in self.key_index
 
     def add_region(self, reg, parent):
         assert isinstance(reg, Region)
@@ -264,6 +267,66 @@ class Regions:
         log.debug("-- full list of cities with no {} estimate: {}".format(name, [r.name for r in miss_c]))
 
 
+def run2():
+
+    import pandas as pd
+
+    logging.basicConfig(level=logging.DEBUG)
+
+    rs = Regions()
+
+    with open('data/regions.csv', 'rt') as f:
+        rs.read_csv(f)
+
+    df = pd.read_csv("data/md_cities.tsv", sep='\t')
+
+    def a(name, kind, parent, gv_id, iana=None):
+        regs = rs.find_names(name, kinds=[kind])
+
+        if len(regs) < 1 and kind == 'city':
+            prs = rs.find_names(parent, kinds=['state', 'country'])
+            if len(prs) < 1:
+                log.warning(f"Parent region {parent!r} not found for {name}")
+            elif len(prs) > 1:
+                log.warning(f"Multilple parent regions {parent!r} found for {name}")
+            else:
+                r = Region(name, iana=iana, gleam_id=int(gv_id), kind=kind)
+                if r.key in rs:
+                    r.key += " city"
+                if r.key in rs:
+                    log.warning(f"Same key exists for {r!r}: {rs[r.key]!r}")
+                else:
+                    rs.add_region(r, prs[0])
+                    regs = [r]
+
+        if len(regs) < 1:
+            log.warning(f"Region {name!r} [{kind}] not found (parent {parent})")
+        elif len(regs) > 1:
+            log.warning(f"Region {name!r} [{kind}] returned multiple hits: {regs!r}")
+        else:
+            reg = regs[0]
+            reg.gleam_id = int(gv_id)
+            try:
+                reg.names.remove(_n(name))
+            except ValueError:
+                pass
+            if name not in reg.names:
+                reg.names.insert(0, name)
+
+    for _idx, row in df.iterrows():
+        cont_n = row['Continent name']
+        a(cont_n, 'continent', 'world', row['Continent ID'])
+        re_n = row['Region name']
+#        a(re_n, 'region', cont_n, row['Region ID'])
+        co_n = row['Country name']
+        a(co_n, 'country', re_n, row['Country ID'])
+        ci_n = row['City Name']
+        a(ci_n, 'city', co_n, row['City ID'], iana=row['Airport code'])
+
+    import yaml
+    with open('data/regions_2.yaml', 'wt') as f:
+        yaml.dump(rs.root.to_json_rec(nones=False), f, default_flow_style=False, sort_keys=False, indent=4, width=100)
+
 def run():
 
     logging.basicConfig(level=logging.DEBUG)
@@ -293,4 +356,4 @@ def run():
 
 
 if __name__ == "__main__":
-    run()
+    run2()
