@@ -12,6 +12,12 @@ log = logging.getLogger("fttogv.csse")
 
 EXTERNAL_US = ['puerto rico', 'virgin islands, u.s.', 'guam']
 
+FORCE_KINDS = {
+    'liberia': 'country',
+    'luxembourg': 'country',
+    'lebanon': 'country',
+    'kuwait': 'country',
+}
 
 class CSSEData:
 
@@ -53,11 +59,17 @@ class CSSEData:
                 else:
                     name = province
                 if _n(name) not in EXTERNAL_US:
-                    kind = "state" 
+                    kind = "state"
 
-            regs = regions.get(name, kind)
+                if _n(name) == "georgia":
+                    name = "georgia, us"
+
+            if name in FORCE_KINDS:
+                kind = FORCE_KINDS[name]
+
+            regs = regions.find_names(name, kind)
             if len(regs) < 1:
-                log.warning("CSSE region %r %r not found in Regions, skipping", name, (country, province))
+                log.warning(f"CSSE region {name!r} [{kind}, from {country}/{province}] not found in Regions, skipping")
                 continue
             if len(regs) > 1:
                 log.warning("CSSE region %r %r matches several Regions: %r, skipping", name, (country, province), regs)

@@ -54,8 +54,8 @@ def main():
         "-r",
         "--regions",
         type=str,
-        default="data/regions.csv",
-        help="Regions csv file to use.",
+        default="data/regions.yaml",
+        help="Regions YAML file to use.",
     )
     ap.add_argument(
         "-f",
@@ -97,8 +97,7 @@ def main():
     if args.by_date is not None:
         args.by_date = dateutil.parser.parse(args.by_date).astimezone()
 
-    rs = Regions()
-    rs.load_csv(args.regions)
+    rs = Regions.load_from_yaml(args.regions)
 
     # Fix any missing / inconsistent pops
     rs.heuristic_set_pops()

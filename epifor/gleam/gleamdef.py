@@ -60,13 +60,13 @@ class GleamDef:
             for r in reg.sub:
                 rec(r)
     
-        rec(regions.root())
+        rec(regions.root)
         regs.sort(key=lambda er: er[0], reverse=True)
         sroot = self.f1('./gv:definition/gv:seeds')
         for e, reg in regs[:top]:
             for com_n, com_f in compartments.items():
                 if com_f and e * com_f >= 1.0:
-                    ET.SubElement(sroot, 'seed', {'number': str(int(e * com_f)), "compartment": com_n, "city": str(reg.gv_id)})
+                    ET.SubElement(sroot, 'seed', {'number': str(int(e * com_f)), "compartment": com_n, "city": str(reg.gleam_id)})
 
         log.info("Added {} seeds for compartments {!r}".format(len(regs[:top]), list(compartments)))
 

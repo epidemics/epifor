@@ -118,9 +118,8 @@ class FTData:
         for p in d.values():
             if _n(p.name) in SKIP:
                 continue
-            try:
-                regs = regions.get(p.name, kinds=SELECT_KINDS.get(_n(p.name)))
-            except KeyError:
+            regs = regions.find_names(p.name, kinds=SELECT_KINDS.get(_n(p.name)))
+            if len(regs) < 1:
                 log.warning("Foretold region %r not found in Regions, skipping", p.name)
                 continue
             if len(regs) > 1:
@@ -177,5 +176,5 @@ class FTData:
             for p in reg.sub:
                 rec(p)
 
-        rec(regions.root())
+        rec(regions.root)
 

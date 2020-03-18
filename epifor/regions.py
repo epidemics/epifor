@@ -143,7 +143,7 @@ class Regions:
                 indent=4)
 
     def read_yaml(self, stream):
-        y = yaml.load(stream)
+        y = yaml.safe_load(stream)
         l0 = len(self.key_index)
         assert isinstance(y, dict)
         assert y.get('key') == 'earth'

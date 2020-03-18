@@ -7,7 +7,7 @@ from epifor.data.fetch_foretold import fetch_foretold
 
 @click.command()
 @click.option("-c", "--channel_id", envvar="FORECASTIO_CHANNEL", help="UUID of the channel.")
-@click.option("-o", "--output_path", type=click.Path(), default="data/foretold_data.json", help="Path to write to.")
+@click.option("-o", "--output_path", type=click.Path(), default="foretold_data.json", help="Path to write to.")
 def run_fetch(channel_id, output_path):
     """Fetch the data from foretold.io."""
     if not channel_id:
