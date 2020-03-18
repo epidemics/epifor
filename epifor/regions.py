@@ -144,9 +144,11 @@ class Regions:
 
     def read_yaml(self, stream):
         y = yaml.load(stream)
+        l0 = len(self.key_index)
         assert isinstance(y, dict)
         assert y.get('key') == 'earth'
         Region._from_yaml(self, y, parent=None)
+        log.info(f"Read {len(self.key_index) - l0} regions from {stream!r}")
 
     def load_csv(self, path):
         with open(path, 'rt') as f:

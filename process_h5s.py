@@ -67,14 +67,17 @@ def main():
         "-d", "--debug", action="store_true", help="Display debugging mesages.",
     )
     ap.add_argument(
-        "-o", "--output_json", help="Write JSON output to this file.",
+        "-o",
+        "--output_json",
+        default="data-staging-gleam.json",
+        help="Write JSON output to this file.",
     )
     ap.add_argument(
         "-r",
         "--regions",
         type=str,
-        default="data/regions.csv",
-        help="Regions csv file to use.",
+        default="data/regions.yaml",
+        help="Regions YAML file to use.",
     )
     ap.add_argument(
         "-R", "--select_regions", required=True, help="Region keys separated with '|'.",
@@ -84,8 +87,7 @@ def main():
     if args.debug:
         logging.root.setLevel(logging.DEBUG)
 
-    rs = Regions()
-    rs.load_csv(args.regions)
+    rs = Regions.load_from_yaml(args.regions)
 
     simset = SimSet()
     for d in args.SIM_DIRS:
@@ -93,8 +95,8 @@ def main():
 
     regs = [rs[key] for key in args.select_regions.split("|")]
     ed = make_export_doc(regs, simset)
-    with open("tmp.json", "wt") as f:
-        json.dump(ed.to_json(toweb=True), f, indent=4)
+    with open(args.output_json, "wt") as f:
+        json.dump(ed.to_json(toweb=True), f)
 
 
 if __name__ == "__main__":
