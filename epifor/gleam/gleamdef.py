@@ -1,8 +1,10 @@
+import copy
+import datetime
+import logging
 import pathlib
 import xml.etree.ElementTree as ET
-import logging
-import datetime
-import copy
+
+import dateutil
 
 log = logging.getLogger("fttogv.gleamdef")
 
@@ -134,3 +136,5 @@ class GleamDef:
     def full_name(self, base_name):
         return "{} {} {}".format(base_name, self.updated_fmt, self.fmt_params())
 
+    def get_start_date(self):
+        return dateutil.parser.parse(self.f1('./gv:definition/gv:parameters').get('startDate'))

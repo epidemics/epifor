@@ -4,29 +4,7 @@ import json
 import socket
 
 from ..regions import Region
-
-
-def _e(o):
-    "Filter to reformat objects before serialization"
-    if isinstance(o, datetime.datetime):
-        return o.astimezone().isoformat()
-    if isinstance(o, datetime.date):
-        return o.isoformat()
-    return o
-
-
-def _fs(obj, *attrs, _n=True, **kws):
-    "Collect a dict of `{a: obj.a}` for `attrs` and `{k: v} for `kws`"
-    r = {}
-    for k in attrs:
-        x = _e(obj.__getattribute__(k))
-        if x is not None or _n:
-            r[k] = x
-    for k, v in kws.items():
-        x = _e(v)
-        if x is not None or _n:
-            r[k] = x
-    return r
+from ..common import _fs
 
 
 class ExportDoc:
@@ -66,12 +44,11 @@ class ExportRegion:
         self.data = {}  # {name: anything}
 
     def __getattr__(self, name):
-        return self.region.__getattribute__(name)
+        assert isinstance(self.region, Region)
+        return getattr(self.region, name)
 
     def to_json(self, toweb=False):
-        return _fs(self, "kind", "lat", "lon", _n=False,
-            name=self.name.capitalize(),
-            population=self.pop, gleam_id=self.gv_id, data=self.data)
+        return _fs(self, "kind", "lat", "lon", "name", "population", "gleam_id", "data", _n=False)
 
     @classmethod
     def from_json(cls, data):

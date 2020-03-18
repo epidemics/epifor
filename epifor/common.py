@@ -1,6 +1,6 @@
 import math
 import unidecode
-
+import datetime
 
 def _n(s):
     return unidecode.unidecode(str(s)).replace('-', ' ').lower()
@@ -9,6 +9,29 @@ def _n(s):
 def _ncol(df, *cols):
     for col in cols:
         df[col] = df[col].map(_n)
+
+
+def _e(o):
+    "Filter to reformat objects before serialization"
+    if isinstance(o, datetime.datetime):
+        return o.astimezone().isoformat()
+    if isinstance(o, datetime.date):
+        return o.isoformat()
+    return o
+
+
+def _fs(obj, *attrs, _n=True, **kws):
+    "Collect a dict of `{a: obj.a}` for `attrs` and `{k: v} for `kws`"
+    r = {}
+    for k in attrs:
+        x = _e(getattr(obj, k))
+        if x is not None or _n:
+            r[k] = x
+    for k, v in kws.items():
+        x = _e(v)
+        if x is not None or _n:
+            r[k] = x
+    return r
 
 
 def geo_dist(lat1, lat2, dlong):

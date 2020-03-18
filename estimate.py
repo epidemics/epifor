@@ -98,7 +98,7 @@ def main():
         args.by_date = dateutil.parser.parse(args.by_date).astimezone()
 
     rs = Regions()
-    rs.load(args.regions)
+    rs.load_csv(args.regions)
 
     # Fix any missing / inconsistent pops
     rs.heuristic_set_pops()

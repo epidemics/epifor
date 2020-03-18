@@ -3,27 +3,30 @@ import datetime
 import logging
 import sys
 
-from .common import _n
+from .common import _n, _fs
 
 log = logging.getLogger("fttogv.regions")
 
 
 class Region:
-    def __init__(self, names, *, pop=None, gv_id=None, kind=None, lat=None, lon=None, iana=None):
+    def __init__(self, names, *, key=None, population=None, gleam_id=None, kind=None, lat=None, lon=None, iana=None):
         if isinstance(names, str):
             names = [names]
-        names = [_n(n) for n in names]
-        self.names = names
+        if key is None:
+            key = _n(names[0])
 
-        self.pop = pop
-        self.gv_id = gv_id
+        self.name = names[0]
+        self.names = names
+        self.key = key
+
+        self.population = population
+        self.gleam_id = gleam_id
         self.kind = kind
         self.lat = lat
         self.lon = lon
         self.iana = iana
-        self.extra_csv = None
 
-        # Hierarchy, root=None
+        # Hierarchy, root.parent=None
         self.sub = []
         self.parent = None
 
@@ -31,54 +34,73 @@ class Region:
         self.est = {}
 
     def __repr__(self):
-        p = " ({})".format(self.parent.name) if self.parent else ""
-        return "<Region {!r}{} [{}]>".format(self.name, p, self.kind)
+        return f"<Region {self.name!r} [{self.key}, {self.kind}] ({self.parent})>"
+
+    def __str__(self):
+        return self.name
 
     @property
-    def name(self):
-        return self.names[0]
+    def pop(self):
+        return self.population
 
-    @property
-    def key(self):
-        return self.names[0]
+    def to_json_rec(self, nones=False):
+        s = [s.to_json_rec(nones=nones) for s in self.sub] if self.sub else None
+        return _fs(self, "key", "names", "kind", "population", "lat", "lon",
+             "gleam_id", "iana", _n=nones,
+            subregions=s)
 
 
 class Regions:
 
     def __init__(self):
-        self.regions = []
-        self.names_index = {}
+        # key: Region
+        self.key_index = {}
+        # _n(name): [Region]
+        self.all_names_index = {}
+        self.root = None
 
-    def __getitem__(self, name):
-        "Returns a tuple of regions! (Even if there is only one)"
-        return tuple(self.names_index[_n(name)])
+    def __getitem__(self, key):
+        "Returns a single Region by key"
+        return self.key_index[key]
 
-    def get(self, name, kinds=None):
+    @property
+    def regions(self):
+        return self.key_index.values()
+
+    def find_names(self, name, kinds=None):
         if isinstance(kinds, str):
             kinds = (kinds, )
         try:
-            t = self.names_index[_n(name)]
+            t = self.all_names_index[_n(name)]
         except KeyError:
             return ()
         if kinds is not None:
             t = (p for p in t if p.kind in kinds)
         return tuple(t)
 
-    def __contains__(self, name):
-        return _n(name) in self.names_index
+    def __contains__(self, key):
+        if isinstance(key, Region):
+            key = key.key
+        return key.key in self.key_index
 
-    def add_reg(self, reg, parent=None):
+    def add_region(self, reg, parent):
         assert isinstance(reg, Region)
-        self.regions.append(reg)
+        assert reg.key
+        if reg.key in self.key_index:
+            raise Exception(f"Region {reg!r}'s key already indexed as {self[reg.key]!r}")
+        self.key_index[reg.key] = reg
         for n in reg.names:
-            self.names_index.setdefault(_n(n), list()).append(reg)
-        if parent:
+            self.all_names_index.setdefault(_n(n), list()).append(reg)
+        if parent is not None:
             assert isinstance(parent, Region)
             assert reg.parent is None
             reg.parent = parent
             parent.sub.append(reg)
+        else:
+            assert self.root is None
+            self.root = reg
 
-    def load(self, path):
+    def load_csv(self, path):
         with open(path, 'rt') as f:
             self.read_csv(f)
 
@@ -90,15 +112,16 @@ class Regions:
         indent = 0
         last = None
 
-        def a(x, sc=1.0):
-            return float(x) * sc if (x is not None and x.strip() != "") else None
+        def a(x, sc=1.0, t=float):
+            return t(float(x) * sc) if (x is not None and x.strip() != "") else None
+        def b(x):
+            return int(x) if x is not None else None
 
         for r in w:
             i = len(r[0])
             assert i % 4 == 0
             r = r + ([None] * (len(h) - len(r)))
-            reg = Region(r[1].split('|'), kind=r[2], pop=a(r[3], 1e6), lat=a(r[4]), lon=a(r[5]), iana=r[6], gv_id=r[7])
-            reg.extra_csv = list(r[8:])
+            reg = Region(r[1].split('|'), kind=r[2], population=a(r[3], 1e6, int), lat=a(r[4]), lon=a(r[5]), iana=r[6], gleam_id=b(r[7]))
             if i < indent:
                 for _ in range((indent - i) // 4):
                     stack.pop()
@@ -108,7 +131,7 @@ class Regions:
             else:  # i == ident
                 pass
             #print("Add %r under %r" % (reg, stack[-1]))
-            self.add_reg(reg, parent=stack[-1])
+            self.add_region(reg, parent=stack[-1])
             last = reg
             indent = i
 
@@ -119,14 +142,14 @@ class Regions:
             return ("%.3f" % (x * mult)) if x is not None else None
         def rec(reg, ind=0):
             id = reg.gv_id if reg.kind == 'city' else None
-            t = [' ' * ind, "|".join(reg.names), reg.kind, f(reg.pop, 1e-6), f(reg.lat), f(reg.lon), reg.iana, id]
+            t = [' ' * ind, "|".join(reg.names), reg.kind, f(reg.population, 1e-6), f(reg.lat), f(reg.lon), reg.iana, id]
             t += reg.extra_csv
             while len(t) > 4 and t[-1] is None:
                 t.pop()
             w.writerow(t)
             for i in reg.sub:
                 rec(i, ind + 4)
-        rec(self.root())
+        rec(self.root)
 
     def print_tree(self, file=sys.stdout, kinds=('region', 'continent', 'world')):
         def rec(reg, ind=0, parentpop=None):
@@ -138,13 +161,7 @@ class Regions:
                 file.write("{}{} [{}] pop={}M{}\n".format(" " * ind, reg.name, reg.kind, reg.pop / 1e6, pp))
             for i in reg.sub:
                 rec(i, ind + 4, reg.pop)
-        rec(self.root())
-
-    def root(self):
-        r = self['World']
-        assert len(r) == 1
-        assert r[0].parent is None
-        return r[0]
+        rec(self.root)
 
     def fix_min_pops(self):
         """
@@ -153,9 +170,9 @@ class Regions:
         def rec(reg):
             sizes = [rec(r) for r in reg.sub]
             ms = max(sum(sizes), 1000)
-            reg.pop = max(reg.pop if reg.pop is not None else 0, ms)
+            reg.population = max(reg.population if reg.population is not None else 0, ms)
             return reg.pop
-        rec(self.root())
+        rec(self.root)
 
     def heuristic_set_pops(self, of_parent=1.0):
         """
@@ -171,7 +188,7 @@ class Regions:
                 pop_est = (reg.pop - sum(syb_pops)) / len(popless)
                 pop_est = max(min([pop_est] + syb_pops), 0)
             for r in popless:
-                r.pop = int(pop_est)
+                r.population = int(pop_est)
             subpops = sum(r.pop for r in reg.sub)                
             if subpops > reg.pop * 1.3:
                 log.warning("Pop inconsistency at {!r}: {} vs {} total in subs".format(reg, reg.pop, subpops))
@@ -179,7 +196,7 @@ class Regions:
             for r in reg.sub:
                 rec(r)
 
-        rec(self.root())
+        rec(self.root)
 
     def fix_min_est(self, name, minimum=0, keep_nones=False):
         """
@@ -195,7 +212,7 @@ class Regions:
                 mv = None
             reg.est[name] = mv
             return mv
-        rec(self.root())
+        rec(self.root)
 
     def hack_fill_downward_with(self, what, src):
         """
@@ -213,7 +230,7 @@ class Regions:
             for r in reg.sub:
                 rec(r, val)
     
-        rec(self.root())
+        rec(self.root)
 
 
     def write_est_csv(self, path, kinds=('city', ), cols=('est_active', )):
@@ -235,7 +252,7 @@ class Regions:
         with open(path, 'wt') as ff:
             w = csv.writer(ff)
             w.writerow(['name', 'kind', 'pop', 'lat', 'lon', 'gv_id'] + list(cols))
-            rec(self.root(), w)
+            rec(self.root, w)
         log.info("Written region estimates CSV to {!r}".format(path))
 
     def check_missing_estimates(self, name):
@@ -259,8 +276,20 @@ def run():
     r.heuristic_set_pops()
     r.fix_min_pops()
 
-    with open('data/regions_2.csv', 'wt') as f:
-        r.write_csv(f)
+    if 0:
+        from ruamel.yaml import YAML
+        yaml = YAML()
+        yaml.width = 80
+        yaml.indent = 4
+        yaml.compact_seq_map = True
+        yaml.compact_seq_seq = True
+        yaml.compact(True, True)
+        yaml.preserve_quotes = True
+    else:
+        import yaml
+
+    with open('data/regions_2.yaml', 'wt') as f:
+        yaml.dump(r.root.to_json_rec(nones=False), f, default_flow_style=True, sort_keys=False, indent=4, width=80)
 
 
 if __name__ == "__main__":
