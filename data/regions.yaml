@@ -422,6 +422,7 @@ subregions:
             iana: GOM
     -   key: congo, rep.
         names:
+        - Republic of the Congo
         - Congo, Rep.
         - congo (brazzaville)
         kind: country
@@ -8475,7 +8476,7 @@ subregions:
         subregions:
         -   key: singapore city
             names:
-            - Singapore
+            - Singapore city
             kind: city
             gleam_id: 2821
             iana: SIN
@@ -10204,7 +10205,8 @@ subregions:
             subregions:
             -   key: hong kong city
                 names:
-                - hong kong city
+                - Hong Kong city
+                - Hong Kong
                 kind: city
                 population: 7206000
                 lat: 22.309
@@ -24410,7 +24412,8 @@ subregions:
                 iana: ISP
             -   key: new york city
                 names:
-                - new york city
+                - New York city
+                - New York
                 kind: city
                 population: 8398000
                 lat: 40.64
