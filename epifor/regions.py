@@ -2,6 +2,7 @@ import csv
 import datetime
 import logging
 import sys
+import yaml
 
 from .common import _n, _fs
 
@@ -32,6 +33,19 @@ class Region:
         # Estimate variables dict
         self.est = {}
 
+    def __eq__(self, other):
+        if not isinstance(other, Region):
+            return False
+        for k in ['key', 'kind']:  ## TODO
+            if getattr(self, k) != getattr(other, k):
+                return False
+        skey = lambda r: r.key
+        for r1, r2 in zip(sorted(self.sub, key=skey), sorted(other.sub, key=skey)):
+            if r1 != r2:
+                return False
+        return True
+
+
     def __repr__(self):
         return f"<Region {self.name!r} [{self.key}, {self.kind}] ({self.parent})>"
 
@@ -52,6 +66,16 @@ class Region:
              "gleam_id", "iana", _n=nones,
             subregions=s)
 
+    @classmethod
+    def _from_yaml(cls, regions, y, parent=None):
+        subs = y.pop('subregions', list())
+        names = y.pop('names')
+        r = cls(names, **y)
+        regions.add_region(r, parent)
+        for y2 in subs:
+            Region._from_yaml(regions, y2, parent=r)
+        return r
+
 
 class Regions:
 
@@ -62,9 +86,21 @@ class Regions:
         self.all_names_index = {}
         self.root = None
 
+    @classmethod
+    def load_from_yaml(cls, path):
+        s = cls()
+        with open(path, 'rt') as f:
+            s.read_yaml(f)
+        return s
+
     def __getitem__(self, key):
         "Returns a single Region by key"
         return self.key_index[key]
+
+    def __contains__(self, key):
+        if isinstance(key, Region):
+            key = key.key
+        return key in self.key_index
 
     @property
     def regions(self):
@@ -80,11 +116,6 @@ class Regions:
         if kinds is not None:
             t = (p for p in t if p.kind in kinds)
         return tuple(t)
-
-    def __contains__(self, key):
-        if isinstance(key, Region):
-            key = key.key
-        return key in self.key_index
 
     def add_region(self, reg, parent):
         assert isinstance(reg, Region)
@@ -102,6 +133,20 @@ class Regions:
         else:
             assert self.root is None
             self.root = reg
+
+    def write_yaml(self, stream):
+            yaml.dump(
+                self.root.to_json_rec(nones=False),
+                stream,
+                default_flow_style=False,
+                sort_keys=False,
+                indent=4)
+
+    def read_yaml(self, stream):
+        y = yaml.load(stream)
+        assert isinstance(y, dict)
+        assert y.get('key') == 'earth'
+        Region._from_yaml(self, y, parent=None)
 
     def load_csv(self, path):
         with open(path, 'rt') as f:
