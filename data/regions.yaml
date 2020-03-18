@@ -6247,10 +6247,10 @@ subregions:
                 lon: 43.859
                 gleam_id: 3234
                 iana: LWN
-        -   key: egypt, arab rep.
+        -   key: egypt
             names:
+            - Egypt
             - Egypt, Arab Rep.
-            - egypt
             kind: country
             population: 97550000
             gleam_id: 63
@@ -10390,7 +10390,7 @@ subregions:
             lon: 106.767
             gleam_id: 856
             iana: ULN
-    -   key: korea, rep.
+    -   key: south korea
         names:
         - Korea, Rep.
         - korea, south
@@ -11525,7 +11525,7 @@ subregions:
             lon: 28.931
             gleam_id: 1441
             iana: KIV
-    -   key: russian federation
+    -   key: russia
         names:
         - Russian Federation
         - russia
@@ -21445,7 +21445,7 @@ subregions:
             lon: -56.173
             gleam_id: 1487
             iana: FSP
-    -   key: united states of america
+    -   key: united states
         names:
         - United States of America
         - united states
