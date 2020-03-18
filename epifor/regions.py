@@ -38,6 +38,10 @@ class Region:
     def name(self):
         return self.names[0]
 
+    @property
+    def key(self):
+        return self.names[0]
+
 
 class Regions:
 
