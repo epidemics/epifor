@@ -1196,17 +1196,17 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,karamay,city,0.109,45.467,84.953,KRY,431
                 ,altay,city,0.142,47.750,88.086,AAT,459
             ,hong kong,state,7.482
-                ,hong kong,city,7.206,22.309,113.915,HKG,473
+                ,hong kong city,city,7.206,22.309,113.915,HKG,473
             ,macao|macau,state,0.622
             ,beijing,state,21.54
-                ,beijing,city,11.106,40.080,116.585,PEK,420
+                ,beijing city,city,11.106,40.080,116.585,PEK,420
             ,chongqing,state,30.48
-                ,chongqing,city,6.461,29.719,106.642,CKG,325
+                ,chongqing city,city,6.461,29.719,106.642,CKG,325
                 ,wanzhou,city,,30.802,108.433,WXN,334
             ,shanghai,state,24.24
-                ,shanghai,city,14.987,31.143,121.805,PVG,412
+                ,shanghai city,city,14.987,31.143,121.805,PVG,412
             ,tianjin,state,15.621
-                ,tianjin,city,7.180,39.124,117.346,TSN,322
+                ,tianjin city,city,7.180,39.124,117.346,TSN,322
         ,mongolia,country,3.027
             ,bayankhongor,city,,46.163,100.704,BYN,845
             ,dalanzadgad,city,0.015,43.592,104.430,DLZ,846
@@ -2680,7 +2680,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,miami,city,6.382,25.793,-80.291,MIA,2305
                 ,key west,city,0.033,24.556,-81.760,EYW,2431
                 ,orlando,city,1.777,28.429,-81.309,MCO,2532
-            ,georgia,state,10.545
+            ,"georgia, US",state,10.545
                 ,athens (us),city,,33.949,-83.326,AHN,2278
                 ,albany (us ga),city,,31.535,-84.195,ABY,2419
                 ,augusta (us ga),city,,33.370,-81.965,AGS,2055
@@ -2861,7 +2861,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,albuquerque,city,0.759,35.040,-106.609,ABQ,2417
             ,new york,state,19.54
                 ,long island macarthur,city,,40.795,-73.100,ISP,2297
-                ,new york,city,8.398,40.640,-73.779,JFK,2518
+                ,new york city,city,8.398,40.640,-73.779,JFK,2518
                 ,albany (us ny),city,,42.748,-73.802,ALB,2408
                 ,jamestown (us ny),city,,42.153,-79.258,JHW,2293
                 ,rochester (us ny),city,,43.119,-77.672,ROC,2387
@@ -2960,7 +2960,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
             ,texas,state,28.704
                 ,pilot point,city,,,,UGB,2537
                 ,point hope,city,,,,PHO,2337
-                ,victoria,city,,28.853,-96.919,VCT,2102
+                ,victoria city,city,,28.853,-96.919,VCT,2102
                 ,wichita falls,city,0.100,33.989,-98.492,SPS,2056
                 ,midland,city,0.144,31.942,-102.202,MAF,2058
                 ,killeen,city,0.247,31.067,-97.829,GRK,2062
@@ -3222,7 +3222,7 @@ indent,names,kind,pop_mil,lat,lon,iana,gv_id
                 ,pakuashipi,city,,51.212,-58.658,YIF,2772
                 ,puvirnituq,city,,60.051,-77.287,YPX,2745
                 ,quaqtaq,city,,61.046,-69.618,YQC,2609
-                ,quebec,city,0.624,46.791,-71.393,YQB,2610
+                ,quebec city,city,0.624,46.791,-71.393,YQB,2610
                 ,rouyn,city,,48.206,-78.836,YUY,2677
                 ,tasiujuaq,city,,58.668,-69.956,YTQ,2675
                 ,umiujaq,city,,56.536,-76.518,YUD,2599
