@@ -23,7 +23,7 @@ def make_export_doc(regions, simset):
         mitig_sims.setdefault(s.definition.param_mitigation, list()).append(s)
     ed = ExportDoc(comment=f"{simset.sims[0].name}")
 
-    NAMES = ["Low", "Medium", "High"]
+    NAMES = ["High", "Medium", "Low"]
     for r in regions:
         er = ed.add_region(r)
         infected_per_1000 = {}

@@ -117,7 +117,7 @@ def main():
     ft.propagate_down(rs)
 
     # Propagate estimates upwards to super-regions
-    rs.fix_min_est("est_active", keep_nones=True)
+    rs.fix_min_est("est_active", keep_nones=True, minimum_from="csse_active", minimum_mult=3.0)  ## TODO: param for mult
 
     rs.check_missing_estimates("est_active")
 

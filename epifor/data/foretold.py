@@ -170,8 +170,13 @@ class FTData:
                         p.est['est_active'] = rem_est * csses[i] / csse_ftnan_sum
 
             if reg.est['est_active'] is None and reg.est.get('csse_active') is not None:
-                log.debug("Node {!r}: Setting est_active={:.1f} from CSSE".format(reg, reg.est['csse_active']))
+                log.debug("Node {!r}: Setting est_active={:.1f} [Prev none] from CSSE".format(reg, reg.est['csse_active']))
                 reg.est['est_active'] = reg.est['csse_active']
+
+            if reg.est['est_active'] is not None and reg.est.get('csse_active') is not None:
+                if reg.est['est_active'] < reg.est.get('csse_active'):
+                    log.debug("Node {!r}: Setting est_active={:.1f} [Prev {:.3f}, smaller] from CSSE".format(reg, reg.est['csse_active'], reg.est['est_active']))
+                    reg.est['est_active'] = reg.est['csse_active']
 
             for p in reg.sub:
                 rec(p)

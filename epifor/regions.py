@@ -248,16 +248,23 @@ class Regions:
 
         rec(self.root)
 
-    def fix_min_est(self, name, minimum=0, keep_nones=False):
+    def fix_min_est(self, name, minimum_from=None, minimum_mult=1.0, keep_nones=False):
         """
         Bottom-up: set est[name] to be at least sum of lower ests, and at least minimum.
         """
         def rec(reg):
+            if minimum_from is not None:
+                mfv = reg.est.get(minimum_from)
+                if mfv is not None:
+                    namev = reg.est.get(name, 0.0)
+                    if namev < mfv * minimum_mult:
+                        reg.est[name] = mfv * minimum_mult
+
             vs = [rec(r) for r in reg.sub]
             vs = [v for v in vs if v is not None]
             if vs or (reg.est.get(name) is not None) or (not keep_nones):
                 e = reg.est.get(name, 0.0)
-                mv = max(sum(vs), minimum, e if e is not None else 0.0)
+                mv = max(sum(vs), e if e is not None else 0.0)
             else:
                 mv = None
             reg.est[name] = mv
