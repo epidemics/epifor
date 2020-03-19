@@ -4,59 +4,54 @@ import argparse
 import csv
 import logging
 import pathlib
+import json
+import datetime
 
 import numpy as np
 import pandas as pd
 
 from epifor.gleam.simulation import SimSet, Simulation
+from epifor.regions import Regions
+from epifor.data.export import ExportDoc, ExportRegion
 
 log = logging.getLogger("process_data_hdf")
 
 
-PS_MITIGATION = [0.0, 0.3, 0.4, 0.5]
-PS_S = [0.85, 0.7, 0.1]
-PS_AT = [0.2, 0.7]
+def make_export_doc(regions, simset):
+    mitig_sims = {}
+    for s in simset.sims:
+        mitig_sims.setdefault(s.definition.param_mitigation, list()).append(s)
+    ed = ExportDoc(comment=f"{simset.sims[0].name}")
 
+    NAMES = ["High", "Medium", "Low"]
+    for r in regions:
+        er = ed.add_region(r)
+        infected_per_1000 = {}
+        pos_mits = sorted(x for x in mitig_sims.keys() if x > 0)
 
-def read_selection_tsv(path):
-    return pd.read_csv(path, sep="\t")[["Country", "GleamCode", "Kind"]]
+        ## Heuristic to find the intial rate of infected
+        minimum = 1e10
+        for mit in sorted(mitig_sims.keys()):
+            for s in mitig_sims[mit]:
+                sq = s.get_seq(er.gleam_id, er.kind)
+                minimum = min(minimum, np.min(sq[2, :] - sq[3, :]))
 
-
-def write_area_csv_v2(w, name, num, kind, sims, mitigation):
-    assert len(sims) > 0
-    time = sims[0].get_seq(num, kind).shape[1]
-    seqs = [s.get_seq(num, kind) for s in sims]
-    #### HACK: Guess the original infected ratio from minimal value (everyone healthy)
-    minimum = min([np.min(sq[2, :] - sq[3, :]) for sq in seqs])
-
-    for t in range(time):
-        row = [name, "{:.1f}".format(mitigation), t]
-        for sq in seqs:
-            # NOTE: This is CumulativeRecovered - CumulativeInfected
-            d = sq[2, t] - sq[3, t] - minimum
-            # NOTE: All the numbers are per person (not per 1000 as in export)
-            row.append("{:.4f}".format(1000.0 * d))
-        w.writerow(row)
-
-
-def write_csv_v2(simset, sel_tsv_path, dest_path):
-    with open(dest_path, "wt") as f:
-        w = csv.writer(f)
-        hdr = ["Country", "Mitigation", "Timestep"]
-        for at in PS_AT:
-            for s in PS_S:
-                hdr.append("Cumulative Median_s={:g}_at={:g}".format(s, at))
-        w.writerow(hdr)
-
-        sel = read_selection_tsv(sel_tsv_path)
-        for name, gc, kind in sel.itertuples(index=False):
-            log.info("Writing data for country {!r} [{}, {}]".format(name, kind, gc))
-            for mit in PS_MITIGATION:
-                sims = []
-                for at in PS_AT:
-                    for s in PS_S:
-                        sims.append(simset.by_param[(s, at, mit)])
-                write_area_csv_v2(w, name, gc, kind, sims, mit)
+        for mit in sorted(mitig_sims.keys()):
+            mit_name = "None" if mit == 0.0 else NAMES[pos_mits.index(mit)]
+            lines = {}
+            for s in mitig_sims[mit]:
+                lname = f"COVID seasonality {s.definition.param_seasonality:.2f}, Air traffic {s.definition.param_air_traffic:.2f}"
+                assert er.gleam_id is not None
+                assert er.kind is not None
+                sq = s.get_seq(er.gleam_id, er.kind)
+                d = sq[2, :] - sq[3, :] - minimum
+                lines[lname] = [round(float(x * 1000), 4) for x in d]
+            infected_per_1000[mit_name] = lines
+        er.data["infected_per_1000"] = {
+            "mitigations": infected_per_1000,
+            "start": simset.sims[0].definition.get_start_date().isoformat(),
+        }
+    return ed
 
 
 def main():
@@ -72,26 +67,36 @@ def main():
         "-d", "--debug", action="store_true", help="Display debugging mesages.",
     )
     ap.add_argument(
-        "-S",
-        "--selection_tsv",
-        default="data/country_selection.tsv",
-        help="Country/city selecton TSV (must contain IDs).",
+        "-o",
+        "--output_json",
+        default="data-staging-gleam.json",
+        help="Write JSON output to this file.",
     )
     ap.add_argument(
-        "-O",
-        "--output_csv",
-        default="line-data.csv",
-        help="Write CSV (line-data-v2) output to this file.",
+        "-r",
+        "--regions",
+        type=str,
+        default="data/regions.yaml",
+        help="Regions YAML file to use.",
+    )
+    ap.add_argument(
+        "-R", "--select_regions", required=True, help="Region keys separated with '|'.",
     )
 
     args = ap.parse_args()
     if args.debug:
         logging.root.setLevel(logging.DEBUG)
 
+    rs = Regions.load_from_yaml(args.regions)
+
     simset = SimSet()
     for d in args.SIM_DIRS:
         simset.load_sim(d)
-    write_csv_v2(simset, args.selection_tsv, args.output_csv)
+
+    regs = [rs[key] for key in args.select_regions.split("|")]
+    ed = make_export_doc(regs, simset)
+    with open(args.output_json, "wt") as f:
+        json.dump(ed.to_json(toweb=True), f)
 
 
 if __name__ == "__main__":

@@ -16,7 +16,7 @@ requests = "^2.23.0"
 numpy = "^1.18.1"
 python-dateutil = "^2.8.1"
 unidecode = "^1.1.1"
-
+google-cloud-firestore = "^1.6"
 
 [tool.poetry.dev-dependencies]
 black = "^19.10b0"

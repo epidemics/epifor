@@ -54,8 +54,8 @@ def main():
         "-r",
         "--regions",
         type=str,
-        default="data/regions.csv",
-        help="Regions csv file to use.",
+        default="data/regions.yaml",
+        help="Regions YAML file to use.",
     )
     ap.add_argument(
         "-f",
@@ -97,8 +97,7 @@ def main():
     if args.by_date is not None:
         args.by_date = dateutil.parser.parse(args.by_date).astimezone()
 
-    rs = Regions()
-    rs.load(args.regions)
+    rs = Regions.load_from_yaml(args.regions)
 
     # Fix any missing / inconsistent pops
     rs.heuristic_set_pops()
@@ -118,7 +117,7 @@ def main():
     ft.propagate_down(rs)
 
     # Propagate estimates upwards to super-regions
-    rs.fix_min_est("est_active", keep_nones=True)
+    rs.fix_min_est("est_active", keep_nones=True, minimum_from="csse_active", minimum_mult=3.0)  ## TODO: param for mult
 
     rs.check_missing_estimates("est_active")
 
