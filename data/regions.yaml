@@ -8482,8 +8482,8 @@ subregions:
             iana: SIN
     -   key: north korea
         names:
+        - North Korea
         - Korea, Dem. Rep.
-        - north korea
         - korea, north
         kind: country
         population: 25490000
@@ -10199,13 +10199,13 @@ subregions:
                 iana: AAT
         -   key: hong kong
             names:
-            - hong kong
+            - Hong kong region
+            - Hong Kong
             kind: state
             population: 7482000
             subregions:
             -   key: hong kong city
                 names:
-                - Hong Kong city
                 - Hong Kong
                 kind: city
                 population: 7206000
@@ -10394,9 +10394,9 @@ subregions:
             iana: ULN
     -   key: south korea
         names:
+        - South Korea
         - Korea, Rep.
         - korea, south
-        - south korea
         kind: country
         population: 51246000
         gleam_id: 115
@@ -11529,8 +11529,8 @@ subregions:
             iana: KIV
     -   key: russia
         names:
+        - Russia
         - Russian Federation
-        - russia
         kind: country
         population: 146745000
         gleam_id: 178
@@ -14087,8 +14087,8 @@ subregions:
                 iana: LCA
         -   key: czech republic
             names:
+            - Czechia
             - Czech Republic
-            - czechia
             kind: country
             population: 10562000
             gleam_id: 55
@@ -21449,8 +21449,8 @@ subregions:
             iana: FSP
     -   key: united states
         names:
+        - United States
         - United States of America
-        - united states
         - us
         kind: country
         population: 328239000
