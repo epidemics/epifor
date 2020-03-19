@@ -1,48 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <simulation xmlns="http://www.gleamviz.org/xmlns/gleamviz_v4_0">
-  <definition id="1584278846896.EE2" name="covid simple feb(clone)(clone)(clone)(clone)_FTup_2020-03-14_20:53:27(clone)(clone)(clone)" type="multi-run">
+  <definition id="1584535541170.EE2" type="multi-run" name="new_generation">
     <compartmentalModel>
       <compartments>
-        <compartment isTraveller="true" isCommuter="true" id="Susceptible" isCarrier="false" color="#51b2b7" y="35" x="409" isSecondary="false"/>
-        <compartment isTraveller="true" isCommuter="true" id="Exposed" isCarrier="true" color="#f59123" y="158" x="218" isSecondary="true"/>
-        <compartment isTraveller="false" isCommuter="false" id="Infectious" isCarrier="true" color="#ff5127" y="291" x="218" isSecondary="false"/>
-        <compartment isTraveller="true" isCommuter="true" id="Recovered" isCarrier="false" color="#89c443" y="430" x="218" isSecondary="false"/>
+        <compartment isCarrier="false" id="Susceptible" isCommuter="true" isSecondary="false" y="35" isTraveller="true" color="#51b2b7" x="409"/>
+        <compartment isCarrier="true" id="Exposed" isCommuter="true" isSecondary="true" y="158" isTraveller="true" color="#f59123" x="218"/>
+        <compartment isCarrier="true" id="Infectious" isCommuter="false" isSecondary="false" y="291" isTraveller="false" color="#ff5127" x="218"/>
+        <compartment isCarrier="false" id="Recovered" isCommuter="true" isSecondary="false" y="430" isTraveller="true" color="#89c443" x="218"/>
       </compartments>
       <ratioTransitions>
-        <ratioTransition source="Exposed" labelPosition="0.5" ratio="epsilon" target="Infectious"/>
-        <ratioTransition source="Infectious" labelPosition="0.5" ratio="mu" target="Recovered"/>
-        <ratioTransition source="Recovered" labelPosition="0.5" ratio="imu" target="Susceptible"/>
+        <ratioTransition labelPosition="0.5" ratio="epsilon" source="Exposed" target="Infectious"/>
+        <ratioTransition labelPosition="0.5" ratio="mu" source="Infectious" target="Recovered"/>
+        <ratioTransition labelPosition="0.5" ratio="imu" source="Recovered" target="Susceptible"/>
       </ratioTransitions>
       <infections>
         <infection source="Susceptible" target="Exposed">
-          <infector source="Infectious" y="0" ratio="beta" x="130"/>
+          <infector y="0" ratio="beta" source="Infectious" x="130"/>
         </infection>
       </infections>
       <variables>
-        <variable name="beta" value="0.7"/>
-        <variable name="epsilon" value="0.2"/>
-        <variable name="mu" value="0.3"/>
-        <variable name="imu" value="0"/>
+        <variable value="1.285" name="beta"/>
+        <variable value="0.2" name="epsilon"/>
+        <variable value="0.5" name="mu"/>
+        <variable value="0" name="imu"/>
       </variables>
     </compartmentalModel>
-    <parameters secondaryEvents="1" flightsTimeAggregation="month" seasonalityAlphaMin="0.10" duration="360" startDate="2020-02-25" commutingModel="gravity" occupancyRate="60" outbreakSize="1" commutingRate="7" seasonalityEnabled="true" runCount="3"/>
+    <parameters flightsTimeAggregation="month" startDate="2020-03-16" commutingRate="7" duration="250" seasonalityEnabled="true" outbreakSize="1" occupancyRate="60" seasonalityAlphaMin="0.90" runCount="2" commutingModel="gravity" secondaryEvents="1"/>
     <notes/>
     <initialCompartments>
-      <initialCompartment fraction="100" compartment="Susceptible"/>
+      <initialCompartment compartment="Susceptible" fraction="90"/>
+      <initialCompartment compartment="Recovered" fraction="10"/>
     </initialCompartments>
     <seeds>
-      <seed number="150608" city="2966" compartment="Infectious"/>
-      <seed number="60706" city="2874" compartment="Infectious"/>
-      <seed number="49811" city="2927" compartment="Infectious"/>
-      <seed number="49811" city="2928" compartment="Infectious"/>
-      <seed number="49811" city="2929" compartment="Infectious"/>
-      <seed number="49811" city="2931" compartment="Infectious"/>
-      <seed number="49811" city="2933" compartment="Infectious"/>
-      <seed number="49811" city="2934" compartment="Infectious"/>
-      <seed number="49811" city="2936" compartment="Infectious"/>
-      <seed number="49811" city="2937" compartment="Infectious"/>
-      <seed number="49811" city="2938" compartment="Infectious"/>
-      <seed number="49811" city="2941" compartment="Infectious"/>
+      <seed city="2966" compartment="Infectious" number="660049" />
+      <seed city="2966" compartment="Exposed" number="858063" />
     </seeds>
     <resultCompartments>
       <id>Susceptible</id>
@@ -51,28 +42,19 @@
       <id>Recovered</id>
     </resultCompartments>
     <exceptions>
-      <exception countries="39" from="2020-02-25" till="2021-02-19" basins="" regions="" continents="" hemispheres="">
-        <variable name="beta" value="0.3"/>
+      <exception basins="" countries="39" from="2020-02-25" hemispheres="" till="2030-01-01" regions="" continents="">
+        <variable value="0.3" name="beta"/>
       </exception>
-      <exception countries="" from="2020-03-08" till="2021-02-19" basins="477" regions="" continents="" hemispheres="">
-        <variable name="beta" value="0.3"/>
+      <exception basins="477" countries="" from="2020-03-08" hemispheres="" till="2030-01-01" regions="" continents="">
+        <variable value="0.15" name="beta"/>
       </exception>
-      <exception countries="115" from="2020-03-08" till="2021-02-19" basins="" regions="" continents="" hemispheres="">
-        <variable name="beta" value="0.5"/>
-      </exception>
-      <exception countries="104 65 71 55" from="2020-02-25" till="2021-02-19" basins="" regions="" continents="" hemispheres="">
-        <variable name="beta" value="0.35"/>
-      </exception>
-      <exception countries="" from="2020-03-01" till="2021-01-31" basins="" regions="" continents="0" hemispheres="">
-        <variable name="beta" value="0.35"/>
-      </exception>
-    </exceptions>
+  </exceptions>
   </definition>
   <metadata>
     <creationDate>2020-02-25T15:10:50</creationDate>
     <clientVersion>7.0</clientVersion>
   </metadata>
   <extradata>
-    <userVariableOrder>beta epsilon mu</userVariableOrder>
+    <userVariableOrder>beta epsilon mu imu</userVariableOrder>
   </extradata>
 </simulation>

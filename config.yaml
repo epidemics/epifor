@@ -43,11 +43,11 @@ mitigations:
   - param_beta: 1.285
     label: "None"
   - param_beta: 1.156 # 90%
-    label: "Weak"
+    label: "Low"
   - param_beta: 1.028 # 80%
-    label: "Moderate"
+    label: "Medium"
   - param_beta: 0.899 # 70%
-    label: "Strong"
+    label: "High"
   
 # Use keys from regions.yaml
 regions:
