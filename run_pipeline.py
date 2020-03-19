@@ -105,7 +105,7 @@ def secondary_phase(cfg):
         assert er.gleam_id is not None
         assert er.kind is not None
 
-        initial_number = 1e10
+        initial_number = 0.0
         for s in simset.sims:
             sq = s.get_seq(er.gleam_id, er.kind)
             initial_number = max(initial_number, -np.min(sq[2, :] - sq[3, :]))
@@ -130,7 +130,7 @@ def secondary_phase(cfg):
                     die(f"Simulation for mitigation {mit['label']}, {sce['name']} not found!")
                 sq = s.get_seq(er.gleam_id, er.kind)
                 d = sq[2, :] - sq[3, :] + initial_number
-                lines[sce['name']] = list(float(x) for x in d)
+                lines[sce['name']] = list(float(x * 1000) for x in d)
 
             infected_per_1000[mit['label']] = lines
 
