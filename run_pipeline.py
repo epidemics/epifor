@@ -128,7 +128,7 @@ def secondary_phase(cfg):
 
     with open(out_json, "wt") as f:
         json.dump(ed.to_json(toweb=True), f)
-
+    log.info(f"Wrote gleam chart data into {out_json}")
 
 
 def main():
