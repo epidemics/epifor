@@ -12,12 +12,9 @@ import yaml
 log = logging.getLogger()
 
 
-def primary_phase(cfg, path):
-    out_dir = Path(cfg["output_dir"]).expanduser()
-    out_dir.mkdir(exist_ok=True)
-    run_name = f"epifor-{datetime.datetime.now().astimezone().isoformat()}"
-
+def fetch_data(cfg):
     log.info(f"Fetching Foretold data ...")
+    assert cfg['foretold_channel'] != "SECRET"
     cmd = ["./fetch_foretold.py", "-c", cfg['foretold_channel']]
     log.debug(f"Running {cmd!r}")
     subprocess.run(cmd, check=True)
@@ -26,6 +23,12 @@ def primary_phase(cfg, path):
     cmd = ["./fetch_csse.sh"]
     log.debug(f"Running {cmd!r}")
     subprocess.run(cmd, check=True)
+
+
+def primary_phase(cfg, path):
+    out_dir = Path(cfg["output_dir"]).expanduser()
+    out_dir.mkdir(exist_ok=True)
+    run_name = f"epifor-{datetime.datetime.now().astimezone().isoformat()}"
 
     est_xml = out_dir / (run_name + ".est.xml")
     log.info(f"Estimating population into {est_xml}")
@@ -96,6 +99,7 @@ def main():
         cfg = yaml.safe_load(f)
 
     if args.primary:
+        fetch_data(cfg)
         primary_phase(cfg, args.primary)
     if args.secondary:
         secondary_phase(cfg)

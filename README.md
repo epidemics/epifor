@@ -5,9 +5,61 @@ Libraries and utilities for data handling, estimation and modelling of epidemics
 * Needs Python 3.7+, git, poetry.
 * Install requirements with `poetry install`.
 
-## Pipeline overview
+## Short guide (with new pipeline runner)
 
 (Uppercase filenames are just placeholders, others are changeable defaults.)
+
+### Install / preparation
+
+* First, [install Poetry](https://python-poetry.org/docs/#installation)
+
+```sh
+git clone https://github.com/epidemics/epifor
+cd epifor
+
+poetry install
+
+# Do not modify the original config.yaml or definition-example.xml
+cp config.yaml config-local.yaml
+cp data/data/definition-example.xml definition-local.xml
+```
+
+* If you want to upload to the GCS bucket storege for the web, [get gsutil](https://cloud.google.com/storage/docs/gsutil_install) and configure it with your goole account.
+
+```sh
+gsutil config
+```
+
+* Edit `config-local.yaml`: set "gleamviz_dir" and "foretold_channel" (this is non-public, sorry)
+* (optional) Run GleamViz and import and edit the xml definition, then export it.
+* Make sure that directory `YOUR_GLEAM_DIR/data/sims/` exists or create it
+
+### Running a batch of simulations
+
+* Update your `definition-local.xml` (text editor or GleamViz import+export)
+* **NOTE:** Do not run any scripts while GleamViz is running.
+* **NOTE:** Before creating a new batch, run GleamViz and remove all simulations. (Clearing `/GLEAM_DIR/data/sims` by hand is not enough.)
+
+```sh
+./run_pipeline.py config-local.yaml -P definition-local.xml
+```
+
+* Run GleamViz, all the created simulations should be there.
+* Run all simulations (there is a limit on how many at once you can run, also some daily limit?)
+* Retrieve all simulations (can be done in parallel). (You do not need to export them!)
+
+```sh
+./run_pipeline.py config-local.yaml -S
+```
+* This creates the file `out/DATE-TIME-gleam.json`
+* Push it to `data-CHANNEL-gleam.json`, where channel is `staging` (testing), `main` or anything else (will beavailable at URL )
+
+```sh
+./push_to_bucket.sh out/DATE-TIME-gleam.json data-staging-gleam.json
+```
+
+
+## Pipeline overview
 
 ### Fetch and create data
 
