@@ -88,6 +88,8 @@ class GleamDef:
         return dateutil.parser.parse(self.f1('./gv:definition/gv:parameters').get('startDate'))
 
     def set_start_date(self, date):
+        if isinstance(date, datetime.datetime):
+            date = date.date()
         assert isinstance(date, datetime.date)
         self.f1('./gv:definition/gv:parameters').set('startDate', date.isoformat())
 

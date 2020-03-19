@@ -95,7 +95,7 @@ def main():
     if args.INPUT_XML and args.output_xml is None:
         args.output_xml = str(pathlib.Path(args.INPUT_XML).with_suffix(".est.xml"))
     if args.by_date is not None:
-        args.by_date = dateutil.parser.parse(args.by_date).astimezone()
+        args.by_date = dateutil.parser.parse(args.by_date)
 
     rs = Regions.load_from_yaml(args.regions)
 
@@ -106,7 +106,7 @@ def main():
     # Load and apply FT
     ft = FTData()
     ft.load(args.foretold)
-    ft.apply_to_regions(rs, before=args.by_date)
+    ft.apply_to_regions(rs, before=args.by_date.astimezone())
 
     # Load and apply CSSE
     csse = CSSEData()
