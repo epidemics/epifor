@@ -130,7 +130,7 @@ def secondary_phase(cfg):
                     die(f"Simulation for mitigation {mit['label']}, {sce['name']} not found!")
                 sq = s.get_seq(er.gleam_id, er.kind)
                 d = sq[2, :] - sq[3, :] + initial_number
-                lines[sce['name']] = d
+                lines[sce['name']] = list(float(x) for x in d)
 
             infected_per_1000[mit['label']] = lines
 
