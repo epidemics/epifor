@@ -115,7 +115,7 @@ def secondary_phase(cfg):
         for mit in cfg["mitigations"]:
             lines = {}
             for sce in cfg["scenarios"]:
-                k = (mit['beta'], sce['param_seasonalityAlphaMin'], sce['param_occupancyRate'])
+                k = (mit['param_beta'], sce['param_seasonalityAlphaMin'], sce['param_occupancyRate'])
                 s = simset.by_param[k]
                 sq = s.get_seq(er.gleam_id, er.kind)
                 d = sq[2, :] - sq[3, :] + initial_number
