@@ -2,19 +2,31 @@
 
 import argparse
 import datetime
+import json
 import logging
+import subprocess
 import sys
 from pathlib import Path
-import subprocess
 
+import numpy as np
 import yaml
+
+from epifor import Region, Regions
+from epifor.data.export import ExportDoc, ExportRegion
+from epifor.gleam import SimSet
 
 log = logging.getLogger()
 
 
+def die(msg):
+    log.fatal(msg)
+    sys.exit(1)
+
+
 def fetch_data(cfg):
     log.info(f"Fetching Foretold data ...")
-    assert cfg['foretold_channel'] != "SECRET"
+    if cfg['foretold_channel'] == "SECRET":
+        die("`foretold_channel` in the config file is not set to non-default value.")
     cmd = ["./fetch_foretold.py", "-c", cfg['foretold_channel']]
     log.debug(f"Running {cmd!r}")
     subprocess.run(cmd, check=True)
@@ -49,7 +61,9 @@ def primary_phase(cfg, path):
 
     sims_dir = Path(cfg["gleamviz_dir"]).expanduser() / "data" / "sims"
     log.info(f"Parametrizing runs into {sims_dir}")
-    assert sims_dir.is_dir()
+    if not sims_dir.is_dir():
+        die(f"Directory {sims_dir} does not exist!")
+
     Ps = []
     for m in cfg["mitigations"]:
         for s in cfg["scenarios"]:
@@ -69,7 +83,52 @@ def primary_phase(cfg, path):
 
 
 def secondary_phase(cfg):
-    pass
+    rs = Regions.load_from_yaml('data/regions.yaml')
+
+    simset = SimSet()
+    sims_dir = Path(cfg["gleamviz_dir"]).expanduser() / "data" / "sims"
+    basename = None
+    for d in sims_dir.iterdir():
+        if d.suffix == '.gvh5':
+            s = simset.load_sim(d)
+            basename = s.definition.get_name().split(" ")[0]
+    if not simset.sims:
+        die("Did not load any results.")
+
+    out_dir = Path(cfg["output_dir"]).expanduser()
+    out_json = out_dir / f"epifor-{basename}.json"
+
+    regions = [rs[rk] for rk in cfg['regions']]
+    ed = ExportDoc(comment=f"{basename}")
+    for r in regions:
+        er = ed.add_region(r)
+        assert er.gleam_id is not None
+        assert er.kind is not None
+        infected_per_1000 = {}
+
+        initial_number = 1e10
+        for s in simset.sims:
+            sq = s.get_seq(er.gleam_id, er.kind)
+            initial_number = max(initial_number, -np.min(sq[2, :] - sq[3, :]))
+        initial_number = max(initial_number, 0.0)
+
+        for mit in cfg["mitigations"]:
+            lines = {}
+            for sce in cfg["scenarios"]:
+                k = (mit['beta'], sce['param_seasonalityAlphaMin'], sce['param_occupancyRate'])
+                s = simset.by_param[k]
+                sq = s.get_seq(er.gleam_id, er.kind)
+                d = sq[2, :] - sq[3, :] + initial_number
+                lines[sce['name']] = d
+            infected_per_1000[mit['label']] = lines
+        er.data["infected_per_1000"] = {
+            "mitigations": infected_per_1000,
+            "start": simset.sims[0].definition.get_start_date().isoformat(),
+        }
+
+    with open(out_json, "wt") as f:
+        json.dump(ed.to_json(toweb=True), f)
+
 
 
 def main():
@@ -93,8 +152,7 @@ def main():
     if args.debug:
         logging.root.setLevel(logging.DEBUG)
     if bool(args.primary) == bool(args.secondary):
-        logging.fatal("Provide exactly one of -P, -S.")
-        sys.exit(1)
+        die("Provide exactly one of -P, -S.")
     with open(args.CONFIG_YAML, "rt") as f:
         cfg = yaml.safe_load(f)
 

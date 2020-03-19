@@ -12,7 +12,7 @@ log = logging.getLogger("simulation")
 class Simulation:
     def __init__(self, gleamdef, hdf_file, dir_path=None):
         self.definition = gleamdef
-        self.name = self.definition.name
+        self.name = self.definition.get_name()
         assert isinstance(hdf_file, (h5py.File, None))
         self.hdf = hdf_file
         self.dir = dir_path
@@ -30,6 +30,7 @@ class Simulation:
         else:
             hf = h5py.File(h5path, "r")
         gd = GleamDef(path / "definition.xml")
+        log.debug(f"Loaded Gleam info {gd.get_name()}")
         return cls(gd, hf, path)
 
     def __repr__(self):
@@ -54,9 +55,9 @@ class SimSet:
         if not s:
             return None
         k = (
-            s.definition.param_seasonality,
-            s.definition.param_air_traffic,
-            s.definition.param_mitigation,
+            s.definition.get_beta(),
+            s.definition.get_seasonality(),
+            s.definition.get_traffic_occupancy(),
         )
         assert k not in self.by_param
         self.by_param[k] = s

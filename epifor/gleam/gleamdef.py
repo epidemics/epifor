@@ -115,6 +115,15 @@ class GleamDef:
         v = int(max(min(val * 100, 100), 0))
         self.f1('./gv:definition/gv:parameters').set('occupancyRate', str(v))
 
+    def get_traffic_occupancy(self):
+        return int(self.f1('./gv:definition/gv:parameters').get('occupancyRate'))
+
+    def set_traffic_occupancy(self, val):
+        assert isinstance(val, int)
+        v = int(max(min(val, 100), 0))
+        self.f1('./gv:definition/gv:parameters').set('occupancyRate', str(v))
+
+
     ### Naming conveniences
 
     def fmt_params(self):
