@@ -118,11 +118,11 @@ def secondary_phase(cfg):
             for sce in cfg["scenarios"]:
                 s = None
                 for si in simset.sims:
-                    if abs(mit['param_beta'] - s.definition.get_beta()) > 0.02:
+                    if abs(mit['param_beta'] - si.definition.get_beta()) > 0.02:
                         continue
-                    if abs(sce['param_seasonalityAlphaMin'] - s.definition.get_seasonality()) > 0.02:
+                    if abs(sce['param_seasonalityAlphaMin'] - si.definition.get_seasonality()) > 0.02:
                         continue
-                    if sce['param_occupancyRate'] != s.definition.get_traffic_occupancy():
+                    if sce['param_occupancyRate'] != si.definition.get_traffic_occupancy():
                         continue
                     s = si
 
