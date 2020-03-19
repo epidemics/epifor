@@ -17,6 +17,16 @@ def primary_phase(cfg, path):
     out_dir.mkdir(exist_ok=True)
     run_name = f"epifor-{datetime.datetime.now().astimezone().isoformat()}"
 
+    log.info(f"Fetching Foretold data ...")
+    cmd = ["./fetch_foretold.py", "-c", cfg['foretold_channel']]
+    log.debug(f"Running {cmd!r}")
+    subprocess.run(cmd, check=True)
+
+    log.info(f"Fetching Foretold data ...")
+    cmd = ["./fetch_csse.sh"]
+    log.debug(f"Running {cmd!r}")
+    subprocess.run(cmd, check=True)
+
     est_xml = out_dir / (run_name + ".est.xml")
     log.info(f"Estimating population into {est_xml}")
     cmd = [
