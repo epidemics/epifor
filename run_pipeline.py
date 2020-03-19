@@ -104,7 +104,6 @@ def secondary_phase(cfg):
         er = ed.add_region(r)
         assert er.gleam_id is not None
         assert er.kind is not None
-        infected_per_1000 = {}
 
         initial_number = 1e10
         for s in simset.sims:
@@ -112,15 +111,29 @@ def secondary_phase(cfg):
             initial_number = max(initial_number, -np.min(sq[2, :] - sq[3, :]))
         initial_number = max(initial_number, 0.0)
 
+        infected_per_1000 = {}
         for mit in cfg["mitigations"]:
             lines = {}
+
             for sce in cfg["scenarios"]:
-                k = (mit['param_beta'], sce['param_seasonalityAlphaMin'], sce['param_occupancyRate'])
-                s = simset.by_param[k]
+                s = None
+                for si in simset.sims:
+                    if abs(mit['param_beta'] - s.definition.get_beta()) > 0.02:
+                        continue
+                    if abs(sce['param_seasonalityAlphaMin'] - s.definition.get_seasonality()) > 0.02:
+                        continue
+                    if sce['param_occupancyRate'] != s.definition.get_traffic_occupancy():
+                        continue
+                    s = si
+
+                if s is None:
+                    die(f"Simulation for mitigation {mit['label']}, {sce['name']} not found!")
                 sq = s.get_seq(er.gleam_id, er.kind)
                 d = sq[2, :] - sq[3, :] + initial_number
                 lines[sce['name']] = d
+
             infected_per_1000[mit['label']] = lines
+
         er.data["infected_per_1000"] = {
             "mitigations": infected_per_1000,
             "start": simset.sims[0].definition.get_start_date().isoformat(),
