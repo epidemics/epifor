@@ -130,6 +130,7 @@ def main():
     # Load and update
     if args.INPUT_XML:
         gv = GleamDef(args.INPUT_XML)
+        gv.set_start_date(args.by_date)
         gv.clear_seeds()
         gv.add_seeds(rs, est_key="est_active", compartments={"Infectious": 1.0, "Exposed": args.add_exposed_mult}, top=args.keep_cities)
         gv.save(args.output_xml)

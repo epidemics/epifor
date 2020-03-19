@@ -78,11 +78,14 @@ def main():
 
     for ps in params_list:
         gv2 = gv.copy()
-        gv2.param_seasonality = ps[0]
-        gv2.param_air_traffic = ps[1]
-        gv2.param_mitigation = ps[2]
+        gv2.set_seasonality(ps[0])
+        gv2.set_air_traffic(ps[1])
+        #gv2.param_mitigation = ps[2]
+        gv2.set_beta(ps[2])
+        gvp = pathlib.Path(args.INPUT_XML)
+        gv2.set_name(gv2.full_name(gvp.with_suffix('').with_suffix('').stem))
         if args.gleam_dirs:
-            gvid = "{}.574".format(random.randint(5000000000000, 5010000000000))
+            gvid = "{}.574".format(random.randint(1700000000000, 1800000000000))
             gv2.set_id(gvid)
             p = args.PREFIX / "{}.gvh5".format(gvid)
             p.mkdir()

@@ -37,10 +37,8 @@ class GleamDef:
             assert prefix is not None
             prefix = pathlib.Path(prefix)
             filename = prefix.parent / (self.full_name(prefix.stem).replace(' ', '_') + ".xml")
-            self.name = self.full_name(prefix.stem)
         else:
             filename = pathlib.Path(filename)
-            self.name = self.full_name(filename.stem)
         self.tree.write(filename) #, default_namespace=self.ns['gv'])
         log.info("Written Gleam definition XML to {!r} (updated from {!r})".format(filename, self.path))
 
@@ -70,32 +68,60 @@ class GleamDef:
 
         log.info("Added {} seeds for compartments {!r}".format(len(regs[:top]), list(compartments)))
 
-    @property
-    def name(self):
+    ### General attributes
+
+    def get_name(self):
         return self.f1('./gv:definition').attrib['name']
 
-    @name.setter
-    def name(self, val):
+    def set_name(self, val):
         self.f1('./gv:definition').attrib['name'] = val
 
-    @property
-    def param_seasonality(self):
-        return float(self.f1('./gv:definition/gv:parameters').attrib['seasonalityAlphaMin'])
+    def get_id(self):
+        return self.f1('gv:definition').get('id')
 
-    @param_seasonality.setter
-    def param_seasonality(self, val):
+    def set_id(self, val):
+        return self.f1('gv:definition').set('id', str(val))
+
+    ### Parameters
+
+    def get_start_date(self):
+        return dateutil.parser.parse(self.f1('./gv:definition/gv:parameters').get('startDate'))
+
+    def set_start_date(self, date):
+        assert isinstance(date, datetime.date)
+        self.f1('./gv:definition/gv:parameters').set('startDate', date.isoformat())
+
+    def get_seasonality(self):
+        return float(self.f1('./gv:definition/gv:parameters').get('seasonalityAlphaMin'))
+
+    def set_seasonality(self, val):
         assert val <= 2.0
-        self.f1('./gv:definition/gv:parameters').attrib['seasonalityAlphaMin'] = "{:.2f}".format(val)
+        self.f1('./gv:definition/gv:parameters').set('seasonalityAlphaMin', f"{val:.2f}")
 
-    @property
-    def param_air_traffic(self):
-        return float(self.f1('./gv:definition/gv:parameters').attrib['occupancyRate']) / 100
+    def get_beta(self):
+        return float(self.f1('./gv:definition/gv:compartmentalModel/gv:variables/gv:variable[@name="beta"]').get('value'))
 
-    @param_air_traffic.setter
-    def param_air_traffic(self, val):
+    def set_beta(self, val):
+        assert val >= 0.0
+        self.f1('./gv:definition/gv:compartmentalModel/gv:variables/gv:variable[@name="beta"]').set('value', f"{val:.2f}")
+
+    def get_air_traffic(self):
+        return float(self.f1('./gv:definition/gv:parameters').get('occupancyRate')) / 100.0
+
+    def set_air_traffic(self, val):
         assert val < 1.1
         v = int(max(min(val * 100, 100), 0))
-        self.f1('./gv:definition/gv:parameters').attrib['occupancyRate'] = str(v)
+        self.f1('./gv:definition/gv:parameters').set('occupancyRate', str(v))
+
+    ### Naming conveniences
+
+    def fmt_params(self):
+        return f"seasonality={self.get_seasonality():.2f} airtraffic={self.get_air_traffic():.2f} beta={self.get_beta():.2f}"
+
+    def full_name(self, base_name):
+        return "{} {} {}".format(base_name, self.updated_fmt, self.fmt_params())
+
+    ### Exceptions handling
 
     def _mitigation_nodes(self):
         return self.fa('gv:definition/gv:exceptions/gv:exception[@continents="1 2 4 3 5"]/gv:variable[@name="beta"]')
@@ -124,17 +150,4 @@ class GleamDef:
                 raise Exception("Can't set mitigation >0 in file withou global mitigation Exception node.")
             mns[0].set('value', "{:.2f}".format(val))
 
-    def get_id(self):
-        return self.f1('gv:definition').get('id')
 
-    def set_id(self, val):
-        return self.f1('gv:definition').set('id', str(val))
-
-    def fmt_params(self):
-        return "seasonality={:.2f} airtraffic={:.2f} mitigation={:.2f}".format(self.param_seasonality, self.param_air_traffic, self.param_mitigation)
-
-    def full_name(self, base_name):
-        return "{} {} {}".format(base_name, self.updated_fmt, self.fmt_params())
-
-    def get_start_date(self):
-        return dateutil.parser.parse(self.f1('./gv:definition/gv:parameters').get('startDate'))
