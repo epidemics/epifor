@@ -1,5 +1,7 @@
 # Epidemic Forecasting library and tools
 
+**Note: Track issues for this repo in https://github.com/epidemics/covid/issues**
+
 Libraries and utilities for data handling, estimation and modelling of epidemics. Part of https://github.com/epidemics/ project.
 
 * Needs Python 3.7+, git, poetry.
