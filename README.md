@@ -60,8 +60,18 @@ gsutil config
 ./push_to_bucket.sh out/DATE-TIME-gleam.json data-staging-gleam.json
 ```
 
+## Installing and running GLEAMViz in Linux
 
-## Pipeline overview
+When you install GleamVIz in Linux, it adds `LD_LIBRARY_PATH="GLEAMviz/libs/"` to your configuration in `.bashrc`.
+I would suggest you remove it as gleam comes with its own copies of some low-level libraries.
+(It caused some issues on my system due to libc conflicts.)
+
+If you do the above, run GleamViz with `LD_LIBRARY_PATH="GLEAMviz/libs/" GLEAMviz/gleamviz`.
+
+Some people installing GleamViz on Linux have the issue that GLEAMViz crashes on start (sometimes complaining about some Qt dependency, I do not remember the exact error message).
+The root cause I found was that GleamViz ships with a part of libc, namely its own `libm.so.6` from libc 2.29 (mine is 2.30). Renaming it helped resolve it for me and Daniel.
+
+## Pipeline overview (mostly outdated by the above)
 
 ### Fetch and create data
 
