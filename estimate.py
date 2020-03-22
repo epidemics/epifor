@@ -142,7 +142,7 @@ def main():
     import pandas as pd
     import yaml
 
-    REGION_COLUMN_NAME = "_iso_code"
+    REGION_COLUMN_NAME = "name"
     WANTED_COLUMNS = [
         "Recovered",
         "Confirmed",
@@ -153,87 +153,48 @@ def main():
     ]
 
     def check_countries(df: pd.DataFrame, regions: set) -> None:
-        unq_regions = set(df.name.unique())
+        unq_regions = set(df["_our_codes"].unique())
         diff = regions - unq_regions
         if diff:
-            raise RuntimeError(
+            logging.error(
                 f"Some wanted regions are not present in the case data: {diff}."
             )
+        # TODO: fix {'dubai', 'hong kong city', 'united states', 'south korea'}
 
-    from pycountry import countries
-    ISO_FALLBACK_DICT = {"Korea, South": "KOR", "Cruise Ship": "INVALID"}
-    CSSE_DICT = {"US": "USA",
-                 "Martinique": "MTQ",
-                 "Peru": "PER",
-                 "Jordan": "JOR",
-                 "Ireland": "IRL",
-                 "Mexico": "MEX",
-                 "Georgia": "GEO",
-                 "Oman": "OMN",
-                 "Spain": "ESP",
-                 "India": "IND",
-                 "Luxembourg": "LUX",
-                 "China": "CHN",
-                 "Iran": "IRN",
-                 "Taiwan": "TWN"}
-    def _get_iso(_x: str):
-        x = _x.strip('*')  # i.e. "Taiwan*"
-        try:
-            search = countries.search_fuzzy(x)
-        except LookupError:
-            if x in ISO_FALLBACK_DICT:
-                return ISO_FALLBACK_DICT[x]
-            else:
-                logging.error("Did my best but couldn't guess value for %s. Returning None", x)
-                return None
 
-        if len(search) > 1:
-            if x in CSSE_DICT:
-                return CSSE_DICT[x]
-            else:
-                logging.warning("Not knowing ISO code for %s. Guessing: %s (from %s)", x, search[0].alpha_3, search)
-        return search[0].alpha_3
-
-    def filter_countries(df: pd.DataFrame, config_path: str) -> pd.DataFrame:
+    def filter_countries(df: pd.DataFrame, config_path: str, rs) -> pd.DataFrame:
         regions = set(yaml.load(open(config_path), Loader=yaml.Loader)["regions"])
-        isos = {_get_iso(x) for x in regions}
-        print(f"Countries wanted: {isos}")
-        selected = df.loc[df[REGION_COLUMN_NAME].isin(isos)]
-        breakpoint()
-        check_countries(selected, isos)
+        print(f"Countries wanted: {regions}")
+        df["_our_codes"] = df[REGION_COLUMN_NAME].map(lambda x: rs.find_names(x)[0].key)
+        selected = df.loc[df["_our_codes"].isin(regions)]
+        check_countries(selected, regions)
         return selected
 
     def write_json_case(df: pd.DataFrame) -> pd.DataFrame:
+        breakpoint()
         return df
 
-
-    def add_iso3166_code(df: pd.DataFrame, source_column: str):
-        isos = {x: _get_iso(x) for x in df[source_column].unique()}
-        df[REGION_COLUMN_NAME] = df[source_column].map(isos)
-        return df
 
     def write_case_data(
-        _tmp_estimated: str, csse_df: pd.DataFrame, config_path: str
-    ) -> None:
+        _tmp_estimated: str, csse_df: pd.DataFrame, config_path: str,
+    rs) -> None:
         tmp_estimated = Path(_tmp_estimated)
         rs.write_est_csv(tmp_estimated, kinds=None)
-        css_iso = add_iso3166_code(csse_df, "Country/Region")
-        estimates_iso = (
+        estimates = (
             pd.read_csv(tmp_estimated)
-            .pipe(lambda x: x.loc[x["kind"].isin({"country", "state"})])
-            .pipe(add_iso3166_code, "name")
+            .pipe(lambda x: x.loc[x["kind"].isin({"citry", "country", "state"})])
         )
+        merge = pd.merge(estimates, csse_df, left_on="name", right_on="Country/Region", indicator="merge_key")
         res = (
-            pd.merge(estimates_iso, css_iso, on="_iso_code", indicator="merge_key")
-            .filter(items=WANTED_COLUMNS + [REGION_COLUMN_NAME])
-            .pipe(filter_countries, config_path)
+            merge
+            .filter(items=WANTED_COLUMNS)
+            .pipe(filter_countries, config_path, rs)
             .pipe(write_json_case)
         )
-        breakpoint()
         # res.to_csv("case_data.csv")
 
     if args.output_case:
-        write_case_data("/tmp/_estimated.csv", csse.df, args.config)
+        write_case_data("/tmp/_estimated.csv", csse.df, args.config, rs)
 
     if args.show_tree:
         rs.print_tree(kinds=("region", "continent", "world", "country"))
