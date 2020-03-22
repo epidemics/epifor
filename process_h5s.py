@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 
+import sys
 import argparse
 import csv
 import logging
 import pathlib
 import json
+import yaml
 import datetime
 
 import numpy as np
 import pandas as pd
+
 
 from epifor.gleam.simulation import SimSet, Simulation
 from epifor.regions import Regions
@@ -17,11 +20,25 @@ from epifor.data.export import ExportDoc, ExportRegion
 log = logging.getLogger("process_data_hdf")
 
 
-def make_export_doc(regions, simset):
+def match_params_with_config(seasonality, air_traffic, config):
+    for conf in config['scenarios']:
+        if (
+                conf['param_seasonalityAlphaMin'] == seasonality and
+                conf['param_occupancyRate'] == air_traffic
+        ):
+            lname = conf['name']
+            return lname
+
+    raise Exception("None Seasonality and air_traffic found")
+
+
+def make_export_doc(regions, simset, config):
     mitig_sims = {}
     for s in simset.sims:
         mitig_sims.setdefault(s.definition.param_mitigation, list()).append(s)
     ed = ExportDoc(comment=f"{simset.sims[0].name}")
+
+
 
     NAMES = ["High", "Medium", "Low"]
     for r in regions:
@@ -40,7 +57,8 @@ def make_export_doc(regions, simset):
             mit_name = "None" if mit == 0.0 else NAMES[pos_mits.index(mit)]
             lines = {}
             for s in mitig_sims[mit]:
-                lname = f"COVID seasonality {s.definition.param_seasonality:.2f}, Air traffic {s.definition.param_air_traffic:.2f}"
+                lname = match_params_with_config(s.definition.param_seasonality, s.definition.param_air_traffic, config)
+                # lname = f"COVID seasonality {s.definition.param_seasonality:.2f}, Air traffic {s.definition.param_air_traffic:.2f}"
                 assert er.gleam_id is not None
                 assert er.kind is not None
                 sq = s.get_seq(er.gleam_id, er.kind)
@@ -80,6 +98,12 @@ def main():
         help="Regions YAML file to use.",
     )
     ap.add_argument(
+       "-c",
+        "--config",
+        default="config-local.yaml",
+        help="Select the configuration file"
+    )
+    ap.add_argument(
         "-R", "--select_regions", required=True, help="Region keys separated with '|'.",
     )
 
@@ -89,12 +113,15 @@ def main():
 
     rs = Regions.load_from_yaml(args.regions)
 
+    with open(args.config, 'r') as file:
+        config = yaml.load(file, Loader=yaml.FullLoader)
+
     simset = SimSet()
     for d in args.SIM_DIRS:
         simset.load_sim(d)
 
     regs = [rs[key] for key in args.select_regions.split("|")]
-    ed = make_export_doc(regs, simset)
+    ed = make_export_doc(regs, simset, config)
     with open(args.output_json, "wt") as f:
         json.dump(ed.to_json(toweb=True), f)
 

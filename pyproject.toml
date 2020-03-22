@@ -18,6 +18,7 @@ python-dateutil = "^2.8.1"
 unidecode = "^1.1.1"
 #google-cloud-firestore = "^1.6"
 h5py = "^2.10"
+pyyaml = "^5.3.1"
 
 [tool.poetry.dev-dependencies]
 black = "^19.10b0"

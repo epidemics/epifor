@@ -59,6 +59,10 @@ class SimSet:
             s.definition.get_seasonality(),
             s.definition.get_traffic_occupancy(),
         )
+        s.definition.param_beta = k[0]
+        s.definition.param_seasonality = k[1]
+        s.definition.param_air_traffic = k[2]
+
         assert k not in self.by_param
         self.by_param[k] = s
         self.sims.append(s)
