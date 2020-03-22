@@ -6,21 +6,21 @@ import re
 import numpy as np
 import pandas as pd
 
-from ..common import SKIP, _n, UNABBREV
+from ..common import SKIP, UNABBREV, _n
 
 log = logging.getLogger("fttogv.csse")
 
-EXTERNAL_US = ['puerto rico', 'virgin islands, u.s.', 'guam']
+EXTERNAL_US = ["puerto rico", "virgin islands, u.s.", "guam"]
 
 FORCE_KINDS = {
-    'liberia': 'country',
-    'luxembourg': 'country',
-    'lebanon': 'country',
-    'kuwait': 'country',
+    "liberia": "country",
+    "luxembourg": "country",
+    "lebanon": "country",
+    "kuwait": "country",
 }
 
-class CSSEData:
 
+class CSSEData:
     def __init__(self):
         self.df = None
 
@@ -36,24 +36,24 @@ class CSSEData:
             dfs.append(df)
         d = dfs.pop()
         for d2 in dfs:
-            del d2['Lat']
-            del d2['Long']
-            d = d.merge(d2, on=["Province/State", "Country/Region"], how='outer')
-        d['Active'] = d['Confirmed'] - d['Deaths'] - d['Recovered']
+            del d2["Lat"]
+            del d2["Long"]
+            d = d.merge(d2, on=["Province/State", "Country/Region"], how="outer")
+        d["Active"] = d["Confirmed"] - d["Deaths"] - d["Recovered"]
         self.df = d
 
     def apply_to_regions(self, regions):
         "Add estimates to the regions. Note: adds to existing numbers!"
         for _i, r in self.df.iterrows():
-            province, country = _n(r['Province/State']), _n(r['Country/Region'])
+            province, country = _n(r["Province/State"]), _n(r["Country/Region"])
             if _n(province) in SKIP or _n(country) in SKIP:
                 continue
-            name = country if province == 'nan' else province
+            name = country if province == "nan" else province
             kind = None
 
             # Special handling of states, also US counties and cities with codes:
-            if country in ['us', 'china', 'canada', 'australia'] and province != 'nan':
-                m = re.search(', (..)\s*$', province)
+            if country in ["us", "china", "canada", "australia"] and province != "nan":
+                m = re.search(", (..)\s*$", province)
                 if m:
                     name = UNABBREV[m.groups()[0].upper()]
                 else:
@@ -69,10 +69,17 @@ class CSSEData:
 
             regs = regions.find_names(name, kind)
             if len(regs) < 1:
-                log.warning(f"CSSE region {name!r} [{kind}, from {country}/{province}] not found in Regions, skipping")
+                log.warning(
+                    f"CSSE region {name!r} [{kind}, from {country}/{province}] not found in Regions, skipping"
+                )
                 continue
             if len(regs) > 1:
-                log.warning("CSSE region %r %r matches several Regions: %r, skipping", name, (country, province), regs)
+                log.warning(
+                    "CSSE region %r %r matches several Regions: %r, skipping",
+                    name,
+                    (country, province),
+                    regs,
+                )
                 continue
             reg = regs[0]
 
@@ -80,7 +87,8 @@ class CSSEData:
             def app(name, col):
                 reg.est.setdefault(name, 0.0)
                 reg.est[name] += r[col]
-            app('csse_active', 'Active')
-            app('csse_confirmed', 'Confirmed')
-            app('csse_deaths', 'Deaths')
-            app('csse_recovered', 'Recovered')
+
+            app("csse_active", "Active")
+            app("csse_confirmed", "Confirmed")
+            app("csse_deaths", "Deaths")
+            app("csse_recovered", "Recovered")

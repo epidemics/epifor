@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
-import itertools
 import argparse
 import datetime
+import itertools
 import json
 import logging
 import pathlib
-import sys
 import random
+import sys
 
 import dateutil
 
@@ -24,7 +24,8 @@ def main():
         "INPUT_XML", help="Gleam definition template to use.",
     )
     ap.add_argument(
-        "PREFIX", help="Prefix for output defs, can be 'PATH/PREFIX'. With -D, it should be the GLEAMViz/data/sims/ dir",
+        "PREFIX",
+        help="Prefix for output defs, can be 'PATH/PREFIX'. With -D, it should be the GLEAMViz/data/sims/ dir",
     )
     ap.add_argument(
         "-P",
@@ -46,7 +47,10 @@ def main():
         "-d", "--debug", action="store_true", help="Display debugging mesages.",
     )
     ap.add_argument(
-        "-D", "--gleam_dirs", action="store_true", help="Create gleam dirs and set random IDs. PREFIX should be the GLEAMViz/data/sims/ dir.",
+        "-D",
+        "--gleam_dirs",
+        action="store_true",
+        help="Create gleam dirs and set random IDs. PREFIX should be the GLEAMViz/data/sims/ dir.",
     )
 
     args = ap.parse_args()
@@ -80,10 +84,10 @@ def main():
         gv2 = gv.copy()
         gv2.set_seasonality(ps[0])
         gv2.set_air_traffic(ps[1])
-        #gv2.param_mitigation = ps[2]
+        # gv2.param_mitigation = ps[2]
         gv2.set_beta(ps[2])
         gvp = pathlib.Path(args.INPUT_XML)
-        gv2.set_name(gv2.full_name(gvp.with_suffix('').with_suffix('').stem))
+        gv2.set_name(gv2.full_name(gvp.with_suffix("").with_suffix("").stem))
         if args.gleam_dirs:
             gvid = "{}.574".format(random.randint(1700000000000, 1800000000000))
             gv2.set_id(gvid)

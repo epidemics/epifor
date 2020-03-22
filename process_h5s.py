@@ -2,17 +2,17 @@
 
 import argparse
 import csv
+import datetime
+import json
 import logging
 import pathlib
-import json
-import datetime
 
 import numpy as np
 import pandas as pd
 
+from epifor.data.export import ExportDoc, ExportRegion
 from epifor.gleam.simulation import SimSet, Simulation
 from epifor.regions import Regions
-from epifor.data.export import ExportDoc, ExportRegion
 
 log = logging.getLogger("process_data_hdf")
 

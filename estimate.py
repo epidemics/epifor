@@ -6,8 +6,8 @@ import pathlib
 
 import dateutil
 
-from epifor.data import CSSEData, FTData
 from epifor import Regions
+from epifor.data import CSSEData, FTData
 from epifor.gleam import GleamDef
 
 log = logging.getLogger()
@@ -31,7 +31,8 @@ def main():
         help="Override output XML path (default is 'INPUT.est.xml').",
     )
     ap.add_argument(
-        "-k", "--keep_cities",
+        "-k",
+        "--keep_cities",
         type=int,
         default=None,
         help="Only output top # of most-infected cities in the XML.",
@@ -117,7 +118,9 @@ def main():
     ft.propagate_down(rs)
 
     # Propagate estimates upwards to super-regions
-    rs.fix_min_est("est_active", keep_nones=True, minimum_from="csse_active", minimum_mult=3.0)  ## TODO: param for mult
+    rs.fix_min_est(
+        "est_active", keep_nones=True, minimum_from="csse_active", minimum_mult=3.0
+    )  ## TODO: param for mult
 
     rs.check_missing_estimates("est_active")
 
@@ -132,7 +135,12 @@ def main():
         gv = GleamDef(args.INPUT_XML)
         gv.set_start_date(args.by_date)
         gv.clear_seeds()
-        gv.add_seeds(rs, est_key="est_active", compartments={"Infectious": 1.0, "Exposed": args.add_exposed_mult}, top=args.keep_cities)
+        gv.add_seeds(
+            rs,
+            est_key="est_active",
+            compartments={"Infectious": 1.0, "Exposed": args.add_exposed_mult},
+            top=args.keep_cities,
+        )
         gv.save(args.output_xml)
 
 

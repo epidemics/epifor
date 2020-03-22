@@ -25,9 +25,9 @@ def die(msg):
 
 def fetch_data(cfg):
     log.info(f"Fetching Foretold data ...")
-    if cfg['foretold_channel'] == "SECRET":
+    if cfg["foretold_channel"] == "SECRET":
         die("`foretold_channel` in the config file is not set to non-default value.")
-    cmd = ["./fetch_foretold.py", "-c", cfg['foretold_channel']]
+    cmd = ["./fetch_foretold.py", "-c", cfg["foretold_channel"]]
     log.debug(f"Running {cmd!r}")
     subprocess.run(cmd, check=True)
 
@@ -54,7 +54,7 @@ def primary_phase(cfg, path):
         "-D",
         cfg["start_date"].isoformat(),
         "-o",
-        est_xml,   
+        est_xml,
     ]
     log.info(f"Running {cmd!r}")
     subprocess.run(cmd, check=True)
@@ -83,13 +83,13 @@ def primary_phase(cfg, path):
 
 
 def secondary_phase(cfg):
-    rs = Regions.load_from_yaml('data/regions.yaml')
+    rs = Regions.load_from_yaml("data/regions.yaml")
 
     simset = SimSet()
     sims_dir = Path(cfg["gleamviz_dir"]).expanduser() / "data" / "sims"
     basename = None
     for d in sims_dir.iterdir():
-        if d.suffix == '.gvh5':
+        if d.suffix == ".gvh5":
             s = simset.load_sim(d)
             basename = s.definition.get_name().split(" ")[0]
     if not simset.sims:
@@ -98,7 +98,7 @@ def secondary_phase(cfg):
     out_dir = Path(cfg["output_dir"]).expanduser()
     out_json = out_dir / f"epifor-{basename}.json"
 
-    regions = [rs[rk] for rk in cfg['regions']]
+    regions = [rs[rk] for rk in cfg["regions"]]
     ed = ExportDoc(comment=f"{basename}")
     for r in regions:
         er = ed.add_region(r)
@@ -118,21 +118,32 @@ def secondary_phase(cfg):
             for sce in cfg["scenarios"]:
                 s = None
                 for si in simset.sims:
-                    if abs(mit['param_beta'] - si.definition.get_beta()) > 0.02:
+                    if abs(mit["param_beta"] - si.definition.get_beta()) > 0.02:
                         continue
-                    if abs(sce['param_seasonalityAlphaMin'] - si.definition.get_seasonality()) > 0.02:
+                    if (
+                        abs(
+                            sce["param_seasonalityAlphaMin"]
+                            - si.definition.get_seasonality()
+                        )
+                        > 0.02
+                    ):
                         continue
-                    if sce['param_occupancyRate'] != si.definition.get_traffic_occupancy():
+                    if (
+                        sce["param_occupancyRate"]
+                        != si.definition.get_traffic_occupancy()
+                    ):
                         continue
                     s = si
 
                 if s is None:
-                    die(f"Simulation for mitigation {mit['label']}, {sce['name']} not found!")
+                    die(
+                        f"Simulation for mitigation {mit['label']}, {sce['name']} not found!"
+                    )
                 sq = s.get_seq(er.gleam_id, er.kind)
                 d = sq[2, :] - sq[3, :] + initial_number
-                lines[sce['name']] = list(float(x * 1000) for x in d)
+                lines[sce["name"]] = list(float(x * 1000) for x in d)
 
-            infected_per_1000[mit['label']] = lines
+            infected_per_1000[mit["label"]] = lines
 
         er.data["infected_per_1000"] = {
             "mitigations": infected_per_1000,
