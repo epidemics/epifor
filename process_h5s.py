@@ -28,7 +28,7 @@ def match_params_with_config(seasonality, air_traffic, config):
             lname = conf['name']
             return lname
 
-    raise Exception("None Seasonality and air_traffic found")
+    raise RuntimeException("None Seasonality and air_traffic found")
 
 
 def make_export_doc(regions, simset, config):
