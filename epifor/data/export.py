@@ -3,8 +3,8 @@ import getpass
 import json
 import socket
 
-from ..regions import Region
 from ..common import _fs
+from ..regions import Region
 
 
 class ExportDoc:
@@ -15,8 +15,14 @@ class ExportDoc:
         self.regions = {}
 
     def to_json(self, toweb=False):
-        return _fs(self, "created", "created_by", "comment", _n=True,
-            regions={k: a.to_json(toweb=toweb) for k, a in self.regions.items()})
+        return _fs(
+            self,
+            "created",
+            "created_by",
+            "comment",
+            _n=True,
+            regions={k: a.to_json(toweb=toweb) for k, a in self.regions.items()},
+        )
 
     @classmethod
     def from_json(cls, data):
@@ -48,7 +54,17 @@ class ExportRegion:
         return getattr(self.region, name)
 
     def to_json(self, toweb=False):
-        return _fs(self, "kind", "lat", "lon", "name", "population", "gleam_id", "data", _n=False)
+        return _fs(
+            self,
+            "kind",
+            "lat",
+            "lon",
+            "name",
+            "population",
+            "gleam_id",
+            "data",
+            _n=False,
+        )
 
     @classmethod
     def from_json(cls, data):

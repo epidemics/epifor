@@ -22,6 +22,6 @@ def test_scripts_help(path):
         ["python3", path, "--help"], stderr=subprocess.PIPE, stdout=subprocess.PIPE
     )
     if r.returncode != 0:
-        sys.stdout.write(r.stdout.decode('utf8'))
-        sys.stderr.write(r.stderr.decode('utf8'))
+        sys.stdout.write(r.stdout.decode("utf8"))
+        sys.stderr.write(r.stderr.decode("utf8"))
         assert r.returncode == 0
