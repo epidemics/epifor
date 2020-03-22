@@ -23,7 +23,7 @@ poetry install
 
 # Do not modify the original config.yaml or definition-example.xml
 cp config.yaml config-local.yaml
-cp data/data/definition-example.xml definition-local.xml
+cp data/definition-example.xml definition-local.xml
 ```
 
 * If you want to upload to the GCS bucket storege for the web, [get gsutil](https://cloud.google.com/storage/docs/gsutil_install) and configure it with your goole account.
