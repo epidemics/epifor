@@ -25,8 +25,7 @@ def match_params_with_config(seasonality, air_traffic, config):
                 conf['param_seasonalityAlphaMin'] == seasonality and
                 conf['param_occupancyRate'] == air_traffic
         ):
-            lname = conf['name']
-            return lname
+            return conf['name']
 
     raise RuntimeException("None Seasonality and air_traffic found")
 
