@@ -10207,6 +10207,7 @@ subregions:
             -   key: hong kong city
                 names:
                 - Hong Kong
+                - Hong Kong City
                 kind: city
                 population: 7206000
                 lat: 22.309

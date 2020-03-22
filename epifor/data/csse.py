@@ -40,6 +40,7 @@ class CSSEData:
             del d2["Long"]
             d = d.merge(d2, on=["Province/State", "Country/Region"], how="outer")
         d["Active"] = d["Confirmed"] - d["Deaths"] - d["Recovered"]
+        d["Country/Region"]
         self.df = d
 
     def apply_to_regions(self, regions):
