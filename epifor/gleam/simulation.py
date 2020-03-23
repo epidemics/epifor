@@ -44,6 +44,9 @@ class Simulation:
         )
         return self.hdf[p][:, 0, num, :]
 
+    def has_result(self):
+        return self.hdf
+
 
 class SimSet:
     def __init__(self):
