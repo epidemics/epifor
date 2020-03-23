@@ -39,7 +39,7 @@ def fetch_data(cfg):
     log.debug(f"Running {cmd!r}")
     subprocess.run(cmd, check=True)
 
-    log.info(f"Fetching Foretold data ...")
+    log.info(f"Fetching/updating CSSE John Hopkins data from github ...")
     cmd = ["./fetch_csse.sh"]
     log.debug(f"Running {cmd!r}")
     subprocess.run(cmd, check=True)

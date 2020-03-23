@@ -10,7 +10,7 @@ from dateutil import parser
 
 from ..common import SKIP, _n
 
-log = logging.getLogger("fttogv.foretold")
+log = logging.getLogger("epifor")
 
 
 class FTPrediction:
