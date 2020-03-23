@@ -5,15 +5,16 @@ import logging
 import socket
 from pathlib import Path
 
+import dateutil
 import jsonobject as jo
 import numpy as np
 import plotly.graph_objects as go
 import yaml
 
-from .data.export import ExportDoc, ExportRegion
-from .gleam.gleamdef import GleamDef
-from .gleam.simulation import Simulation
-from .regions import Region, Regions
+from ..data.export import ExportDoc, ExportRegion
+from ..gleam.gleamdef import GleamDef
+from ..gleam.simulation import Simulation
+from ..regions import Region, Regions
 
 DEFAULT_LINE_STYLE = {
     "dash": "solid",
@@ -46,6 +47,7 @@ class Batch(jo.JsonObject):
     name = jo.StringProperty(required=True)
     # Map {region_key: {region estimates etc}}
     region_data = jo.ObjectProperty()
+    start_date = jo.DateProperty()
 
     @classmethod
     def new(cls, config, suffix=None):
@@ -56,8 +58,9 @@ class Batch(jo.JsonObject):
             comment=f"{getpass.getuser()}@{socket.gethostname()}",
             created=now,
             sims=[],
-            name=f"batch-{now.isoformat()}-{suffix}",
+            name=f"batch-{now.isoformat()}" + (f"-{suffix}" if suffix else ""),
             region_data={},
+            start_date=dateutil.parser.parse(config['start_date']),
         )
 
     def save(self):
@@ -88,14 +91,14 @@ class Batch(jo.JsonObject):
         assert p.exists()
         return p
 
-    def _add_simulation_info(self, gd: GleamDef, name, group, color=None, style=None):
+    def add_simulation_info(self, sim: Simulation, name, group, color=None, style=None):
         "Add sim info after batch creation (before running simulations)"
         if style is None:
             style = dict(DEFAULT_LINE_STYLE)
         if color is not None:
             style["color"] = color
         self.sims.append(
-            SimInfo(id=gd.get_id(), name=name, line_style=style, group=group)
+            SimInfo(sim=sim, id=sim.definition.get_id(), name=name, line_style=style, group=group)
         )
 
     def load_sims(self, only_finished=False):
@@ -103,6 +106,16 @@ class Batch(jo.JsonObject):
         sims_dir = self.get_data_sims_dir()
         for bs in self.sims:
             bs.sim = Simulation.load_dir(sims_dir / f"{bs.id}.gvh5", only_finished=only_finished)
+
+    def save_sim_defs_to_gleam(self):
+        "Create and save the definitions of all sontained simulations into gleam sim dir."
+        sims_dir = self.get_data_sims_dir()
+        for bs in self.sims:
+            assert bs.sim is not None
+            p = sims_dir / f"{bs.sim.definition.get_id()}.gvh5"
+            p.mkdir(exist_ok=False)
+            bs.sim.definition.save(p / "definition.xml")
+        log.info(f"Saved {len(self.sims)} simulation definitions to {sims_dir}")
 
     def generate_region_traces(self, region: Region):
         "Generate {group: [plotly_traces]} for a Region."

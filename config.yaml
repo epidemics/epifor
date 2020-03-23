@@ -6,8 +6,6 @@ start_date: 2020-03-20 # ISO format
 # Root directory of gleamviz (needs to contain data/sims)
 gleamviz_dir: ~/GLEAMviz/
 
-# Dir for intermediate and output files
-output_dir: out/
 
 # The generated defs are a product of scenarios and mitigations
 # param_seasonalityAlphaMin - minmal activity in season
@@ -74,5 +72,12 @@ regions:
 
 # How to assign estimate into compartments
 compartments_mult:
-  Infectious: 1.0  ## TODO: Ignored for now
-  Exposed: 1.3     ## TODO: Only this is supported
+  Infectious: 1.0
+  Exposed: 1.3
+
+### Various paths (you probably want to leave them as they are)
+
+output_dir: out/
+regions_file: data/regions.yaml
+foretold_file: out/foretold_data.json
+CSSE_dir: data/CSSE-COVID-19/csse_covid_19_data/csse_covid_19_time_series/
