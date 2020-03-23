@@ -77,9 +77,7 @@ def primary_phase(cfg, path):
     log.info(f"Running {cmd!r}")
     subprocess.run(cmd, check=True)
 
-    log.info(
-        f"Added {len(Ps) // 2} configs into {sims_dir} with name prefix {run_name}"
-    )
+    log.info(f"Added {len(Ps) // 2} configs into {sims_dir} with name prefix {run_name}")
 
 
 def secondary_phase(cfg):
