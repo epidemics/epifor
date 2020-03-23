@@ -5,14 +5,14 @@ import h5py
 
 from .gleamdef import GleamDef
 
-log = logging.getLogger("simulation")
+log = logging.getLogger("epifor")
 
 
 class Simulation:
     def __init__(self, gleamdef, hdf_file, dir_path=None):
         self.definition = gleamdef
         self.name = self.definition.get_name()
-        assert isinstance(hdf_file, (h5py.File, None))
+        assert hdf_file is None or isinstance(hdf_file, h5py.File)
         self.hdf = hdf_file
         self.dir = dir_path
 

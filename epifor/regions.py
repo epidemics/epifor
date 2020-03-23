@@ -7,7 +7,7 @@ import yaml
 
 from .common import _fs, _n
 
-log = logging.getLogger("fttogv.regions")
+log = logging.getLogger("epifor")
 
 
 class Region:
@@ -171,7 +171,7 @@ class Regions:
         assert isinstance(y, dict)
         assert y.get("key") == "earth"
         Region._from_yaml(self, y, parent=None)
-        log.info(f"Read {len(self.key_index) - l0} regions from {stream!r}")
+        log.info(f"Read {len(self.key_index) - l0} regions")
 
     def print_tree(self, file=sys.stdout, kinds=("region", "continent", "world")):
         def rec(reg, ind=0, parentpop=None):

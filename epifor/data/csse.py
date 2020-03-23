@@ -8,7 +8,7 @@ import pandas as pd
 
 from ..common import SKIP, UNABBREV, _n
 
-log = logging.getLogger("fttogv.csse")
+log = logging.getLogger("epifor")
 
 EXTERNAL_US = ["puerto rico", "virgin islands, u.s.", "guam"]
 
