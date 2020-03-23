@@ -2,21 +2,20 @@
 
 import argparse
 import datetime
-import json
 import logging
+import random
 import subprocess
 import sys
-from pathlib import Path
 
-import numpy as np
 import yaml
 
-from epifor import Region, Regions
-from epifor.data.export import ExportDoc, ExportRegion
-from epifor.gleam import SimSet, Simulation
+from epifor import Regions
 from epifor.data.batch import Batch
+from epifor.data.csse import CSSEData
+from epifor.data.foretold import FTData
+from epifor.gleam import GleamDef, Simulation
 
-log = logging.getLogger()
+log = logging.getLogger("gleambatch")
 
 
 def die(msg):
@@ -67,7 +66,7 @@ def estimate(batch, rs: Regions):
 
     # Load and apply CSSE
     csse = CSSEData()
-    csse.load(args.csse_dir + "/time_series_19-covid-{}.csv")
+    csse.load(batch.config['CSSE_dir'] + "/time_series_19-covid-{}.csv")
     csse.apply_to_regions(rs)
 
     # Main computation: propagate estimates and fix for consistency with CSSE
@@ -86,9 +85,7 @@ def estimates_to_gleamdef(batch, rs: Regions, input_xml_path):
     gv.set_start_date(batch.start_date)
     gv.clear_seeds()
     for comp, coef in batch.config["compartments_mult"].items():
-        gv.add_seeds(
-            rs, est_key="est_active", compartments={comp: coef}, top=args.keep_cities
-        )
+        gv.add_seeds(rs, est_key="est_active", compartments={comp: coef})
 
     return gv
 

@@ -11,8 +11,7 @@ import numpy as np
 import plotly.graph_objects as go
 import yaml
 
-from ..data.export import ExportDoc, ExportRegion
-from ..gleam.gleamdef import GleamDef
+from ..data.export import ExportDoc
 from ..gleam.simulation import Simulation
 from ..regions import Region, Regions
 

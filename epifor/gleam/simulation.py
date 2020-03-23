@@ -1,6 +1,5 @@
 import logging
 import pathlib
-import xml.etree.ElementTree as ET
 
 import h5py
 
