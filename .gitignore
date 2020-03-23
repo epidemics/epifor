@@ -12,7 +12,6 @@ _attic/
 venv
 
 .idea/
-config-local.yaml
 data-staging-gleam.json
 definition-local.xml
 foretold_data.json
