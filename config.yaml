@@ -1,11 +1,13 @@
-# Replace with the actual channel (non-public)
-foretold_channel: SECRET
-
 start_date: 2020-03-20 # ISO format
 
 # Root directory of gleamviz (needs to contain data/sims)
 gleamviz_dir: ~/GLEAMviz/
 
+# Whether to fetch and use foretold data at all
+use_foretold: false
+
+# Replace with the actual channel (non-public)
+foretold_channel: SECRET
 
 # The generated defs are a product of scenarios and mitigations
 # param_seasonalityAlphaMin - minmal activity in season
@@ -14,28 +16,30 @@ gleamviz_dir: ~/GLEAMviz/
 scenarios:
   - param_seasonalityAlphaMin: 0.85
     param_occupancyRate: 70  # Note this is in percent!
-    name: Weak seasonality<br>Weak reduction in air travel 
+    name: WEAK seasonality<br>WEAK reduction in air travel 
     color: "#edcdab"
   - param_seasonalityAlphaMin: 0.7
     param_occupancyRate: 70  # Note this is in percent!
-    name: Medium seasonality<br>Weak reduction in air travel 
+    name: MEDIUM seasonality<br>WEAK reduction in air travel 
     color: "#edb77e"
   - param_seasonalityAlphaMin: 0.5
     param_occupancyRate: 70  # Note this is in percent!
-    name: Strong seasonality<br>Weak reduction in air travel 
+    name: STRONG seasonality<br>WEAK reduction in air travel 
     color: "#e97f0f"
   - param_seasonalityAlphaMin: 0.85
     param_occupancyRate: 20  # Note this is in percent!
-    name: Weak seasonality<br>Strong reduction in air travel 
+    name: WEAK seasonality<br>STRONG reduction in air travel 
     color: "#9ac9d9"
   - param_seasonalityAlphaMin: 0.7
     param_occupancyRate: 20  # Note this is in percent!
-    name: Medium seasonality<br>Strong reduction in air travel 
+    name: MEDIUM seasonality<br>STRONG reduction in air travel 
     color: "#5abbdb"
   - param_seasonalityAlphaMin: 0.5
     param_occupancyRate: 20  # Note this is in percent!
-    name: Strong seasonality<br>Strong reduction in air travel 
+    name: STRONG seasonality<br>STRONG reduction in air travel 
     color: "#007ca6"
+    ## This is Plotly line style dict, will be updated with color if present
+    # style: {dash: dash} 
   
 mitigations:
   - param_beta: 1.285
@@ -47,28 +51,102 @@ mitigations:
   - param_beta: 0.899 # 70%
     label: "High"
   
+# A dictionary { key: current_infected_estimate } of esitmate overrides
+#region_active_estimates:
+#  china: 81093
+#  ...: ...
+
+# Regions to display
 # Use keys from regions.yaml
 regions:
+  - albania
+  - algeria
+  - argentina
+  - armenia
   - australia
+  - austria
+  - azerbaijan
+  - belarus
+  - belgium
+  - bosnia and herzegovina
+  - brazil
+  - brunei
+  - bulgaria
+  - cambodia
+  - canada
+  - chile
+  - china
+  - colombia
+  - costa rica
+  - croatia
+  - cyprus
   - czech republic
-  - dubai
-  - egypt
+  - denmark
+  - dominican republic
+  - ecuador
+  - estonia
+  - finland
   - france
+  - georgia
   - germany
+  - greece
   - hong kong city
+  - hungary
+  - iceland
   - india
   - indonesia
   - iran
+  - iraq
+  - ireland
+  - israel
   - italy
   - japan
+  - jordan
+  - kazakhstan
+  - kuwait
+  - latvia
+  - lebanon
+  - lithuania
+  - luxembourg
+  - malaysia
+  - mexico
+  - moldova
+  - morocco
   - netherlands
+  - new zealand
+  - norway
+  - oman
+  - pakistan
+  - panama
+  - peru
+  - philippines
+  - poland
+  - portugal
+  - qatar
+  - romania
   - russia
+  - saudi arabia
+  - senegal
+  - serbia
   - singapore
+  - slovak republic
+  - slovenia
   - south korea
   - spain
+  - sri lanka
+  - sweden
   - switzerland
-  - united states
+  - taiwan
+  - thailand
+  - tunisia
+  - turkey
+  - ukraine
+  - united arab emirates
   - united kingdom
+  - united states
+  - uruguay
+  - venezuela
+  - vietnam
 
 # How to assign estimate into compartments
 compartments_mult:
