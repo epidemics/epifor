@@ -3,10 +3,14 @@ import logging
 import math
 import sys
 
-import unidecode
 import jsonobject
+import unidecode
+from ruamel.yaml import YAML
 
 log = logging.getLogger("epifor")
+
+## A faster yaml implementation
+yaml = YAML(typ="safe")  # default, if not specfied, is 'rt' (round-trip)
 
 
 def die(msg):

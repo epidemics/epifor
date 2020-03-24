@@ -3,9 +3,7 @@ import datetime
 import logging
 import sys
 
-import yaml
-
-from .common import _fs, _n
+from .common import _fs, _n, yaml
 
 log = logging.getLogger("epifor")
 
@@ -166,7 +164,7 @@ class Regions:
         )
 
     def read_yaml(self, stream):
-        y = yaml.safe_load(stream)
+        y = yaml.load(stream)
         l0 = len(self.key_index)
         assert isinstance(y, dict)
         assert y.get("key") == "earth"
