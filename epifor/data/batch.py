@@ -9,9 +9,8 @@ import dateutil
 import jsonobject as jo
 import numpy as np
 import plotly.graph_objects as go
-import yaml
 
-from ..common import IgnoredProperty, die
+from ..common import IgnoredProperty, die, yaml
 from ..data.export import ExportDoc
 from ..gleam.simulation import Simulation
 from ..regions import Region, Regions
@@ -70,7 +69,7 @@ class Batch(jo.JsonObject):
         "Load batch metadata from path. Does not load the Simulations (see `load_sims`)"
         log.info(f"Reading batch metadata from {path}")
         with open(path, "rt") as f:
-            d = yaml.safe_load(f)
+            d = yaml.load(f)
         return Batch(d)
 
     def get_batch_file_path(self):
