@@ -12,7 +12,7 @@ def test_imports():
     from epifor.gleam import GleamDef, Simulation, SimSet
 
 
-SCRIPTS = ["estimate.py", "fetch_foretold.py", "parameterize.py", "process_h5s.py"]
+SCRIPTS = ["fetch_foretold.py", "gleambatch.py"]
 
 
 @pytest.mark.parametrize("path", SCRIPTS)

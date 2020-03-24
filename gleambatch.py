@@ -7,14 +7,12 @@ import random
 import subprocess
 import sys
 
-import yaml
-
 from epifor import Regions
 from epifor.data.batch import Batch
 from epifor.data.csse import CSSEData
 from epifor.data.foretold import FTData
 from epifor.gleam import GleamDef, Simulation
-from epifor.common import die
+from epifor.common import die, yaml
 
 
 log = logging.getLogger("gleambatch")
@@ -24,7 +22,7 @@ def update_data(args):
     "Fetch/update foretold and CSSE data (runs external scripts)"
 
     with open(args.CONFIG_YAML, "rt") as f:
-        cfg = yaml.safe_load(f)
+        cfg = yaml.load(f)
 
     log.info(f"Fetching Foretold data ...")
     if cfg["foretold_channel"] == "SECRET":
@@ -114,7 +112,7 @@ def generate(args):
     "Run the 'generate' subcommand"
 
     with open(args.CONFIG_YAML, "rt") as f:
-        config = yaml.safe_load(f)
+        config = yaml.load(f)
     batch = Batch.new(config, suffix=args.comment.replace(" ", "-"))
 
     log.info(f"Reading regions from {batch.config['regions_file']} ...")
