@@ -68,7 +68,7 @@ class GleamDef:
         for e, reg in regs[:top]:
             for com_n, com_f in compartments.items():
                 if com_f and e * com_f >= 1.0:
-                    ET.SubElement(
+                    seed = ET.SubElement(
                         sroot,
                         "seed",
                         {
@@ -77,6 +77,7 @@ class GleamDef:
                             "city": str(reg.gleam_id),
                         },
                     )
+                    seed.tail = "\n      "
 
         log.info(
             "Added {} seeds for compartments {!r}".format(
