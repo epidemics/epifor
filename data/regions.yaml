@@ -13140,7 +13140,7 @@ subregions:
             names:
             - Barra
             kind: city
-            population: 21000
+            population: 2000
             lat: 57.023
             lon: -7.443
             gleam_id: 765
@@ -13709,6 +13709,7 @@ subregions:
             names:
             - Grimsey
             kind: city
+            population: 3300
             lat: 66.546
             lon: -18.017
             gleam_id: 1347
@@ -13726,6 +13727,7 @@ subregions:
             names:
             - Vopnafjordur
             kind: city
+            population: 990
             lat: 65.721
             lon: -14.851
             gleam_id: 1349
@@ -13759,6 +13761,7 @@ subregions:
             names:
             - Thorshofn
             kind: city
+            population: 530
             lat: 66.218
             lon: -15.336
             gleam_id: 1353
@@ -15550,6 +15553,7 @@ subregions:
                 names:
                 - Lampedusa
                 kind: city
+                population: 5230
                 lat: 35.498
                 lon: 12.618
                 gleam_id: 3066
@@ -15558,6 +15562,7 @@ subregions:
                 names:
                 - Pantelleria
                 kind: city
+                population: 6100
                 lat: 36.817
                 lon: 11.969
                 gleam_id: 3067
@@ -22628,7 +22633,7 @@ subregions:
                 names:
                 - Minto
                 kind: city
-                population: 12000
+                population: 600
                 gleam_id: 2138
                 iana: MNT
             -   key: durango (us)
@@ -23661,6 +23666,7 @@ subregions:
             -   key: stevens village
                 names:
                 - Stevens Village
+                population: 100
                 kind: city
                 gleam_id: 2250
                 iana: SVS
@@ -24510,7 +24516,7 @@ subregions:
                 names:
                 - Manhattan
                 kind: city
-                population: 1644000
+                population: 312000
                 lat: 39.141
                 lon: -96.671
                 gleam_id: 2344
@@ -28594,6 +28600,7 @@ subregions:
                 names:
                 - Richmond (AU)
                 kind: city
+                population: 1700
                 lat: -20.702
                 lon: 143.115
                 gleam_id: 1643
