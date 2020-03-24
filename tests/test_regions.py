@@ -11,4 +11,3 @@ def test_region_yaml(tmp_path):
         rs.write_yaml(f)
     rs2 = Regions.load_from_yaml(p2)
     assert rs.root == rs2.root
-    # assert p1.read_text() == p2.read_text()

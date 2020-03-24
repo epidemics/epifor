@@ -11,6 +11,9 @@ log = logging.getLogger("epifor")
 
 ## A faster yaml implementation
 yaml = YAML(typ="safe")  # default, if not specfied, is 'rt' (round-trip)
+yaml.default_flow_style = False
+yaml.sort_keys = False
+yaml.indent = 4
 
 
 def die(msg):

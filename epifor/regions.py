@@ -155,13 +155,7 @@ class Regions:
             self.root = reg
 
     def write_yaml(self, stream):
-        yaml.dump(
-            self.root.to_json_rec(nones=False),
-            stream,
-            default_flow_style=False,
-            sort_keys=False,
-            indent=4,
-        )
+        yaml.dump(self.root.to_json_rec(nones=False), stream)
 
     def read_yaml(self, stream):
         y = yaml.load(stream)
