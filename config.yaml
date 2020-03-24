@@ -153,6 +153,11 @@ compartments_mult:
   Infectious: 1.0
   Exposed: 1.3
 
+### Upload settings
+
+gs_prefix: "gs://static-covid/static/"
+gs_url_prefix: "https://storage.googleapis.com/static-covid/static/"
+
 ### Various paths (you probably want to leave them as they are)
 
 output_dir: out/

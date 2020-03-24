@@ -6,10 +6,11 @@ import logging
 import random
 import subprocess
 import sys
+import urllib.parse
 from pathlib import Path
 
 from epifor import Regions
-from epifor.common import die, yaml
+from epifor.common import die, run_command, yaml
 from epifor.data.batch import Batch
 from epifor.data.csse import CSSEData
 from epifor.data.foretold import FTData
@@ -31,22 +32,20 @@ def update_data(args):
             die(
                 "`foretold_channel` in the config file is not set to non-default value."
             )
-        cmd = [
-            "./fetch_foretold.py",
-            "-c",
-            config["foretold_channel"],
-            "-o",
-            config["foretold_file"],
-        ]
-        log.debug(f"Running {cmd!r}")
-        subprocess.run(cmd, check=True)
+        run_command(
+            [
+                "./fetch_foretold.py",
+                "-c",
+                config["foretold_channel"],
+                "-o",
+                config["foretold_file"],
+            ]
+        )
     else:
         log.info(f"Skipping Foretold update")
 
     log.info(f"Fetching/updating CSSE John Hopkins data from github ...")
-    cmd = ["./fetch_csse.sh"]
-    log.debug(f"Running {cmd!r}")
-    subprocess.run(cmd, check=True)
+    run_command(["./fetch_csse.sh"])
 
 
 def estimate(batch, rs: Regions):
@@ -146,12 +145,15 @@ def parameterize(batch, gv):
             )
 
 
+SIM_DEF_DIR = "simulation-defs"
+
+
 def generate(args):
     "Run the 'generate' subcommand"
 
     with open(args.CONFIG_YAML, "rt") as f:
         config = yaml.load(f)
-    Path(config["output_dir"]).expanduser().mkdir(exist_ok=True, parents=True)
+    out_dir = Path(config["output_dir"]).expanduser().mkdir(exist_ok=True, parents=True)
     batch = Batch.new(config, suffix=args.comment.replace(" ", "-"))
 
     log.info(f"Reading regions from {batch.config['regions_file']} ...")
@@ -163,7 +165,13 @@ def generate(args):
 
     parameterize(batch, gv)
 
+    # Save to Gleam sims directory
     batch.save_sim_defs_to_gleam()
+
+    # Save to batch directory
+    sims_dir = batch.get_out_dir() / SIM_DEF_DIR
+    sims_dir.mkdir()
+    batch.save_sim_defs_to_gleam(sims_dir)
 
     batch.save()
 
@@ -171,6 +179,47 @@ def generate(args):
         f"Run '{sys.argv[0]} process {batch.get_batch_file_path()}' after"
         " running and retrieving simulations in GleamViz (and closing Gleamviz)."
     )
+
+
+def upload_data(args):
+    "Run the 'upload' subcommand"
+
+    CMD = [
+        "gsutil",
+        "-m",
+        "-h",
+        "Cache-Control:public, max-age=10",
+        "cp",
+        "-a",
+        "public-read",
+    ]
+
+    batch = Batch.load(args.BATCH_YAML)
+    gs = batch.config["gs_prefix"].rstrip("/")
+    gs_url = batch.config["gs_url_prefix"].rstrip("/")
+    out = batch.get_out_dir()
+    out_file = out / batch.DATA_FILE_NAME
+    if not out_file.exists():
+        die(f"File {out_file} not found - did you run `process`?")
+
+    log.info(f"Uploading data folder {out} to {gs}/{batch.name}")
+    run_command(CMD + ["-R", out, gs])
+
+    datafile_channel = batch.DATA_FILE_NAME.replace("CHANNEL", args.channel)
+    gs_data_tgt = f"{gs}/{datafile_channel}"
+    log.info(f"Uploading main data file as {gs_data_tgt}")
+    run_command(CMD + [out_file, gs_data_tgt])
+    log.info(f"File URL: {gs_url}/{datafile_channel}")
+
+    log.info(f"Zipping and uploading sim defs ..")
+    zip_file = out / "sims.zip"
+    run_command(["zip", zip_file, out / SIM_DEF_DIR])
+    run_command(CMD + [zip_file, f"{gs}/simulation-defs-{args.channel}.zip"])
+    log.info(f"File URL: {gs_url}/simulation-defs-{args.channel}.zip")
+    if args.channel != "main":
+        log.info(
+            f"Custom web URL: http://epidemicforecasting.org/?channel={args.channel}"
+        )
 
 
 def process(args):
@@ -211,6 +260,16 @@ def create_parser():
         action="store_true",
         help="Allow missing simulation results.",
     )
+
+    uplp = sp.add_parser("upload", help="Upload data to the configured GCS bucket")
+    uplp.add_argument("BATCH_YAML", help="Batch config to use.")
+    uplp.add_argument(
+        "-C",
+        "--channel",
+        default="staging",
+        help="Channel to upload to ('main' for main site).",
+    )
+    uplp.set_defaults(func=upload_data)
 
     return ap
 

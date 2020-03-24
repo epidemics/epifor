@@ -35,6 +35,7 @@ class SimInfo(jo.JsonObject):
 
 class Batch(jo.JsonObject):
     BATCH_FILE_NAME = "batch.yaml"
+    DATA_FILE_NAME = "data-CHANNEL-v3.json"
 
     config = jo.DictProperty()
     comment = jo.StringProperty()
@@ -48,12 +49,13 @@ class Batch(jo.JsonObject):
     def new(cls, config, suffix=None):
         "Custom constructor (to avoid conflicts with loading from yaml)."
         now = datetime.datetime.now().astimezone()
+        name0 = f"batch-{now.isoformat()}" + (f"-{suffix}" if suffix else "")
         return cls(
             config=config,
             comment=f"{getpass.getuser()}@{socket.gethostname()}",
             created=now,
             sims=[],
-            name=f"batch-{now.isoformat()}" + (f"-{suffix}" if suffix else ""),
+            name=name0.replace(":", "-").replace(" ", "_"),
             region_data={},
         )
 
@@ -114,9 +116,10 @@ class Batch(jo.JsonObject):
             f"Loaded {len(self.sims)} simulations, {with_res} of that have results"
         )
 
-    def save_sim_defs_to_gleam(self):
+    def save_sim_defs_to_gleam(self, sims_dir=None):
         "Create and save the definitions of all sontained simulations into gleam sim dir."
-        sims_dir = self.get_data_sims_dir()
+        if sims_dir is None:
+            sims_dir = self.get_data_sims_dir()
         for bs in self.sims:
             assert bs.sim is not None
             p = sims_dir / f"{bs.sim.definition.get_id()}.gvh5"
@@ -172,7 +175,7 @@ class Batch(jo.JsonObject):
         """
 
         out_dir = self.get_out_dir()
-        out_json = out_dir / f"data-CHANNEL-v3.json"
+        out_json = out_dir / self.DATA_FILE_NAME
         ed = ExportDoc(comment=f"{self.name}")
 
         for rkey in self.config["regions"]:
