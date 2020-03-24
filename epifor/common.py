@@ -1,7 +1,17 @@
 import datetime
+import logging
 import math
+import sys
 
 import unidecode
+import jsonobject
+
+log = logging.getLogger("epifor")
+
+
+def die(msg):
+    log.fatal(msg)
+    sys.exit(1)
 
 
 def _n(s):
@@ -49,6 +59,37 @@ def geo_dist(lat1, lat2, dlong):
     )
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
     return c * R
+
+
+class IgnoredProperty(jsonobject.JsonProperty):
+    "Helper class to ignore object property with jsonobject."
+
+    def __init__(self, typecheck=None):
+        super().__init__()
+        self.typecheck = typecheck
+
+    def to_json(self, _value):
+        raise NotImplementedError()
+
+    def to_python(self, _value):
+        raise NotImplementedError()
+
+    def ip_check_type(self, obj):
+        if self.typecheck is not None and not isinstance(obj, self.typecheck):
+            raise TypeError(
+                f"{self.__class__.__name__} expects value of type {self.typecheck}, got {obj!r}"
+            )
+
+    def wrap(self, value):
+        self.ip_check_type(value)
+        return value
+
+    def unwrap(self, value):
+        self.ip_check_type(value)
+        return value, value
+
+    def exclude(self, _value):
+        return True
 
 
 SKIP = [
