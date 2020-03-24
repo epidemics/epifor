@@ -154,6 +154,7 @@ class Batch(jo.JsonObject):
                 if bs.group == gname and bs.sim.has_result():
                     start = bs.sim.definition.get_start_date().isoformat()
                     sq = bs.sim.get_seq(region.gleam_id, region.kind)
+                    # NOTE: mult by 1000 to go to *_per_1000
                     y = ((sq[2, :] - sq[3, :] + initial_number) * 1000).tolist()
                     x = [start]  # For compression, will be filled by JS
                     traces.append(

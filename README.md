@@ -12,7 +12,7 @@ Libraries and utilities for data handling, estimation and modelling of epidemics
 ### Install / preparation
 
 * First, [install Poetry](https://python-poetry.org/docs/#installation)
-* Then, install the lib and its dependencies (e.g. in virtualenv)
+* Then, install the lib and its dependencies (e.g. in virtualenv, or let poetry create it)
   
 ```sh
 git clone https://github.com/epidemics/epifor

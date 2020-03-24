@@ -6,6 +6,7 @@ import logging
 import random
 import subprocess
 import sys
+import time
 import urllib.parse
 from pathlib import Path
 
@@ -14,9 +15,9 @@ from epifor import Regions
 from epifor.common import die, log_level, run_command, yaml
 from epifor.data.batch import Batch
 from epifor.data.csse import CSSEData
+from epifor.data.fetch_foretold import fetch_foretold
 from epifor.data.foretold import FTData
 from epifor.gleam import GleamDef, Simulation
-from epifor.data.fetch_foretold import fetch_foretold
 
 log = logging.getLogger("gleambatch")
 
@@ -112,24 +113,30 @@ def estimate(batch, rs: Regions):
         batch.store_region_estimates(rs, loc_key, rem_key)
 
 
-def estimates_to_gleamdef(batch, rs: Regions, input_xml_path):
+def estimates_to_gleamdef(batch, rs: Regions, input_xml_path, top_seeds=None):
     gv = GleamDef(input_xml_path)
     gv.set_start_date(batch.config["start_date"])
     gv.clear_seeds()
     for comp, coef in batch.config["compartments_mult"].items():
-        gv.add_seeds(rs, est_key="est_active", compartments={comp: coef})
+        gv.add_seeds(rs, est_key="est_active", compartments={comp: coef}, top=top_seeds)
 
     return gv
 
 
 def parameterize(batch, gv):
+    last_ts = 0
     for mit in batch.config["mitigations"]:
         for sce in batch.config["scenarios"]:
             gv2 = gv.copy()
             gv2.set_seasonality(sce["param_seasonalityAlphaMin"])
             gv2.set_traffic_occupancy(sce["param_occupancyRate"])
             gv2.set_beta(mit["param_beta"])
-            gv2id = "{}.574".format(random.randint(1700000000000, 1800000000000))
+            # NOTE: No idea where `.574` comes from, but all my
+            # Gleamviz-imported defnitions have it
+            # NOTE: Gleamviz seems to have timestamp-based IDs (in milisec);
+            # take care not to reuse them here
+            last_ts = max(last_ts + 1, int(time.time() * 1000))
+            gv2id = f"{last_ts}.574"
             gv2.set_id(gv2id)
             gv2.set_name(gv2.full_name(batch.name))
             sim = Simulation(gv2, None)
@@ -158,7 +165,7 @@ def generate(args):
 
     estimate(batch, rs)
 
-    gv = estimates_to_gleamdef(batch, rs, args.GLEAM_XML)
+    gv = estimates_to_gleamdef(batch, rs, args.GLEAM_XML, top_seeds=args.top_seeds)
 
     parameterize(batch, gv)
 
@@ -245,6 +252,12 @@ def create_parser():
     genp.add_argument("CONFIG_YAML", help="YAML config to use.")
     genp.add_argument("GLEAM_XML", help="Use given XML as GLEAM def template.")
     genp.add_argument("-c", "--comment", default="", help="Optional name comment.")
+    genp.add_argument(
+        "--top-seeds",
+        default=1800,
+        type=int,
+        help="Limit the number of seed cities (Gleam seems to fail if too many, ~2000?).",
+    )
     genp.set_defaults(func=generate)
 
     procp = sp.add_parser(
