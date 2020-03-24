@@ -16,6 +16,7 @@ from epifor.data.batch import Batch
 from epifor.data.csse import CSSEData
 from epifor.data.foretold import FTData
 from epifor.gleam import GleamDef, Simulation
+from epifor.data.fetch_foretold import fetch_foretold
 
 log = logging.getLogger("gleambatch")
 
@@ -28,20 +29,15 @@ def update_data(args):
     Path(config["output_dir"]).expanduser().mkdir(exist_ok=True, parents=True)
 
     if config["use_foretold"]:
-        log.info(f"Fetching Foretold data ...")
+        log.info(f"Fetching Foretold data into {config['foretold_file']} ...")
         if config["foretold_channel"] == "SECRET":
             die(
                 "`foretold_channel` in the config file is not set to non-default value."
             )
-        run_command(
-            [
-                "./fetch_foretold.py",
-                "-c",
-                config["foretold_channel"],
-                "-o",
-                config["foretold_file"],
-            ]
-        )
+        data = fetch_foretold(config["foretold_channel"])
+        with open(config["foretold_file"], "wb") as outfile:
+            outfile.write(data)
+
     else:
         log.info(f"Skipping Foretold update")
 
