@@ -44,11 +44,11 @@ scenarios:
 mitigations:
   - param_beta: 1.285
     label: "None"
-  - param_beta: 1.156 # 90%
+  - param_beta: 1.0064 # 80%
     label: "Low"
-  - param_beta: 1.028 # 80%
+  - param_beta: 0.629 # 50%
     label: "Medium"
-  - param_beta: 0.899 # 70%
+  - param_beta: 0.2516 # 20%
     label: "High"
   
 # A dictionary { key: current_infected_estimate } of esitmate overrides
@@ -151,7 +151,7 @@ regions:
 # How to assign estimate into compartments
 compartments_mult:
   Infectious: 1.0
-  Exposed: 1.3
+  Exposed: 1.8
 
 ### Upload settings
 

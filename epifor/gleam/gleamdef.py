@@ -152,7 +152,7 @@ class GleamDef:
         return f"seasonality={self.get_seasonality():.2f} traffic={self.get_traffic_occupancy()} beta={self.get_beta():.2f}"
 
     def full_name(self, base_name):
-        return "{} {} {}".format(base_name, self.updated_fmt, self.fmt_params())
+        return "{} {}".format(base_name, self.fmt_params())
 
     ### Exceptions handling
 
