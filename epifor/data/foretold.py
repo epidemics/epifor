@@ -139,7 +139,8 @@ class FTData:
             reg.est["ft_mean"] = p.mean
             reg.est["ft_var"] = p.var
 
-    def propagate_down(self, regions):
+    @classmethod
+    def propagate_down(_cls, regions):
         def rec(reg):
             # Prefer ft_mean for estimate, or passed-down one
             est0 = reg.est.setdefault("est_active", None)

@@ -6,14 +6,14 @@ import logging
 import random
 import subprocess
 import sys
+from pathlib import Path
 
 from epifor import Regions
+from epifor.common import die, yaml
 from epifor.data.batch import Batch
 from epifor.data.csse import CSSEData
 from epifor.data.foretold import FTData
 from epifor.gleam import GleamDef, Simulation
-from epifor.common import die, yaml
-
 
 log = logging.getLogger("gleambatch")
 
@@ -22,20 +22,26 @@ def update_data(args):
     "Fetch/update foretold and CSSE data (runs external scripts)"
 
     with open(args.CONFIG_YAML, "rt") as f:
-        cfg = yaml.load(f)
+        config = yaml.load(f)
+    Path(config["output_dir"]).expanduser().mkdir(exist_ok=True, parents=True)
 
-    log.info(f"Fetching Foretold data ...")
-    if cfg["foretold_channel"] == "SECRET":
-        die("`foretold_channel` in the config file is not set to non-default value.")
-    cmd = [
-        "./fetch_foretold.py",
-        "-c",
-        cfg["foretold_channel"],
-        "-o",
-        cfg["foretold_file"],
-    ]
-    log.debug(f"Running {cmd!r}")
-    subprocess.run(cmd, check=True)
+    if config["use_foretold"]:
+        log.info(f"Fetching Foretold data ...")
+        if config["foretold_channel"] == "SECRET":
+            die(
+                "`foretold_channel` in the config file is not set to non-default value."
+            )
+        cmd = [
+            "./fetch_foretold.py",
+            "-c",
+            config["foretold_channel"],
+            "-o",
+            config["foretold_file"],
+        ]
+        log.debug(f"Running {cmd!r}")
+        subprocess.run(cmd, check=True)
+    else:
+        log.info(f"Skipping Foretold update")
 
     log.info(f"Fetching/updating CSSE John Hopkins data from github ...")
     cmd = ["./fetch_csse.sh"]
@@ -54,28 +60,60 @@ def estimate(batch, rs: Regions):
     rs.heuristic_set_pops()
     rs.fix_min_pops()
 
-    # Load and apply FT
-    ft = FTData()
-    ft.load(batch.config["foretold_file"])
-    ft_before = datetime.datetime.combine(
-        batch.config["start_date"], datetime.time(23, 59, 59)
-    ).astimezone()
-    ft.apply_to_regions(rs, before=ft_before)
-
     # Load and apply CSSE
     csse = CSSEData()
     csse.load(batch.config["CSSE_dir"] + "/time_series_19-covid-{}.csv")
     csse.apply_to_regions(rs)
 
+    if batch.config["use_foretold"]:
+        log.info("Loading and applying Foretold data")
+        # Load and apply FT
+        ft = FTData()
+        ft.load(batch.config["foretold_file"])
+        ft_before = datetime.datetime.combine(
+            batch.config["start_date"], datetime.time(23, 59, 59)
+        ).astimezone()
+        ft.apply_to_regions(rs, before=ft_before)
+
+    # TODO: This is asking for a good refactor of the redistribution code ...
+    override = batch.config.get("region_active_estimates")
+    if override is not None:
+        log.info(f"Overriding 'ft_mean' for {len(override)} regions ...")
+        for key, est in override.items():
+            rs[key].est["ft_mean"] = est
+
     # Main computation: propagate estimates and fix for consistency with CSSE
-    ft.propagate_down(rs)
+    FTData.propagate_down(rs)
 
     # Propagate estimates upwards to super-regions
     rs.fix_min_est(
-        "est_active", keep_nones=True, minimum_from="csse_active", minimum_mult=3.0
+        "est_active", keep_nones=True, minimum_from="csse_active", minimum_mult=2.0
     )  ## TODO: param for mult
 
     rs.check_missing_estimates("est_active")
+
+    # Store the initial estimates in batch data
+    rs.fix_min_est("est_active")
+    batch.store_region_estimates(rs, "est_active", "FT_Infected")
+    # Finally, propagate csse upwards and also store
+    for loc_key, rem_key in [
+        ("csse_deaths", "JH_Deaths"),
+        ("csse_confirmed", "JH_Confirmed"),
+        ("csse_recovered", "JH_Recovered"),
+        ("csse_active", "JH_Infected"),
+    ]:
+        # Fix one-city provinces
+        for r in rs.regions:
+            if (
+                r.parent is not None
+                and len(r.parent.sub) == 1
+                and r.est.get(loc_key) is None
+            ):
+                r.est[loc_key] = r.parent.est.get(loc_key)
+        # Propagate up
+        rs.fix_min_est(loc_key)
+        # Store in batch
+        batch.store_region_estimates(rs, loc_key, rem_key)
 
 
 def estimates_to_gleamdef(batch, rs: Regions, input_xml_path):
@@ -113,6 +151,7 @@ def generate(args):
 
     with open(args.CONFIG_YAML, "rt") as f:
         config = yaml.load(f)
+    Path(config["output_dir"]).expanduser().mkdir(exist_ok=True, parents=True)
     batch = Batch.new(config, suffix=args.comment.replace(" ", "-"))
 
     log.info(f"Reading regions from {batch.config['regions_file']} ...")

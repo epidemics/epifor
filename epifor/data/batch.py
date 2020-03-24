@@ -129,13 +129,19 @@ class Batch(jo.JsonObject):
 
         groups = set(bs.group for bs in self.sims)
 
-        ## TODO: add initial estimates from and into region_data
-        initial_number = 0.0
+        min_number = 0.0
         for bs in self.sims:
             if bs.sim.has_result():
                 sq = bs.sim.get_seq(region.gleam_id, region.kind)
-                initial_number = max(initial_number, -np.min(sq[2, :] - sq[3, :]))
-        initial_number = max(initial_number, 0.0)
+                min_number = max(min_number, -np.min(sq[2, :] - sq[3, :]))
+
+        # TODO: add initial estimates from and into region_data
+        # TODO: The following would require exact populations
+        # sim_number = self.region_data[region.key]["FT_Infected"]
+        # print(min_number, sim_number)
+        # initial_number = max(min_number, sim_number, 0.0)
+
+        initial_number = max(min_number, 0.0)
 
         groups_traces = {}
         for gname in groups:
@@ -144,15 +150,15 @@ class Batch(jo.JsonObject):
                 if bs.group == gname and bs.sim.has_result():
                     start = bs.sim.definition.get_start_date().isoformat()
                     sq = bs.sim.get_seq(region.gleam_id, region.kind)
-                    y = (sq[2, :] - sq[3, :] + initial_number) * 1000
-                    x = np.arange(len(y))  # TODO, use start and have dates!
+                    y = ((sq[2, :] - sq[3, :] + initial_number) * 1000).tolist()
+                    x = [start]  # For compression, will be filled by JS
                     traces.append(
                         go.Scatter(
                             name=bs.name,
                             line=bs.line_style,
                             hoverlabel=dict(namelength=-1),
-                            x=x.tolist(),
-                            y=y.tolist(),
+                            x=x,
+                            y=y,
                         ).to_plotly_json()
                     )
 
@@ -166,14 +172,16 @@ class Batch(jo.JsonObject):
         """
 
         out_dir = self.get_out_dir()
-        out_json = out_dir / f"data-CHANNEL-lines-v2.json"
+        out_json = out_dir / f"data-CHANNEL-v3.json"
         ed = ExportDoc(comment=f"{self.name}")
 
         for rkey in self.config["regions"]:
             r = regions[rkey]
             er = ed.add_region(r)
-            assert er.gleam_id is not None
-            assert er.kind is not None
+
+            # Plots
+            if (er.gleam_id is None) or (er.kind is None):
+                die(f"Missing gleam_id or kind for {r!r}")
             gt = self.generate_region_traces(r)
             rel_url = f"{self.name}/lines-traces-{rkey.replace(' ', '-')}.json"
             with open(out_dir.parent / rel_url, "wt") as f:
@@ -181,7 +189,35 @@ class Batch(jo.JsonObject):
             er.data["infected_per_1000"] = {
                 "traces_url": rel_url,
             }
+
+            # Stats
+            ests = {
+                k: self.region_data.get(rkey, {}).get(k)
+                for k in [
+                    "JH_Deaths",
+                    "JH_Confirmed",
+                    "JH_Recovered",
+                    "JH_Infected",
+                    "FT_Infected",
+                ]
+            }
+            # TODO: add more days?
+            # BUG: The current date may be different from start_date!
+            er.data["estimates"] = {
+                "days": {self.config["start_date"].isoformat(): ests}
+            }
+
         log.info(f"Wrote {len(self.config['regions'])} single-region gleam trace files")
         with open(out_json, "wt") as f:
             json.dump(ed.to_json(toweb=True), f)
         log.info(f"Wrote gleam chart data into {out_json}")
+
+    def store_region_estimates(self, regions: Regions, est_key, reg_data_key):
+        """
+        Transfer values from `Region.est[est_key]` to `self.region_data[reg_key][reg_data_key]`
+        for regions selected in the config.
+        """
+        for rk in self.config["regions"]:
+            r = regions[rk]
+            self.region_data.setdefault(rk, dict())
+            self.region_data[rk][reg_data_key] = float(r.est.get(est_key))
