@@ -1,20 +1,30 @@
+import contextlib
 import datetime
 import logging
 import math
+import subprocess
 import sys
 
-import subprocess
 import jsonobject
 import unidecode
 from ruamel.yaml import YAML
 
-log = logging.getLogger("epifor")
+log = logging.getLogger(__name__)
 
 ## A faster yaml implementation
 yaml = YAML(typ="safe")  # default, if not specfied, is 'rt' (round-trip)
 yaml.default_flow_style = False
 yaml.sort_keys = False
 yaml.indent = 4
+
+
+@contextlib.contextmanager
+def log_level(logger, level):
+    "Contenxt manager to temporarily change logger verbosity"
+    l = logger.level
+    logger.setLevel(level)
+    yield
+    logger.setLevel(l)
 
 
 def die(msg):

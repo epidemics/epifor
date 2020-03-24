@@ -9,8 +9,9 @@ import sys
 import urllib.parse
 from pathlib import Path
 
+import epifor
 from epifor import Regions
-from epifor.common import die, run_command, yaml
+from epifor.common import die, log_level, run_command, yaml
 from epifor.data.batch import Batch
 from epifor.data.csse import CSSEData
 from epifor.data.foretold import FTData
@@ -171,7 +172,8 @@ def generate(args):
     # Save to batch directory
     sims_dir = batch.get_out_dir() / SIM_DEF_DIR
     sims_dir.mkdir()
-    batch.save_sim_defs_to_gleam(sims_dir)
+    with log_level(epifor.gleam.gleamdef.log, logging.WARNING):
+        batch.save_sim_defs_to_gleam(sims_dir)
 
     batch.save()
 
