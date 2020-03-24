@@ -1,3 +1,20 @@
+## Used data sources and notes
+
+### Foretold COVID estimates
+
+https://github.com/epidemics/covid
+
+### COVID
+
+https://github.com/CSSEGISandData/COVID-19/
+
+### Geography
+
+https://openflights.org/data.html - airport coordinates
+https://simplemaps.com/data/world-cities - populations
+https://simplemaps.com/data/us-cities - us cities, counties and states
+
+(list incomplete)
 
 ### Unused sources
 
