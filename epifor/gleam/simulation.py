@@ -17,19 +17,21 @@ class Simulation:
         self.dir = dir_path
 
     @classmethod
-    def load_dir(cls, path, only_finished=True):
+    def load_dir(cls, path, skip_unfinished=False):
         path = pathlib.Path(path)
         h5path = path / "results.h5"
-        if only_finished and not h5path.exists():
+        if skip_unfinished and not h5path.exists():
             log.info("Skipping uncomputed {}".format(path))
             return None
-        log.info("Loading Gleam simulation from {}".format(path))
+        log.info("Loading Gleam simulation from {} ..".format(path))
         if not h5path.exists():
             hf = None
+            res_msg = "(without result)"
         else:
             hf = h5py.File(h5path, "r")
+            res_msg = ""
         gd = GleamDef(path / "definition.xml")
-        log.debug(f"Loaded Gleam info {gd.get_name()}")
+        log.debug(f".. loaded Gleam info {gd.get_name()} {res_msg}")
         return cls(gd, hf, path)
 
     def __repr__(self):
@@ -44,7 +46,7 @@ class Simulation:
         return self.hdf[p][:, 0, num, :]
 
     def has_result(self):
-        return self.hdf
+        return self.hdf is not None
 
 
 class SimSet:

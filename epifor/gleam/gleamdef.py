@@ -44,11 +44,7 @@ class GleamDef:
         else:
             filename = pathlib.Path(filename)
         self.tree.write(filename)  # , default_namespace=self.ns['gv'])
-        log.info(
-            "Written Gleam definition XML to {!r} (updated from {!r})".format(
-                filename, self.path
-            )
-        )
+        log.info(f"Written Gleam definition to {filename}")
 
     def clear_seeds(self):
         self.f1("./gv:definition/gv:seeds").clear()
@@ -139,28 +135,20 @@ class GleamDef:
             './gv:definition/gv:compartmentalModel/gv:variables/gv:variable[@name="beta"]'
         ).set("value", f"{val:.2f}")
 
-    def get_air_traffic(self):
-        return (
-            float(self.f1("./gv:definition/gv:parameters").get("occupancyRate")) / 100.0
-        )
-
-    def set_air_traffic(self, val):
-        assert val < 1.1
-        v = int(max(min(val * 100, 100), 0))
-        self.f1("./gv:definition/gv:parameters").set("occupancyRate", str(v))
-
     def get_traffic_occupancy(self):
+        "Note: this an integer in percent"
         return int(self.f1("./gv:definition/gv:parameters").get("occupancyRate"))
 
     def set_traffic_occupancy(self, val):
+        "Note: this must be an integer in percent"
         assert isinstance(val, int)
-        v = int(max(min(val, 100), 0))
-        self.f1("./gv:definition/gv:parameters").set("occupancyRate", str(v))
+        assert 0 <= val and val <= 100
+        self.f1("./gv:definition/gv:parameters").set("occupancyRate", str(int(val)))
 
     ### Naming conveniences
 
     def fmt_params(self):
-        return f"seasonality={self.get_seasonality():.2f} airtraffic={self.get_air_traffic():.2f} beta={self.get_beta():.2f}"
+        return f"seasonality={self.get_seasonality():.2f} traffic={self.get_traffic_occupancy()} beta={self.get_beta():.2f}"
 
     def full_name(self, base_name):
         return "{} {} {}".format(base_name, self.updated_fmt, self.fmt_params())
