@@ -15,12 +15,13 @@ from ..data.export import ExportDoc
 from ..gleam.simulation import Simulation
 from ..regions import Region, Regions
 
+log = logging.getLogger(__name__)
+
+
 DEFAULT_LINE_STYLE = {
     "dash": "solid",
     "width": 2,
 }
-
-log = logging.getLogger("epifor")
 
 
 class SimInfo(jo.JsonObject):

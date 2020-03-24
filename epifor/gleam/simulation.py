@@ -5,7 +5,7 @@ import h5py
 
 from .gleamdef import GleamDef
 
-log = logging.getLogger("epifor")
+log = logging.getLogger(__name__)
 
 
 class Simulation:

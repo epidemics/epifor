@@ -5,7 +5,7 @@ import sys
 
 from .common import _fs, _n, yaml
 
-log = logging.getLogger("epifor")
+log = logging.getLogger(__name__)
 
 
 class Region:

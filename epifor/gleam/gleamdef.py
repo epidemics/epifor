@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 
 import dateutil
 
-log = logging.getLogger("epifor")
+log = logging.getLogger(__name__)
 
 
 class GleamDef:
