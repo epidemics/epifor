@@ -14,17 +14,17 @@ from epifor.data.batch import Batch
 from epifor.data.csse import CSSEData
 from epifor.data.foretold import FTData
 from epifor.gleam import GleamDef, Simulation
+from epifor.common import die
+
 
 log = logging.getLogger("gleambatch")
 
 
-def die(msg):
-    log.fatal(msg)
-    sys.exit(1)
+def update_data(args):
+    "Fetch/update foretold and CSSE data (runs external scripts)"
 
-
-def fetch_data(cfg):
-    "Fetch foretold and CSSE data (runs external scripts)"
+    with open(args.CONFIG_YAML, "rt") as f:
+        cfg = yaml.safe_load(f)
 
     log.info(f"Fetching Foretold data ...")
     if cfg["foretold_channel"] == "SECRET":
@@ -60,13 +60,13 @@ def estimate(batch, rs: Regions):
     ft = FTData()
     ft.load(batch.config["foretold_file"])
     ft_before = datetime.datetime.combine(
-        batch.start_date, datetime.time(23, 59, 59)
+        batch.config["start_date"], datetime.time(23, 59, 59)
     ).astimezone()
     ft.apply_to_regions(rs, before=ft_before)
 
     # Load and apply CSSE
     csse = CSSEData()
-    csse.load(batch.config['CSSE_dir'] + "/time_series_19-covid-{}.csv")
+    csse.load(batch.config["CSSE_dir"] + "/time_series_19-covid-{}.csv")
     csse.apply_to_regions(rs)
 
     # Main computation: propagate estimates and fix for consistency with CSSE
@@ -82,7 +82,7 @@ def estimate(batch, rs: Regions):
 
 def estimates_to_gleamdef(batch, rs: Regions, input_xml_path):
     gv = GleamDef(input_xml_path)
-    gv.set_start_date(batch.start_date)
+    gv.set_start_date(batch.config["start_date"])
     gv.clear_seeds()
     for comp, coef in batch.config["compartments_mult"].items():
         gv.add_seeds(rs, est_key="est_active", compartments={comp: coef})
@@ -95,7 +95,7 @@ def parameterize(batch, gv):
         for sce in batch.config["scenarios"]:
             gv2 = gv.copy()
             gv2.set_seasonality(sce["param_seasonalityAlphaMin"])
-            gv2.set_air_traffic(sce["param_occupancyRate"])
+            gv2.set_traffic_occupancy(sce["param_occupancyRate"])
             gv2.set_beta(mit["param_beta"])
             gv2id = "{}.574".format(random.randint(1700000000000, 1800000000000))
             gv2.set_id(gv2id)
@@ -116,25 +116,33 @@ def generate(args):
     with open(args.CONFIG_YAML, "rt") as f:
         config = yaml.safe_load(f)
     batch = Batch.new(config, suffix=args.comment.replace(" ", "-"))
+
+    log.info(f"Reading regions from {batch.config['regions_file']} ...")
     rs = Regions.load_from_yaml(batch.config["regions_file"])
 
-    fetch_data(batch.config)
+    estimate(batch, rs)
 
-    estimate(batch, args)
-
-    gv = estimates_to_gleamdef(batch, rs, args.INPUT_XML)
+    gv = estimates_to_gleamdef(batch, rs, args.GLEAM_XML)
 
     parameterize(batch, gv)
 
     batch.save_sim_defs_to_gleam()
+
+    batch.save()
+
+    log.info(
+        f"Run '{sys.argv[0]} process {batch.get_batch_file_path()}' after"
+        " running and retrieving simulations in GleamViz (and closing Gleamviz)."
+    )
 
 
 def process(args):
     "Run the 'process' subcommand"
 
     batch = Batch.load(args.BATCH_YAML)
+    log.info(f"Reading regions from {batch.config['regions_file']} ...")
     rs = Regions.load_from_yaml(batch.config["regions_file"])
-    batch.load_sims(only_finished=not args.allow_missing)
+    batch.load_sims(allow_unfinished=args.allow_missing)
     batch.write_country_plots(rs)
 
 
@@ -143,22 +151,24 @@ def create_parser():
     ap.add_argument(
         "-d", "--debug", action="store_true", help="Display debugging mesages."
     )
-    sp = ap.add_subparsers(title="subcommands")
+    sp = ap.add_subparsers(title="subcommands", required=True, dest="cmd")
 
-    genp = sp.add_parser(
-        "generate", aliases=["gen"], help="Create a new batch, generate GLEAM configs"
-    )
+    updatep = sp.add_parser("update", help="Fetch/update data from CSSE and Foretold")
+    updatep.add_argument("CONFIG_YAML", help="YAML config to use.")
+    updatep.set_defaults(func=update_data)
+
+    genp = sp.add_parser("generate", help="Create a new batch, generate GLEAM configs")
     genp.add_argument("CONFIG_YAML", help="YAML config to use.")
     genp.add_argument("GLEAM_XML", help="Use given XML as GLEAM def template.")
     genp.add_argument("-c", "--comment", default="", help="Optional name comment.")
+    genp.set_defaults(func=generate)
 
     procp = sp.add_parser(
-        "process",
-        aliases=["proc"],
-        help="Process finished simulations from a batch, generate graphs.",
+        "process", help="Process finished simulations from a batch, generate graphs.",
     )
     procp.add_argument("BATCH_YAML", help="Batch config to use.")
-    ap.add_argument(
+    procp.set_defaults(func=process)
+    procp.add_argument(
         "-M",
         "--allow_missing",
         action="store_true",
