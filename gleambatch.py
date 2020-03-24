@@ -218,7 +218,7 @@ def upload_data(args):
 
     log.info(f"Zipping and uploading sim defs ..")
     zip_file = out / "sims.zip"
-    run_command(["zip", zip_file, out / SIM_DEF_DIR])
+    run_command(["zip", "-r", zip_file, out / SIM_DEF_DIR])
     run_command(CMD + [zip_file, f"{gs}/simulation-defs-{args.channel}.zip"])
     log.info(f"File URL: {gs_url}/simulation-defs-{args.channel}.zip")
     if args.channel != "main":
