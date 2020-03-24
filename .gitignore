@@ -3,16 +3,15 @@
 /epifor.egg-info/
 /out/
 
-.vscode
+/.vscode
+/.idea/
+/venv
+
 __pycache__
 notebooks/.ipynb_checkpoints
-_attic/
 *.pyc
 
-venv
-
-.idea/
 config-local.yaml
 data-staging-gleam.json
 definition-local.xml
-foretold_data.json
+_attic/
