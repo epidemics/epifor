@@ -3,6 +3,7 @@ import logging
 import math
 import sys
 
+import subprocess
 import jsonobject
 import unidecode
 from ruamel.yaml import YAML
@@ -19,6 +20,18 @@ yaml.indent = 4
 def die(msg):
     log.fatal(msg)
     sys.exit(1)
+
+
+def run_command(cmd):
+    "Run external command and die on any error."
+    cmd = list(cmd)
+    log.debug(f"Running {cmd!r} ...")
+    try:
+        r = subprocess.run(cmd, check=False)
+    except FileNotFoundError as e:
+        die(f"Error running {cmd!r}:\n{e}")
+    if r.returncode != 0:
+        die(f"Running {cmd!r} returned {r.returncode}")  # ":\n{r.stderr}\n{r.stdout}")
 
 
 def _n(s):
