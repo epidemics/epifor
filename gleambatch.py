@@ -22,7 +22,7 @@ log = logging.getLogger("gleambatch")
 
 
 def update_data(args):
-    "Fetch/update foretold and CSSE data (runs external scripts)"
+    "The `update` subcommand (update foretold and CSSE data)"
 
     with open(args.CONFIG_YAML, "rt") as f:
         config = yaml.load(f)
@@ -146,7 +146,7 @@ SIM_DEF_DIR = "simulation-defs"
 
 
 def generate(args):
-    "Run the 'generate' subcommand"
+    "The 'generate' subcommand"
 
     with open(args.CONFIG_YAML, "rt") as f:
         config = yaml.load(f)
@@ -180,7 +180,7 @@ def generate(args):
 
 
 def upload_data(args):
-    "Run the 'upload' subcommand"
+    "The 'upload' subcommand"
 
     CMD = [
         "gsutil",
@@ -221,7 +221,7 @@ def upload_data(args):
 
 
 def process(args):
-    "Run the 'process' subcommand"
+    "The 'process' subcommand"
 
     batch = Batch.load(args.BATCH_YAML)
     log.info(f"Reading regions from {batch.config['regions_file']} ...")
@@ -254,7 +254,7 @@ def create_parser():
     procp.set_defaults(func=process)
     procp.add_argument(
         "-M",
-        "--allow_missing",
+        "--allow-missing",
         action="store_true",
         help="Allow missing simulation results.",
     )
