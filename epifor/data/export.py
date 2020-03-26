@@ -63,6 +63,7 @@ class ExportRegion:
             "population",
             "gleam_id",
             "data",
+            "iso_alpha_3",
             _n=False,
         )
 
