@@ -20,6 +20,7 @@ class Region:
         lat=None,
         lon=None,
         iana=None,
+        iso_alpha_3=None,
     ):
         if isinstance(names, str):
             names = [names]
@@ -35,6 +36,7 @@ class Region:
         self.lat = lat
         self.lon = lon
         self.iana = iana
+        self.iso_alpha_3 = iso_alpha_3
 
         # Hierarchy, root.parent=None
         self.sub = []
@@ -81,6 +83,7 @@ class Region:
             "lon",
             "gleam_id",
             "iana",
+            "iso_alpha_3",
             _n=nones,
             subregions=s,
         )
