@@ -104,9 +104,12 @@ class Batch(jo.JsonObject):
         bs.sim = sim
         self.sims.append(bs)
 
-    def load_sims(self, allow_unfinished=False):
+    def load_sims(self, allow_unfinished=False, sims_dir=None):
         "Load simulation all batch simulations (optionally failing if any uncomputed)"
-        sims_dir = self.get_data_sims_dir()
+        if sims_dir is None:
+            sims_dir = self.get_data_sims_dir()
+        else:
+            sims_dir = Path(sims_dir)
         for bs in self.sims:
             sdir = sims_dir / f"{bs.id}.gvh5"
             bs.sim = Simulation.load_dir(sdir, skip_unfinished=False)
@@ -121,6 +124,8 @@ class Batch(jo.JsonObject):
         "Create and save the definitions of all sontained simulations into gleam sim dir."
         if sims_dir is None:
             sims_dir = self.get_data_sims_dir()
+        else:
+            sims_dir = Path(sims_dir)
         for bs in self.sims:
             assert bs.sim is not None
             p = sims_dir / f"{bs.sim.definition.get_id()}.gvh5"

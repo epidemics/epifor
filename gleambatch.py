@@ -231,9 +231,12 @@ def process(args):
     "The 'process' subcommand"
 
     batch = Batch.load(args.BATCH_YAML)
+    if args.override_config is not None:
+        with open(args.override_config, "rt") as f:
+            batch.config = yaml.load(f)
     log.info(f"Reading regions from {batch.config['regions_file']} ...")
     rs = Regions.load_from_yaml(batch.config["regions_file"])
-    batch.load_sims(allow_unfinished=args.allow_missing)
+    batch.load_sims(allow_unfinished=args.allow_missing, sims_dir=args.sims_dir)
     batch.write_country_plots(rs)
 
 
@@ -271,6 +274,8 @@ def create_parser():
         action="store_true",
         help="Allow missing simulation results.",
     )
+    procp.add_argument("-S", "--sims-dir", help="Explicit sims/ dir.")
+    procp.add_argument("-C", "--override-config", help="Override batch config.")
 
     uplp = sp.add_parser("upload", help="Upload data to the configured GCS bucket")
     uplp.add_argument("BATCH_YAML", help="Batch config to use.")
