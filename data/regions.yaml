@@ -262,6 +262,7 @@ subregions:
         - Congo, Dem. Rep.
         - congo (kinshasa)
         population: 78736000
+        iso_alpha_3: COD
         subregions:
         -   gleam_id: 1328
             iana: FKI
@@ -428,6 +429,7 @@ subregions:
     -   gleam_id: 43
         key: congo, rep.
         kind: country
+        iso_alpha_3: COG
         names:
         - Republic of the Congo
         - Congo, Rep.
@@ -2102,6 +2104,7 @@ subregions:
     -   gleam_id: 197
         key: swaziland
         kind: country
+        iso_alpha_3: SWZ
         names:
         - Swaziland
         population: 1343000
@@ -2134,6 +2137,7 @@ subregions:
     -   gleam_id: 214
         key: tanzania
         kind: country
+        iso_alpha_3: TZA
         names:
         - Tanzania
         population: 55572000
@@ -4846,6 +4850,7 @@ subregions:
         -   gleam_id: 100
             key: iran
             kind: country
+            iso_alpha_3: IRN
             names:
             - Iran
             population: 78800000
@@ -5623,6 +5628,7 @@ subregions:
         -   gleam_id: 200
             key: syria
             kind: country
+            iso_alpha_3: SYR
             names:
             - Syria
             population: 23700000
@@ -7048,6 +7054,7 @@ subregions:
     -   gleam_id: 118
         key: lao pdr
         kind: country
+        iso_alpha_3: LAO
         names:
         - Lao PDR
         - laos
@@ -7640,7 +7647,9 @@ subregions:
     -   gleam_id: 224
         key: vietnam
         kind: country
+        iso_alpha_3: VNM
         names:
+        - Viet Nam
         - Vietnam
         population: 92701000
         subregions:
@@ -8538,6 +8547,7 @@ subregions:
             population: 234000
     -   gleam_id: 31
         key: brunei
+        iso_alpha_3: BRN
         kind: country
         names:
         - Brunei
@@ -8568,6 +8578,7 @@ subregions:
     -   gleam_id: 171
         key: north korea
         kind: country
+        iso_alpha_3: PRK
         names:
         - North Korea
         - Korea, Dem. Rep.
@@ -10482,6 +10493,7 @@ subregions:
     -   gleam_id: 115
         key: south korea
         kind: country
+        iso_alpha_3: KOR
         names:
         - South Korea
         - Korea, Rep.
@@ -10596,6 +10608,7 @@ subregions:
     -   gleam_id: 213
         key: taiwan
         kind: country
+        iso_alpha_3: TWN
         names:
         - Taiwan
         - taiwan*
@@ -11607,6 +11620,7 @@ subregions:
             population: 1805000
     -   gleam_id: 130
         key: moldova
+        iso_alpha_3: MDA
         kind: country
         names:
         - Moldova
@@ -13005,6 +13019,7 @@ subregions:
     -   gleam_id: 135
         key: macedonia
         kind: country
+        iso_alpha_3: MKD
         names:
         - Macedonia
         population: 2077000
@@ -13073,6 +13088,7 @@ subregions:
     -   gleam_id: 116
         key: kosovo
         kind: country
+        iso_alpha_3: RKS
         names:
         - Kosovo
         population: 1816000
@@ -13190,6 +13206,7 @@ subregions:
     -   gleam_id: 75
         key: united kingdom
         kind: country
+        iso_alpha_3: GBR
         names:
         - United Kingdom
         - united kingdon
@@ -13900,8 +13917,10 @@ subregions:
     -   gleam_id: 72
         key: faeroe islands
         kind: country
+        iso_alpha_3: FRO
         names:
         - Faeroe Islands
+        - Faroe Islands
         subregions:
         -   gleam_id: 1558
             iana: FAE
@@ -17168,6 +17187,7 @@ subregions:
         names:
         - Bolivia
         population: 10888000
+        iso_alpha_3: BOL
         subregions:
         -   gleam_id: 85
             iana: BYC
@@ -18342,6 +18362,7 @@ subregions:
             population: 287000
     -   gleam_id: 221
         key: venezuela
+        iso_alpha_3: VEN
         kind: country
         names:
         - Venezuela
@@ -27964,6 +27985,7 @@ subregions:
     -   gleam_id: 73
         key: micronesia, fed. states of
         kind: country
+        iso_alpha_3: FSM
         names:
         - Micronesia, Fed. States of
         - micronesia
