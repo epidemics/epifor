@@ -27,7 +27,7 @@ class CSSEData:
     def load(self, pattern):
         dfs = []
         for name in ["Confirmed", "Deaths", "Recovered"]:
-            df = pd.read_csv(pattern.format(name), header=0)
+            df = pd.read_csv(pattern.format(name.lower()), header=0)
             dcs = list(df.columns)[4:]
             # NOTE: Some areas have 0 in last column even if nonzero before
             df[name] = df[dcs].max(axis=1)

@@ -59,7 +59,7 @@ def estimate(batch, rs: Regions):
 
     # Load and apply CSSE
     csse = CSSEData()
-    csse.load(batch.config["CSSE_dir"] + "/time_series_19-covid-{}.csv")
+    csse.load(batch.config["CSSE_dir"] + "/time_series_covid19_{}_global.csv")
     csse.apply_to_regions(rs)
 
     if batch.config["use_foretold"]:
