@@ -9,6 +9,7 @@ import sys
 import time
 import urllib.parse
 from pathlib import Path
+from urllib.request import urlopen
 
 import epifor
 from epifor import Regions
@@ -43,7 +44,13 @@ def update_data(args):
         log.info(f"Skipping Foretold update")
 
     log.info(f"Fetching/updating CSSE John Hopkins data from github ...")
-    run_command(["./fetch_csse.sh"])
+    # run_command(["./fetch_csse.sh"])
+    url = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_{}_global.csv'
+    target = 'data/CSSE-COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_{}_global.csv'
+    for name in ['confirmed', 'deaths', 'recovered']:
+        result = urlopen(url.format(name)).read()
+        with open(target, 'wb') as f:
+            f.write(result)
 
 
 def estimate(batch, rs: Regions):
@@ -59,7 +66,9 @@ def estimate(batch, rs: Regions):
 
     # Load and apply CSSE
     csse = CSSEData()
-    csse.load(batch.config["CSSE_dir"] + "/time_series_19-covid-{}.csv")
+    csse.load(batch.config["CSSE_dir"] + "/time_series_covid19_{}_global.csv",
+              batch.config["start_date"],
+              batch.config["output_dir"])
     csse.apply_to_regions(rs)
 
     if batch.config["use_foretold"]:
