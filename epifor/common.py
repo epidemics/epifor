@@ -2,10 +2,12 @@ import contextlib
 import datetime
 import logging
 import math
+import re
 import subprocess
 import sys
 
 import jsonobject
+import numpy as np
 import unidecode
 from ruamel.yaml import YAML
 
@@ -16,6 +18,16 @@ yaml = YAML(typ="safe")  # default, if not specfied, is 'rt' (round-trip)
 yaml.default_flow_style = False
 yaml.sort_keys = False
 yaml.indent = 4
+
+
+def mix_html_colors(*pairs):
+    """Given tuples (html_color, q), output HTML code of color `sum(q_i * color_i)`"""
+    cs = np.zeros(3)
+    for c, q in pairs:
+        c = c.lstrip("#")
+        assert len(c) == 6
+        cs += np.array([int(ca, base=16) for ca in re.findall("..", c)]) * q
+    return "#" + "".join(f"{int(x):02X}" for x in cs)
 
 
 @contextlib.contextmanager
