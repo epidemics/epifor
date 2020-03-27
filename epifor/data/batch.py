@@ -2,7 +2,9 @@ import datetime
 import getpass
 import json
 import logging
+import re
 import socket
+from copy import copy, deepcopy
 from pathlib import Path
 
 import dateutil
@@ -10,7 +12,7 @@ import jsonobject as jo
 import numpy as np
 import plotly.graph_objects as go
 
-from ..common import IgnoredProperty, die, yaml
+from ..common import IgnoredProperty, die, mix_html_colors, yaml
 from ..data.export import ExportDoc
 from ..gleam.simulation import Simulation
 from ..regions import Region, Regions
@@ -133,6 +135,54 @@ class Batch(jo.JsonObject):
             bs.sim.definition.save(p / "definition.xml")
         log.info(f"Saved {len(self.sims)} simulation definitions to {sims_dir}")
 
+    def gererate_simgroup_traces(self, region, sims, initial_number):
+        def trace_for_seqs(bs1, bs2=None, *, q=1.0, name=None, vis=1.0):
+            if bs2 is None:
+                bs2 = bs1
+            sq1 = bs1.sim.get_seq(region.gleam_id, region.kind)
+            y1 = sq1[2, :] - sq1[3, :] + initial_number
+            sq2 = bs2.sim.get_seq(region.gleam_id, region.kind)
+            y2 = sq2[2, :] - sq2[3, :] + initial_number
+            # NOTE: mult by 1000 to go to *_per_1000
+            y = ((q * y1 + (1.0 - q) * y2) * 1000).tolist()
+            x = [start]  # For compression, will be filled by JS
+            style = copy(bs1.line_style)
+            style.color = mix_html_colors(
+                (bs1.line_style["color"], q), (bs2.line_style["color"], (1 - q)),
+            )
+            kws = {"opacity": vis}
+            if name is None:
+                kws["showlegend"] = False
+                kws["hoverinfo"] = "skip"
+            return go.Scatter(
+                name=name, line=style, hoverlabel=dict(namelength=-1), x=x, y=y, **kws,
+            ).to_plotly_json()
+
+        if not sims:
+            return []
+        start = sims[0].sim.definition.get_start_date().isoformat()
+        traces = []
+
+        # group by air traffic
+        at_sims = {}
+        for bs in sims:
+            at_sims.setdefault(
+                bs.sim.definition.get_traffic_occupancy(), list()
+            ).append(bs)
+
+        # Add 2 interpolations
+        for simseq in at_sims.values():
+            simseq.sort(key=lambda bs: bs.sim.definition.get_seasonality())
+            for bs1, bs2 in zip(simseq[:-1], simseq[1:]):
+                for q in [0.33, 0.66]:
+                    traces.append(trace_for_seqs(bs1, bs2, q=q, vis=0.35))
+
+        # Add the full trace
+        for bs in sims:
+            traces.append(trace_for_seqs(bs, name=bs.name))
+
+        return traces
+
     def generate_region_traces(self, region: Region):
         "Generate {group: [plotly_traces]} for a Region."
 
@@ -154,25 +204,10 @@ class Batch(jo.JsonObject):
 
         groups_traces = {}
         for gname in groups:
-            traces = []
-            for bs in self.sims:
-                if bs.group == gname and bs.sim.has_result():
-                    start = bs.sim.definition.get_start_date().isoformat()
-                    sq = bs.sim.get_seq(region.gleam_id, region.kind)
-                    # NOTE: mult by 1000 to go to *_per_1000
-                    y = ((sq[2, :] - sq[3, :] + initial_number) * 1000).tolist()
-                    x = [start]  # For compression, will be filled by JS
-                    traces.append(
-                        go.Scatter(
-                            name=bs.name,
-                            line=bs.line_style,
-                            hoverlabel=dict(namelength=-1),
-                            x=x,
-                            y=y,
-                        ).to_plotly_json()
-                    )
-
-            groups_traces[gname] = traces
+            sims = [bs for bs in self.sims if bs.group == gname and bs.sim.has_result()]
+            groups_traces[gname] = self.gererate_simgroup_traces(
+                region, sims, initial_number
+            )
         return groups_traces
 
     def write_country_plots(self, regions: Regions):
