@@ -212,7 +212,7 @@ class Batch(jo.JsonObject):
             (max_active_infected, "MaxActiveInfected"),
         ]:
             m, v = norm.fit(data)
-            v = max(v, 1e-2)
+            v = max(v, 3e-5)
             dist = norm(m, v)
             stats[f"{name}_per1000_mean"] = dist.mean() * 1000
             stats[f"{name}_per1000_q05"] = max(dist.ppf(0.05), 0.0) * 1000

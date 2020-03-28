@@ -79,6 +79,23 @@ def estimate(batch, rs: Regions):
         for key, est in override.items():
             rs[key].est["ft_mean"] = est
 
+    override_countries = batch.config.get("country_active_estimates")
+    misses = []
+    if override_countries is not None:
+        log.info(
+            f"Overriding 'ft_mean' for {len(override_countries)} name-spec countries ..."
+        )
+        for key, est in override_countries.items():
+            r = rs.find_names(key, kinds="country")
+            if not r:
+                misses.append(key)
+                continue
+            if len(r) > 1:
+                die(f"Name {key} matches multiple countries: {r!r}")
+            r[0].est["ft_mean"] = est
+    if misses:
+        log.warning(f"The following countries were not found: {misses!r}")
+
     # Main computation: propagate estimates and fix for consistency with CSSE
     FTData.propagate_down(rs)
 
