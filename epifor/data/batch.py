@@ -89,8 +89,22 @@ class Batch(jo.JsonObject):
         return p
 
     def get_out_dir(self, create=True):
-        "Batch output dir Path, creates by default."
+        "Batch output dir Path, creates it by default."
         p = Path(self.config["output_dir"]).expanduser() / self.name
+        if create:
+            p.mkdir(parents=True, exist_ok=True)
+        assert p.exists()
+        return p
+
+    def generate_export_dir(self, create=True):
+        """
+        Batch single-use export dir, creates it by default.
+
+        Note that subsequent calls return different directories!
+        """
+        now = datetime.datetime.now().astimezone()
+        name0 = f"export-batch-{now.isoformat()}"
+        p = Path(self.config["output_dir"]).expanduser() / name0
         if create:
             p.mkdir(parents=True, exist_ok=True)
         assert p.exists()
@@ -183,6 +197,8 @@ class Batch(jo.JsonObject):
         for bs in sims:
             traces.append(trace_for_seqs(bs, name=bs.name))
 
+        return traces
+
     def generate_simgroup_stats(self, region, sims, initial_number):
         tot_infected = []
         max_active_infected = []
@@ -241,7 +257,9 @@ class Batch(jo.JsonObject):
         if (er.gleam_id is None) or (er.kind is None):
             die(f"Missing gleam_id or kind for {er.region!r}")
         gt, gs = self.generate_region_traces_and_stats(er.region)
-        rel_url = f"{self.name}/lines-traces-{er.region.key.replace(' ', '-')}.json"
+        rel_url = (
+            f"{out_dir.parts[-1]}/lines-traces-{er.region.key.replace(' ', '-')}.json"
+        )
         with open(out_dir.parent / rel_url, "wt") as f:
             json.dump(gt, f)
         er.data["infected_per_1000"] = {
@@ -271,7 +289,7 @@ class Batch(jo.JsonObject):
         country into the batch directory.
         """
 
-        out_dir = self.get_out_dir()
+        out_dir = self.generate_export_dir()
         out_json = out_dir / self.DATA_FILE_NAME
         ed = ExportDoc(comment=f"{self.name}")
 
@@ -285,6 +303,7 @@ class Batch(jo.JsonObject):
         with open(out_json, "wt") as f:
             json.dump(ed.to_json(toweb=True), f)
         log.info(f"Wrote gleam chart data into {out_json}")
+        return out_dir
 
     def store_region_estimates(self, regions: Regions, est_key, reg_data_key):
         """
