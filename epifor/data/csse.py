@@ -47,6 +47,7 @@ class CSSEData:
         by_date = by_date.strftime("%Y%m%d")
         for name in ["confirmed", "deaths", "recovered"]:
             df = pd.read_csv(pattern.format(name), header=0)
+
             dcs = list(df.columns)[4:]
             # Rename columns to format pandas would accept
             df = df.rename(columns={x: self.convert_date(x) for x in dcs})

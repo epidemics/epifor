@@ -23277,12 +23277,12 @@ subregions:
             -   gleam_id: 2157
                 iana: EAA
                 key: eagle
+                population: 6900
                 kind: city
                 lat: 64.776
                 lon: -141.151
                 names:
                 - Eagle
-                population: 26000
             -   gleam_id: 2244
                 iana: BOI
                 key: boise
@@ -23414,6 +23414,7 @@ subregions:
             -   gleam_id: 2459
                 iana: CKD
                 key: crooked creek
+                population: 100
                 kind: city
                 names:
                 - Crooked Creek
@@ -23547,6 +23548,7 @@ subregions:
                 iana: KAE
                 key: kake
                 kind: city
+                population: 560
                 names:
                 - Kake
             -   gleam_id: 2113
@@ -24183,6 +24185,7 @@ subregions:
                 iana: KCQ
                 key: chignik
                 kind: city
+                population: 90
                 names:
                 - Chignik
             -   gleam_id: 2190
@@ -25439,12 +25442,14 @@ subregions:
             -   gleam_id: 2537
                 iana: UGB
                 key: pilot point
+                population: 4000
                 kind: city
                 names:
                 - Pilot Point
             -   gleam_id: 2337
                 iana: PHO
                 key: point hope
+                population: 700
                 kind: city
                 names:
                 - Point Hope
@@ -25803,7 +25808,7 @@ subregions:
                 lon: -132.945
                 names:
                 - Petersburg
-                population: 32000
+                population: 2400
             -   gleam_id: 2514
                 iana: ROA
                 key: roanoke
@@ -26582,12 +26587,12 @@ subregions:
             -   gleam_id: 2699
                 iana: YHO
                 key: hopedale
+                population: 6000
                 kind: city
                 lat: 55.448
                 lon: -60.229
                 names:
                 - Hopedale
-                population: 6000
             -   gleam_id: 2751
                 iana: YMN
                 key: makkovik
@@ -26858,6 +26863,7 @@ subregions:
                 iana: YFX
                 key: fox harbour
                 kind: city
+                population: 252
                 lat: 52.373
                 lon: -55.674
                 names:
