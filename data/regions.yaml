@@ -259,8 +259,9 @@ subregions:
         key: congo, dem. rep.
         kind: country
         names:
-        - Congo, Dem. Rep.
+        - Democratic Republic of the Congo
         - congo (kinshasa)
+        - Congo, Dem. Rep.
         population: 78736000
         iso_alpha_3: COD
         subregions:
@@ -1733,6 +1734,7 @@ subregions:
         names:
         - Gambia
         - gambia, the
+        - The Gambia
         population: 2101000
         subregions:
         -   gleam_id: 1554
@@ -7463,7 +7465,8 @@ subregions:
         kind: country
         names:
         - Myanmar
-        - burma
+        - Burma
+        - Myanmar (Burma)
         population: 52885000
         subregions:
         -   gleam_id: 866
@@ -13022,6 +13025,7 @@ subregions:
         iso_alpha_3: MKD
         names:
         - Macedonia
+        - North Macedonia
         population: 2077000
         subregions:
         -   gleam_id: 1326
@@ -20440,6 +20444,7 @@ subregions:
         kind: country
         names:
         - Bahamas
+        - The Bahamas
         population: 395000
         subregions:
         -   gleam_id: 3220
