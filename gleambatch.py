@@ -231,6 +231,9 @@ def process(args):
     "The 'process' subcommand"
 
     batch = Batch.load(args.BATCH_YAML)
+    if args.override_sims:
+        b2 = Batch.load(args.override_sims)
+        batch.sims = b2.sims
     if args.override_config is not None:
         with open(args.override_config, "rt") as f:
             batch.config = yaml.load(f)
@@ -276,6 +279,9 @@ def create_parser():
     )
     procp.add_argument("-S", "--sims-dir", help="Explicit sims/ dir.")
     procp.add_argument("-C", "--override-config", help="Override batch config.")
+    procp.add_argument(
+        "-G", "--override-sims", help="Override simulation data from another batch."
+    )
 
     uplp = sp.add_parser("upload", help="Upload data to the configured GCS bucket")
     uplp.add_argument("BATCH_YAML", help="Batch config to use.")
