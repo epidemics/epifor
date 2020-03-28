@@ -166,7 +166,10 @@ class CSSEData:
         df = self.hist_df
 
         for i, r in df.iterrows():
-            reg = regions.find_names(i)
+            if i == 'hong kong':
+                reg = regions.find_names(i, 'city')
+            else:
+                reg = regions.find_names(i)
             assert len(reg) != 0
             df = df.rename(index={i: reg[0].key})
 
