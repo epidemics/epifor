@@ -210,7 +210,7 @@ class Batch(jo.JsonObject):
             try:
                 row = df.loc[rkey]
             except Exception as ex:
-                print(str(ex))
+                logging.warning(f"Region not in data : {str(ex)}")
             else:
                 # Stats
                 for date in columns_list:
@@ -218,7 +218,8 @@ class Batch(jo.JsonObject):
                         "JH_Deaths": row[f"deaths_{date}"],
                         "JH_Confirmed": row[f"confirmed_{date}"],
                         "JH_Recovered": row[f"recovered_{date}"],
-                        "JH_Infected": row[f"active_{date}"]
+                        "JH_Infected": row[f"active_{date}"],
+                        "FT_Infected": self.region_data.get(rkey, {}).get("FT_Infected")
                     }
                     output_date = datetime.datetime.strptime(date, "%Y%m%d").strftime("%Y-%m-%d")
 

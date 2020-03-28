@@ -175,8 +175,7 @@ class CSSEData:
     def save_hist_data(self, output_path):
         " Save the historical data to hdf to output dir "
         self.hist_df.to_hdf(f"{output_path}/{self.HIST_FILE_NAME}",
-                            "df'"
+                            "df",
                             mode="w",
                             format="table",
-                            data_columns=True
-                            )
+                            data_columns=True)
