@@ -11,9 +11,10 @@ import dateutil
 import jsonobject as jo
 import numpy as np
 import plotly.graph_objects as go
+from scipy.stats import lognorm, norm
 
 from ..common import IgnoredProperty, die, mix_html_colors, yaml
-from ..data.export import ExportDoc
+from ..data.export import ExportDoc, ExportRegion
 from ..gleam.simulation import Simulation
 from ..regions import Region, Regions
 
@@ -135,7 +136,7 @@ class Batch(jo.JsonObject):
             bs.sim.definition.save(p / "definition.xml")
         log.info(f"Saved {len(self.sims)} simulation definitions to {sims_dir}")
 
-    def gererate_simgroup_traces(self, region, sims, initial_number):
+    def generate_simgroup_traces(self, region, sims, initial_number):
         def trace_for_seqs(bs1, bs2=None, *, q=1.0, name=None, vis=1.0):
             if bs2 is None:
                 bs2 = bs1
@@ -181,10 +182,30 @@ class Batch(jo.JsonObject):
         for bs in sims:
             traces.append(trace_for_seqs(bs, name=bs.name))
 
-        return traces
+    def generate_simgroup_stats(self, region, sims, initial_number):
+        tot_infected = []
+        max_active_infected = []
+        for bs in sims:
+            sq = bs.sim.get_seq(region.gleam_id, region.kind)
+            tot_infected.append(sq[2, -1] + initial_number)
+            max_active_infected.append(np.max(sq[2, :] - sq[3, :] + initial_number))
+        stats = {}
+        for data, name in [
+            (tot_infected, "TotalInfected"),
+            (max_active_infected, "MaxActiveInfected"),
+        ]:
+            m, v = norm.fit(data)
+            v = max(v, 1e-2)
+            dist = norm(m, v)
+            stats[f"{name}_per1000_mean"] = dist.mean() * 1000
+            stats[f"{name}_per1000_q05"] = max(dist.ppf(0.05), 0.0) * 1000
+            stats[f"{name}_per1000_q95"] = min(dist.ppf(0.95), 1.0) * 1000
+        return stats
 
-    def generate_region_traces(self, region: Region):
-        "Generate {group: [plotly_traces]} for a Region."
+    def generate_region_traces_and_stats(self, region: Region):
+        """
+        Generate {group: [plotly_traces]} and {group: {stats}} for a Region.
+        """
 
         groups = set(bs.group for bs in self.sims)
 
@@ -203,14 +224,47 @@ class Batch(jo.JsonObject):
         initial_number = max(min_number, 0.0)
 
         groups_traces = {}
+        groups_stats = {}
         for gname in groups:
             sims = [bs for bs in self.sims if bs.group == gname and bs.sim.has_result()]
-            groups_traces[gname] = self.gererate_simgroup_traces(
+            groups_traces[gname] = self.generate_simgroup_traces(
                 region, sims, initial_number
             )
-        return groups_traces
+            groups_stats[gname] = self.generate_simgroup_stats(
+                region, sims, initial_number
+            )
+        return groups_traces, groups_stats
 
-    def write_country_plots(self, regions: Regions):
+    def export_region_traces(self, er: ExportRegion, out_dir: Path):
+        # Plots and sim summaries
+        if (er.gleam_id is None) or (er.kind is None):
+            die(f"Missing gleam_id or kind for {er.region!r}")
+        gt, gs = self.generate_region_traces_and_stats(er.region)
+        rel_url = f"{self.name}/lines-traces-{er.region.key.replace(' ', '-')}.json"
+        with open(out_dir.parent / rel_url, "wt") as f:
+            json.dump(gt, f)
+        er.data["infected_per_1000"] = {
+            "traces_url": rel_url,
+        }
+        er.data["mitigation_stats"] = gs
+
+    def export_region_estimates(self, er: ExportRegion):
+        # Stats
+        ests = {
+            k: self.region_data.get(er.region.key, {}).get(k)
+            for k in [
+                "JH_Deaths",
+                "JH_Confirmed",
+                "JH_Recovered",
+                "JH_Infected",
+                "FT_Infected",
+            ]
+        }
+        # TODO: add more days?
+        # BUG: The last date may be different from start_date!
+        er.data["estimates"] = {"days": {self.config["start_date"].isoformat(): ests}}
+
+    def write_export_data(self, regions: Regions):
         """
         High-level function that writes a Plotly traces as a JSON file for each
         country into the batch directory.
@@ -223,34 +277,8 @@ class Batch(jo.JsonObject):
         for rkey in self.config["regions"]:
             r = regions[rkey]
             er = ed.add_region(r)
-
-            # Plots
-            if (er.gleam_id is None) or (er.kind is None):
-                die(f"Missing gleam_id or kind for {r!r}")
-            gt = self.generate_region_traces(r)
-            rel_url = f"{self.name}/lines-traces-{rkey.replace(' ', '-')}.json"
-            with open(out_dir.parent / rel_url, "wt") as f:
-                json.dump(gt, f)
-            er.data["infected_per_1000"] = {
-                "traces_url": rel_url,
-            }
-
-            # Stats
-            ests = {
-                k: self.region_data.get(rkey, {}).get(k)
-                for k in [
-                    "JH_Deaths",
-                    "JH_Confirmed",
-                    "JH_Recovered",
-                    "JH_Infected",
-                    "FT_Infected",
-                ]
-            }
-            # TODO: add more days?
-            # BUG: The current date may be different from start_date!
-            er.data["estimates"] = {
-                "days": {self.config["start_date"].isoformat(): ests}
-            }
+            self.export_region_estimates(er)
+            self.export_region_traces(er, out_dir=out_dir)
 
         log.info(f"Wrote {len(self.config['regions'])} single-region gleam trace files")
         with open(out_json, "wt") as f:

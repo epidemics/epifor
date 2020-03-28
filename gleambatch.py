@@ -240,7 +240,7 @@ def process(args):
     log.info(f"Reading regions from {batch.config['regions_file']} ...")
     rs = Regions.load_from_yaml(batch.config["regions_file"])
     batch.load_sims(allow_unfinished=args.allow_missing, sims_dir=args.sims_dir)
-    batch.write_country_plots(rs)
+    batch.write_export_data(rs)
 
 
 def create_parser():
