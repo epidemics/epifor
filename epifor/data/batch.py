@@ -8,6 +8,7 @@ from pathlib import Path
 import dateutil
 import jsonobject as jo
 import numpy as np
+import pandas as pd
 import plotly.graph_objects as go
 
 from ..common import IgnoredProperty, die, yaml
@@ -37,6 +38,7 @@ class SimInfo(jo.JsonObject):
 class Batch(jo.JsonObject):
     BATCH_FILE_NAME = "batch.yaml"
     DATA_FILE_NAME = "data-CHANNEL-v3.json"
+    HIST_FILE_NAME = "csse_history_data.h5"
 
     config = jo.DictProperty()
     comment = jo.StringProperty()
@@ -181,9 +183,14 @@ class Batch(jo.JsonObject):
         country into the batch directory.
         """
 
+
         out_dir = self.get_out_dir()
         out_json = out_dir / self.DATA_FILE_NAME
         ed = ExportDoc(comment=f"{self.name}")
+
+        df = pd.read_hdf(f"{out_dir}/{self.HIST_FILE_NAME}")
+        columns_list = sorted(set([date.split('_')[1] for date in df.columns]))
+        days = {}
 
         for rkey in self.config["regions"]:
             r = regions[rkey]
@@ -200,21 +207,27 @@ class Batch(jo.JsonObject):
                 "traces_url": rel_url,
             }
 
-            # Stats
-            ests = {
-                k: self.region_data.get(rkey, {}).get(k)
-                for k in [
-                    "JH_Deaths",
-                    "JH_Confirmed",
-                    "JH_Recovered",
-                    "JH_Infected",
-                    "FT_Infected",
-                ]
-            }
+            try:
+                row = df.loc[rkey]
+            except Exception as ex:
+                print(str(ex))
+            else:
+                # Stats
+                for date in columns_list:
+                    ests = {
+                        "JH_Deaths": row[f"deaths_{date}"],
+                        "JH_Confirmed": row[f"confirmed_{date}"],
+                        "JH_Recovered": row[f"recovered_{date}"],
+                        "JH_Infected": row[f"active_{date}"]
+                    }
+                    output_date = datetime.datetime.strptime(date, "%Y%m%d").strftime("%Y-%m-%d")
+
+                    days[output_date] = ests
+
             # TODO: add more days?
             # BUG: The current date may be different from start_date!
             er.data["estimates"] = {
-                "days": {self.config["start_date"].isoformat(): ests}
+                "days": days
             }
 
         log.info(f"Wrote {len(self.config['regions'])} single-region gleam trace files")

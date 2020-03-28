@@ -140,7 +140,7 @@ class FTData:
             reg.est["ft_var"] = p.var
 
     @classmethod
-    def propagate_down(_cls, regions):
+    def propagate_down(_cls, regions, csse):
         def rec(reg):
             # Prefer ft_mean for estimate, or passed-down one
             est0 = reg.est.setdefault("est_active", None)
@@ -150,7 +150,7 @@ class FTData:
                 # Children stats
                 pops = np.array([r.pop for r in reg.sub], dtype=float)
                 csses = np.array(
-                    [r.est.get("csse_active") for r in reg.sub], dtype=float
+                    [r.est.get("csse_active") for r in reg.sub], dtype=float # Where is r defined?
                 )
                 fts = np.array([r.est.get("ft_mean") for r in reg.sub], dtype=float)
                 # Part confirmed
@@ -206,7 +206,6 @@ class FTData:
                     )
                     reg.est["est_active"] = reg.est["csse_active"]
 
+
             for p in reg.sub:
                 rec(p)
-
-        rec(regions.root)

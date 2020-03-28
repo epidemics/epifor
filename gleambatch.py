@@ -67,9 +67,10 @@ def estimate(batch, rs: Regions):
     # Load and apply CSSE
     csse = CSSEData()
     csse.load(batch.config["CSSE_dir"] + "/time_series_covid19_{}_global.csv",
-              batch.config["start_date"],
-              batch.config["output_dir"])
+              batch.config["start_date"])
     csse.apply_to_regions(rs)
+    csse.convert_region_names(rs)
+    csse.save_hist_data(batch.get_out_dir(create=True))
 
     if batch.config["use_foretold"]:
         log.info("Loading and applying Foretold data")
@@ -89,7 +90,7 @@ def estimate(batch, rs: Regions):
             rs[key].est["ft_mean"] = est
 
     # Main computation: propagate estimates and fix for consistency with CSSE
-    FTData.propagate_down(rs)
+    FTData.propagate_down(rs, csse)
 
     # Propagate estimates upwards to super-regions
     rs.fix_min_est(
