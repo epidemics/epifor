@@ -22,6 +22,9 @@ from epifor.gleam import GleamDef, Simulation
 
 log = logging.getLogger("gleambatch")
 
+CSSE_URL = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_{}_global.csv'
+CSSE_TARGET = 'data/CSSE-COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_{}_global.csv'
+
 
 def update_data(args):
     "The `update` subcommand (update foretold and CSSE data)"
@@ -45,11 +48,9 @@ def update_data(args):
 
     log.info(f"Fetching/updating CSSE John Hopkins data from github ...")
     # run_command(["./fetch_csse.sh"])
-    url = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_{}_global.csv'
-    target = 'data/CSSE-COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_{}_global.csv'
     for name in ['confirmed', 'deaths', 'recovered']:
-        result = urlopen(url.format(name)).read()
-        with open(target, 'wb') as f:
+        result = urlopen(CSSE_URL.format(name)).read()
+        with open(CSSE_TARGET, 'wb') as f:
             f.write(result)
 
 

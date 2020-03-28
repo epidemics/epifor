@@ -71,10 +71,7 @@ class CSSEData:
         columns_list = ['region']
         for date in shortest_list_dcs:
             d[f"active_{date}"] = d[f"confirmed_{date}"] - d[f"deaths_{date}"] - d[f"recovered_{date}"]
-            columns_list.append(f"active_{date}")
-            columns_list.append(f"confirmed_{date}")
-            columns_list.append(f"deaths_{date}")
-            columns_list.append(f"recovered_{date}")
+            columns_list.extend([f"{prefix}_{date}" for prefix in ["active", "confirmed", "deaths", "recovered"]])
 
         self.hist_df = pd.DataFrame(columns=columns_list)
         self.df = d
