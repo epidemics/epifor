@@ -11,6 +11,7 @@ import dateutil
 import jsonobject as jo
 import numpy as np
 import plotly.graph_objects as go
+import tqdm
 from scipy.stats import lognorm, norm
 
 from ..common import IgnoredProperty, die, mix_html_colors, yaml
@@ -274,7 +275,7 @@ class Batch(jo.JsonObject):
         out_json = out_dir / self.DATA_FILE_NAME
         ed = ExportDoc(comment=f"{self.name}")
 
-        for rkey in self.config["regions"]:
+        for rkey in tqdm.tqdm(self.config["regions"], desc="Exporting regions"):
             r = regions[rkey]
             er = ed.add_region(r)
             self.export_region_estimates(er)
