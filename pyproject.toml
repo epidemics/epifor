@@ -19,6 +19,9 @@ plotly = "^4.5.4"
 jsonobject = "^0.9.9"
 "ruamel.yaml" = "^0.16.10"
 tables = "^3.6"
+scipy = "^1.4.1"
+tqdm = "^4.43.0"
+
 
 [tool.poetry.dev-dependencies]
 black = "^19.10b0"

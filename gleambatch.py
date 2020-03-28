@@ -213,12 +213,13 @@ def upload_data(args):
     batch = Batch.load(args.BATCH_YAML)
     gs = batch.config["gs_prefix"].rstrip("/")
     gs_url = batch.config["gs_url_prefix"].rstrip("/")
-    out = batch.get_out_dir()
+    batch_out = batch.get_out_dir()
+    out = Path(args.EXPORT_DIR)
     out_file = out / batch.DATA_FILE_NAME
     if not out_file.exists():
         die(f"File {out_file} not found - did you run `process`?")
 
-    log.info(f"Uploading data folder {out} to {gs}/{batch.name}")
+    log.info(f"Uploading data folder {out} to {gs}/{out.parts[-1]}")
     run_command(CMD + ["-R", out, gs])
 
     datafile_channel = batch.DATA_FILE_NAME.replace("CHANNEL", args.channel)
@@ -229,7 +230,7 @@ def upload_data(args):
 
     log.info(f"Zipping and uploading sim defs ..")
     zip_file = out / "sims.zip"
-    run_command(["zip", "-r", zip_file, out / SIM_DEF_DIR])
+    run_command(["zip", "-r", zip_file, batch_out / SIM_DEF_DIR])
     run_command(CMD + [zip_file, f"{gs}/simulation-defs-{args.channel}.zip"])
     log.info(f"File URL: {gs_url}/simulation-defs-{args.channel}.zip")
     if args.channel != "main":
@@ -242,13 +243,19 @@ def process(args):
     "The 'process' subcommand"
 
     batch = Batch.load(args.BATCH_YAML)
+    if args.override_sims:
+        b2 = Batch.load(args.override_sims)
+        batch.sims = b2.sims
     if args.override_config is not None:
         with open(args.override_config, "rt") as f:
             batch.config = yaml.load(f)
     log.info(f"Reading regions from {batch.config['regions_file']} ...")
     rs = Regions.load_from_yaml(batch.config["regions_file"])
     batch.load_sims(allow_unfinished=args.allow_missing, sims_dir=args.sims_dir)
-    batch.write_country_plots(rs)
+    export_dir = batch.write_export_data(rs)
+    log.info(
+        f"To upload, run '{sys.argv[0]} upload {batch.get_batch_file_path()} {export_dir} -C CHANNEL'."
+    )
 
 
 def create_parser():
@@ -287,9 +294,13 @@ def create_parser():
     )
     procp.add_argument("-S", "--sims-dir", help="Explicit sims/ dir.")
     procp.add_argument("-C", "--override-config", help="Override batch config.")
+    procp.add_argument(
+        "-G", "--override-sims", help="Override simulation data from another batch."
+    )
 
     uplp = sp.add_parser("upload", help="Upload data to the configured GCS bucket")
     uplp.add_argument("BATCH_YAML", help="Batch config to use.")
+    uplp.add_argument("EXPORT_DIR", help="The generated export directory.")
     uplp.add_argument(
         "-C",
         "--channel",
