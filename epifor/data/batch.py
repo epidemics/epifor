@@ -6,6 +6,7 @@ import re
 import socket
 from copy import copy, deepcopy
 from pathlib import Path
+import pandas as pd
 
 import dateutil
 import jsonobject as jo
@@ -41,6 +42,7 @@ class SimInfo(jo.JsonObject):
 class Batch(jo.JsonObject):
     BATCH_FILE_NAME = "batch.yaml"
     DATA_FILE_NAME = "data-CHANNEL-v3.json"
+    HIST_FILE_NAME = "csse_history_data.h5"
 
     config = jo.DictProperty()
     comment = jo.StringProperty()
@@ -267,21 +269,32 @@ class Batch(jo.JsonObject):
         }
         er.data["mitigation_stats"] = gs
 
-    def export_region_estimates(self, er: ExportRegion):
-        # Stats
-        ests = {
-            k: self.region_data.get(er.region.key, {}).get(k)
-            for k in [
-                "JH_Deaths",
-                "JH_Confirmed",
-                "JH_Recovered",
-                "JH_Infected",
-                "FT_Infected",
-            ]
+    def export_region_estimates(self, er: ExportRegion, df):
+
+        columns_list = sorted(set([date.split('_')[1] for date in df.columns]))
+        days = {}
+
+        try:
+            row = df.loc[er.region.key]
+        except Exception as ex:
+            logging.warning(f"Region not in data : {str(ex)}")
+        else:
+            # Stats
+            for date in columns_list:
+                ests = {
+                    "JH_Deaths": row[f"deaths_{date}"],
+                    "JH_Confirmed": row[f"confirmed_{date}"],
+                    "JH_Recovered": row[f"recovered_{date}"],
+                    "JH_Infected": row[f"active_{date}"],
+                    "FT_Infected": self.region_data.get(er.region.key, {}).get("FT_Infected")
+                }
+                output_date = datetime.datetime.strptime(date, "%Y%m%d").strftime("%Y-%m-%d")
+
+                days[output_date] = ests
+
+        er.data["estimates"] = {
+            "days": days
         }
-        # TODO: add more days?
-        # BUG: The last date may be different from start_date!
-        er.data["estimates"] = {"days": {self.config["start_date"].isoformat(): ests}}
 
     def write_export_data(self, regions: Regions):
         """
@@ -293,10 +306,15 @@ class Batch(jo.JsonObject):
         out_json = out_dir / self.DATA_FILE_NAME
         ed = ExportDoc(comment=f"{self.name}")
 
+        out_conf_dir = self.get_out_dir()
+        in_hist = out_conf_dir / self.HIST_FILE_NAME
+
+        df = pd.read_hdf(in_hist)
+
         for rkey in tqdm.tqdm(self.config["regions"], desc="Exporting regions"):
             r = regions[rkey]
             er = ed.add_region(r)
-            self.export_region_estimates(er)
+            self.export_region_estimates(er, df)
             self.export_region_traces(er, out_dir=out_dir)
 
         log.info(f"Wrote {len(self.config['regions'])} single-region gleam trace files")
