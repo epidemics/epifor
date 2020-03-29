@@ -271,30 +271,32 @@ class Batch(jo.JsonObject):
 
     def export_region_estimates(self, er: ExportRegion, df):
 
-        columns_list = sorted(set([date.split('_')[1] for date in df.columns]))
+        columns_list = sorted(set([date.split("_")[1] for date in df.columns]))
         days = {}
 
         try:
             row = df.loc[er.region.key]
         except KeyError as ex:
-            logging.warning(f"Region not in data : {str(ex)}")
-        else:
-            # Stats
-            for date in columns_list:
-                ests = {
-                    "JH_Deaths": row[f"deaths_{date}"],
-                    "JH_Confirmed": row[f"confirmed_{date}"],
-                    "JH_Recovered": row[f"recovered_{date}"],
-                    "JH_Infected": row[f"active_{date}"],
-                    "FT_Infected": self.region_data.get(er.region.key, {}).get("FT_Infected")
-                }
-                output_date = datetime.datetime.strptime(date, "%Y%m%d").strftime("%Y-%m-%d")
+            logging.warning(f"Region not in CSSE data {ex}, assuming zeros.")
+            row = {}
+        # Stats
+        for date in columns_list:
+            ests = {
+                "JH_Deaths": row.get(f"deaths_{date}", 0),
+                "JH_Confirmed": row.get(f"confirmed_{date}", 0),
+                "JH_Recovered": row.get(f"recovered_{date}", 0),
+                "JH_Infected": row.get(f"active_{date}", 0),
+                "FT_Infected": self.region_data.get(er.region.key, {}).get(
+                    "FT_Infected"
+                ),
+            }
+            output_date = datetime.datetime.strptime(date, "%Y%m%d").strftime(
+                "%Y-%m-%d"
+            )
 
-                days[output_date] = ests
+            days[output_date] = ests
 
-        er.data["estimates"] = {
-            "days": days
-        }
+        er.data["estimates"] = {"days": days}
 
     def write_export_data(self, regions: Regions):
         """
