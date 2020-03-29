@@ -8,10 +8,11 @@
 /venv
 
 __pycache__
-notebooks/.ipynb_checkpoints
+**/.ipynb_checkpoints
 *.pyc
 
 config-local.yaml
 data-staging-gleam.json
 definition-local.xml
 _attic/
+
