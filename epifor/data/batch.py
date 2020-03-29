@@ -282,20 +282,20 @@ class Batch(jo.JsonObject):
         # Stats
         for date in columns_list:
             parsed_date = datetime.datetime.strptime(date, "%Y%m%d").date()
-            if parsed_date == self.config["start_date"]:
-                ft_est = self.region_data.get(er.region.key, {}).get("FT_Infected")
-            else:
-                ft_est = np.nan
 
             ests = {
                 "JH_Deaths": row.get(f"deaths_{date}", 0),
                 "JH_Confirmed": row.get(f"confirmed_{date}", 0),
                 "JH_Recovered": row.get(f"recovered_{date}", 0),
                 "JH_Infected": row.get(f"active_{date}", 0),
-                "FT_Infected": ft_est,
             }
-            output_date = parsed_date.isoformat()
+            # Only put the estimated data to the current date
+            if parsed_date == self.config["start_date"]:
+                ests["FT_Infected"] = self.region_data.get(er.region.key, {}).get(
+                    "FT_Infected"
+                )
 
+            output_date = parsed_date.isoformat()
             days[output_date] = ests
 
         er.data["estimates"] = {"days": days}
