@@ -22,13 +22,16 @@ FORCE_KINDS = {
 
 
 class CSSEData:
+
+    HIST_FILE_NAME = "csse_history_data.h5"
+
     def __init__(self):
         self.df = None
-        self.HIST_FILE_NAME = "csse_history_data.h5"
+        self.hist_df = None
 
     @staticmethod
     def convert_date(string):
-        " Convert string from csv to pandas allowed format"
+        """ Convert string from csv to pandas allowed format"""
         try:
             return datetime.datetime.strptime(string, "%m/%d/%Y").strftime("%Y%m%d")
         except ValueError:
@@ -36,7 +39,7 @@ class CSSEData:
 
     @staticmethod
     def nearest_date(items, pivot):
-        " Find the nearest date to start_date from config "
+        """ Find the nearest date to start_date from config """
         items = [datetime.datetime.strptime(x, "%Y%m%d") for x in items]
         pivot = datetime.datetime.strptime(pivot, "%Y%m%d")
         return min(items, key=lambda x: abs(x - pivot)).strftime("%Y%m%d")
@@ -77,7 +80,7 @@ class CSSEData:
         self.df = d
 
     def apply_to_regions(self, regions):
-        "Add estimates to the regions. Note: adds to existing numbers!"
+        """Add estimates to the regions. Note: adds to existing numbers!"""
         d = self.hist_df
         for _i, r in self.df.iterrows():
             province, country = _n(r["Province/State"]), _n(r["Country/Region"])
@@ -159,7 +162,7 @@ class CSSEData:
         self.hist_df = d.set_index('region')
 
     def convert_region_names(self, regions):
-        " Convert names of region us => united states "
+        """Convert names of region us => united states"""
         df = self.hist_df
 
         for i, r in df.iterrows():
@@ -173,7 +176,7 @@ class CSSEData:
         self.hist_df = df
 
     def save_hist_data(self, output_path):
-        " Save the historical data to hdf to output dir "
+        """ Save the historical data to hdf to output dir """
         self.hist_df.to_hdf(f"{output_path}/{self.HIST_FILE_NAME}",
                             "df",
                             mode="w",
