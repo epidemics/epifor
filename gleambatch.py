@@ -21,6 +21,16 @@ from epifor.gleam import GleamDef, Simulation
 
 log = logging.getLogger("gleambatch")
 
+CSSE_URL = (
+    "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/"
+    "master/csse_covid_19_data/csse_covid_19_time_series/"
+    "time_series_covid19_{}_global.csv"
+)
+CSSE_TARGET = (
+    "data/CSSE-COVID-19/csse_covid_19_data/csse_covid_19_time_series"
+    "/time_series_covid19_{}_global.csv"
+)
+
 
 def update_data(args):
     "The `update` subcommand (update foretold and CSSE data)"
@@ -43,7 +53,11 @@ def update_data(args):
         log.info(f"Skipping Foretold update")
 
     log.info(f"Fetching/updating CSSE John Hopkins data from github ...")
-    run_command(["./fetch_csse.sh"])
+    # run_command(["./fetch_csse.sh"])
+    for name in ["confirmed", "deaths", "recovered"]:
+        result = urlopen(CSSE_URL.format(name)).read()
+        with open(CSSE_TARGET, "wb") as f:
+            f.write(result)
 
 
 def estimate(batch, rs: Regions):
@@ -59,8 +73,13 @@ def estimate(batch, rs: Regions):
 
     # Load and apply CSSE
     csse = CSSEData()
-    csse.load(batch.config["CSSE_dir"] + "/time_series_covid19_{}_global.csv")
+    csse.load(
+        batch.config["CSSE_dir"] + "/time_series_covid19_{}_global.csv",
+        batch.config["start_date"],
+    )
     csse.apply_to_regions(rs)
+    csse.convert_region_names(rs)
+    csse.save_hist_data(batch.get_out_dir(create=True))
 
     if batch.config["use_foretold"]:
         log.info("Loading and applying Foretold data")
