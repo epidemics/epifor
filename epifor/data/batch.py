@@ -153,7 +153,7 @@ class Batch(jo.JsonObject):
             bs.sim.definition.save(p / "definition.xml")
         log.info(f"Saved {len(self.sims)} simulation definitions to {sims_dir}")
 
-    def generate_simgroup_traces(self, region, sims, initial_number):
+    def generate_simgroup_traces(self, region, sims, initial_number, skip_days=0):
         def trace_for_seqs(bs1, bs2=None, *, q=1.0, name=None, vis=1.0):
             if bs2 is None:
                 bs2 = bs1
@@ -163,7 +163,11 @@ class Batch(jo.JsonObject):
             y2 = sq2[2, :] - sq2[3, :] + initial_number
             # NOTE: mult by 1000 to go to *_per_1000
             y = ((q * y1 + (1.0 - q) * y2) * 1000).tolist()
-            x = [start]  # For compression, will be filled by JS
+            y = y[skip_days:]
+            start = datetime.date.fromordinal(
+                sims[0].sim.definition.get_start_date().toordinal() + skip_days
+            )
+            x = [start.isoformat()]  # Saving space, day sequence is filled by JS
             style = copy(bs1.line_style)
             style.color = mix_html_colors(
                 (bs1.line_style["color"], q), (bs2.line_style["color"], (1 - q)),
@@ -178,7 +182,6 @@ class Batch(jo.JsonObject):
 
         if not sims:
             return []
-        start = sims[0].sim.definition.get_start_date().isoformat()
         traces = []
 
         # group by air traffic
@@ -247,7 +250,7 @@ class Batch(jo.JsonObject):
         for gname in groups:
             sims = [bs for bs in self.sims if bs.group == gname and bs.sim.has_result()]
             groups_traces[gname] = self.generate_simgroup_traces(
-                region, sims, initial_number
+                region, sims, initial_number, skip_days=2,  # Skip 2 days to hide "bump"
             )
             groups_stats[gname] = self.generate_simgroup_stats(
                 region, sims, initial_number
