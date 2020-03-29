@@ -64,6 +64,7 @@ class ExportRegion:
             "gleam_id",
             "data",
             "iso_alpha_3",
+            "max_percentage_of_infected_to_fill_icu_beds",
             _n=False,
         )
 

@@ -256,6 +256,7 @@ subregions:
             - N'djamena
             population: 989000
     -   gleam_id: 42
+        iso_alpha_3: COD
         key: congo, dem. rep.
         kind: country
         names:
@@ -263,7 +264,6 @@ subregions:
         - congo (kinshasa)
         - Congo, Dem. Rep.
         population: 78736000
-        iso_alpha_3: COD
         subregions:
         -   gleam_id: 1328
             iana: FKI
@@ -428,9 +428,9 @@ subregions:
             - Goma
             population: 144000
     -   gleam_id: 43
+        iso_alpha_3: COG
         key: congo, rep.
         kind: country
-        iso_alpha_3: COG
         names:
         - Republic of the Congo
         - Congo, Rep.
@@ -2104,9 +2104,9 @@ subregions:
             - Maseru
             population: 361000
     -   gleam_id: 197
+        iso_alpha_3: SWZ
         key: swaziland
         kind: country
-        iso_alpha_3: SWZ
         names:
         - Swaziland
         population: 1343000
@@ -2137,9 +2137,9 @@ subregions:
             - Dzaoudzi
             population: 15000
     -   gleam_id: 214
+        iso_alpha_3: TZA
         key: tanzania
         kind: country
-        iso_alpha_3: TZA
         names:
         - Tanzania
         population: 55572000
@@ -3313,6 +3313,7 @@ subregions:
         iso_alpha_3: BGD
         key: bangladesh
         kind: country
+        max_percentage_of_infected_to_fill_icu_beds: 0.065371
         names:
         - Bangladesh
         population: 162952000
@@ -3402,6 +3403,7 @@ subregions:
         iso_alpha_3: PAK
         key: pakistan
         kind: country
+        max_percentage_of_infected_to_fill_icu_beds: 0.177237
         names:
         - Pakistan
         population: 193203000
@@ -3652,6 +3654,7 @@ subregions:
         iso_alpha_3: NPL
         key: nepal
         kind: country
+        max_percentage_of_infected_to_fill_icu_beds: 0.266742
         names:
         - Nepal
         population: 28983000
@@ -3805,6 +3808,7 @@ subregions:
         iso_alpha_3: LKA
         key: sri lanka
         kind: country
+        max_percentage_of_infected_to_fill_icu_beds: 0.119709
         names:
         - Sri Lanka
         population: 21203000
@@ -3974,6 +3978,7 @@ subregions:
         iso_alpha_3: IND
         key: india
         kind: country
+        max_percentage_of_infected_to_fill_icu_beds: 0.190854
         names:
         - India
         population: 1359772000
@@ -4850,9 +4855,10 @@ subregions:
         population: 371000000
         subregions:
         -   gleam_id: 100
+            iso_alpha_3: IRN
             key: iran
             kind: country
-            iso_alpha_3: IRN
+            max_percentage_of_infected_to_fill_icu_beds: 0.367249
             names:
             - Iran
             population: 78800000
@@ -5305,6 +5311,7 @@ subregions:
             iso_alpha_3: SAU
             key: saudi arabia
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 2.855942
             names:
             - Saudi Arabia
             population: 27100000
@@ -5628,9 +5635,9 @@ subregions:
                 names:
                 - Al Ghaydah
         -   gleam_id: 200
+            iso_alpha_3: SYR
             key: syria
             kind: country
-            iso_alpha_3: SYR
             names:
             - Syria
             population: 23700000
@@ -6111,6 +6118,7 @@ subregions:
             iso_alpha_3: OMN
             key: oman
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 2.345062
             names:
             - Oman
             population: 2700000
@@ -6334,6 +6342,7 @@ subregions:
             iso_alpha_3: EGY
             key: egypt
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 1.063231
             names:
             - Egypt
             - Egypt, Arab Rep.
@@ -6469,6 +6478,7 @@ subregions:
         iso_alpha_3: MYS
         key: malaysia
         kind: country
+        max_percentage_of_infected_to_fill_icu_beds: 0.25701
         names:
         - Malaysia
         population: 31187000
@@ -6759,6 +6769,7 @@ subregions:
         iso_alpha_3: THA
         key: thailand
         kind: country
+        max_percentage_of_infected_to_fill_icu_beds: 0.442178
         names:
         - Thailand
         population: 68864000
@@ -7054,9 +7065,10 @@ subregions:
             names:
             - Christmas Island
     -   gleam_id: 118
+        iso_alpha_3: LAO
         key: lao pdr
         kind: country
-        iso_alpha_3: LAO
+        max_percentage_of_infected_to_fill_icu_beds: 0.253096
         names:
         - Lao PDR
         - laos
@@ -7135,6 +7147,7 @@ subregions:
         iso_alpha_3: PHL
         key: philippines
         kind: country
+        max_percentage_of_infected_to_fill_icu_beds: 0.21034
         names:
         - Philippines
         population: 103320000
@@ -7463,6 +7476,7 @@ subregions:
         iso_alpha_3: MMR
         key: myanmar
         kind: country
+        max_percentage_of_infected_to_fill_icu_beds: 0.094673
         names:
         - Myanmar
         - Burma
@@ -7648,9 +7662,9 @@ subregions:
             - Tachilek
             population: 52000
     -   gleam_id: 224
+        iso_alpha_3: VNM
         key: vietnam
         kind: country
-        iso_alpha_3: VNM
         names:
         - Viet Nam
         - Vietnam
@@ -7830,6 +7844,7 @@ subregions:
         iso_alpha_3: IDN
         key: indonesia
         kind: country
+        max_percentage_of_infected_to_fill_icu_beds: 0.223652
         names:
         - Indonesia
         population: 261115000
@@ -8549,9 +8564,10 @@ subregions:
             - Dili
             population: 234000
     -   gleam_id: 31
-        key: brunei
         iso_alpha_3: BRN
+        key: brunei
         kind: country
+        max_percentage_of_infected_to_fill_icu_beds: 1.150202
         names:
         - Brunei
         subregions:
@@ -8568,6 +8584,7 @@ subregions:
         iso_alpha_3: SGP
         key: singapore
         kind: country
+        max_percentage_of_infected_to_fill_icu_beds: 0.485794
         names:
         - Singapore
         population: 5607000
@@ -8579,9 +8596,9 @@ subregions:
             names:
             - Singapore city
     -   gleam_id: 171
+        iso_alpha_3: PRK
         key: north korea
         kind: country
-        iso_alpha_3: PRK
         names:
         - North Korea
         - Korea, Dem. Rep.
@@ -8601,6 +8618,7 @@ subregions:
         iso_alpha_3: CHN
         key: china
         kind: country
+        max_percentage_of_infected_to_fill_icu_beds: 0.176406
         names:
         - China
         population: 1427647000
@@ -10391,6 +10409,7 @@ subregions:
         iso_alpha_3: MNG
         key: mongolia
         kind: country
+        max_percentage_of_infected_to_fill_icu_beds: 0.960396
         names:
         - Mongolia
         population: 3027000
@@ -10494,9 +10513,10 @@ subregions:
             - Ulaanbaatar
             population: 885000
     -   gleam_id: 115
+        iso_alpha_3: KOR
         key: south korea
         kind: country
-        iso_alpha_3: KOR
+        max_percentage_of_infected_to_fill_icu_beds: 0.370416
         names:
         - South Korea
         - Korea, Rep.
@@ -10609,9 +10629,10 @@ subregions:
             - Ulsan
             population: 1061000
     -   gleam_id: 213
+        iso_alpha_3: TWN
         key: taiwan
         kind: country
-        iso_alpha_3: TWN
+        max_percentage_of_infected_to_fill_icu_beds: 1.023034
         names:
         - Taiwan
         - taiwan*
@@ -10682,6 +10703,7 @@ subregions:
         iso_alpha_3: JPN
         key: japan
         kind: country
+        max_percentage_of_infected_to_fill_icu_beds: 0.150317
         names:
         - Japan
         population: 126995000
@@ -11209,6 +11231,7 @@ subregions:
         iso_alpha_3: KAZ
         key: kazakhstan
         kind: country
+        max_percentage_of_infected_to_fill_icu_beds: 1.443685
         names:
         - Kazakhstan
         population: 17797000
@@ -11622,8 +11645,8 @@ subregions:
             - Minsk
             population: 1805000
     -   gleam_id: 130
-        key: moldova
         iso_alpha_3: MDA
+        key: moldova
         kind: country
         names:
         - Moldova
@@ -13020,9 +13043,9 @@ subregions:
             - Podgorica
             population: 146000
     -   gleam_id: 135
+        iso_alpha_3: MKD
         key: macedonia
         kind: country
-        iso_alpha_3: MKD
         names:
         - Macedonia
         - North Macedonia
@@ -13090,9 +13113,9 @@ subregions:
             - Nis
             population: 250000
     -   gleam_id: 116
+        iso_alpha_3: RKS
         key: kosovo
         kind: country
-        iso_alpha_3: RKS
         names:
         - Kosovo
         population: 1816000
@@ -13145,6 +13168,7 @@ subregions:
         iso_alpha_3: CHE
         key: switzerland
         kind: country
+        max_percentage_of_infected_to_fill_icu_beds: 0.324002
         names:
         - Switzerland
         population: 8372000
@@ -13208,9 +13232,10 @@ subregions:
             names:
             - Monaco
     -   gleam_id: 75
+        iso_alpha_3: GBR
         key: united kingdom
         kind: country
-        iso_alpha_3: GBR
+        max_percentage_of_infected_to_fill_icu_beds: 0.202088
         names:
         - United Kingdom
         - united kingdon
@@ -13521,6 +13546,7 @@ subregions:
         iso_alpha_3: NOR
         key: norway
         kind: country
+        max_percentage_of_infected_to_fill_icu_beds: 0.265563
         names:
         - Norway
         population: 5233000
@@ -13827,6 +13853,7 @@ subregions:
         iso_alpha_3: ISL
         key: iceland
         kind: country
+        max_percentage_of_infected_to_fill_icu_beds: 0.33539
         names:
         - Iceland
         population: 334000
@@ -13919,9 +13946,9 @@ subregions:
             names:
             - Jersey
     -   gleam_id: 72
+        iso_alpha_3: FRO
         key: faeroe islands
         kind: country
-        iso_alpha_3: FRO
         names:
         - Faeroe Islands
         - Faroe Islands
@@ -13992,6 +14019,7 @@ subregions:
             iso_alpha_3: AUT
             key: austria
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.632207
             names:
             - Austria
             population: 8747000
@@ -14054,6 +14082,7 @@ subregions:
             iso_alpha_3: BEL
             key: belgium
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.465947
             names:
             - Belgium
             population: 11348000
@@ -14088,6 +14117,7 @@ subregions:
             iso_alpha_3: BGR
             key: bulgaria
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.344677
             names:
             - Bulgaria
             population: 7128000
@@ -14132,6 +14162,7 @@ subregions:
             iso_alpha_3: HRV
             key: croatia
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.404949
             names:
             - Croatia
             population: 4171000
@@ -14203,6 +14234,7 @@ subregions:
             iso_alpha_3: CYP
             key: cyprus
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.454102
             names:
             - Cyprus
             population: 1170000
@@ -14229,6 +14261,7 @@ subregions:
             iso_alpha_3: CZE
             key: czech republic
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.354604
             names:
             - Czechia
             - Czech Republic
@@ -14283,6 +14316,7 @@ subregions:
             iso_alpha_3: DNK
             key: denmark
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.196284
             names:
             - Denmark
             population: 5731000
@@ -14351,6 +14385,7 @@ subregions:
             iso_alpha_3: EST
             key: estonia
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.414883
             names:
             - Estonia
             population: 1316000
@@ -14393,6 +14428,7 @@ subregions:
             iso_alpha_3: FIN
             key: finland
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.162439
             names:
             - Finland
             population: 5495000
@@ -14586,6 +14622,7 @@ subregions:
             iso_alpha_3: FRA
             key: france
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.321192
             names:
             - France
             population: 66896000
@@ -15035,6 +15072,7 @@ subregions:
             iso_alpha_3: DEU
             key: germany
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.744229
             names:
             - Germany
             population: 82668000
@@ -15301,6 +15339,7 @@ subregions:
             iso_alpha_3: GRC
             key: greece
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.148788
             names:
             - Greece
             population: 10747000
@@ -15580,6 +15619,7 @@ subregions:
             iso_alpha_3: HUN
             key: hungary
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.419079
             names:
             - Hungary
             population: 9818000
@@ -15614,6 +15654,7 @@ subregions:
             iso_alpha_3: IRL
             key: ireland
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.260336
             names:
             - Ireland
             population: 4773000
@@ -15683,6 +15724,7 @@ subregions:
             iso_alpha_3: ITA
             key: italy
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.300396
             names:
             - Italy
             population: 60601000
@@ -16007,6 +16049,7 @@ subregions:
             iso_alpha_3: LVA
             key: latvia
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.271716
             names:
             - Latvia
             population: 1960000
@@ -16024,6 +16067,7 @@ subregions:
             iso_alpha_3: LTU
             key: lithuania
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.422759
             names:
             - Lithuania
             population: 2872000
@@ -16059,6 +16103,7 @@ subregions:
             iso_alpha_3: LUX
             key: luxembourg
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.936661
             names:
             - Luxembourg
             population: 583000
@@ -16087,8 +16132,10 @@ subregions:
             iso_alpha_3: NLD
             key: netherlands
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.187075
             names:
             - Netherlands
+            - The Netherlands
             population: 17018000
             subregions:
             -   gleam_id: 835
@@ -16131,6 +16178,7 @@ subregions:
             iso_alpha_3: POL
             key: poland
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.216704
             names:
             - Poland
             population: 37948000
@@ -16238,6 +16286,7 @@ subregions:
             iso_alpha_3: PRT
             key: portugal
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.105774
             names:
             - Portugal
             population: 10325000
@@ -16359,6 +16408,7 @@ subregions:
             iso_alpha_3: ROU
             key: romania
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.380298
             names:
             - Romania
             population: 19705000
@@ -16474,6 +16524,7 @@ subregions:
             iso_alpha_3: SVK
             key: slovak republic
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.330482
             names:
             - Slovak Republic
             - slovakia
@@ -16518,6 +16569,7 @@ subregions:
             iso_alpha_3: SVN
             key: slovenia
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.180348
             names:
             - Slovenia
             population: 2065000
@@ -16535,6 +16587,7 @@ subregions:
             iso_alpha_3: ESP
             key: spain
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.267627
             names:
             - Spain
             population: 46444000
@@ -16880,6 +16933,7 @@ subregions:
             iso_alpha_3: SWE
             key: sweden
             kind: country
+            max_percentage_of_infected_to_fill_icu_beds: 0.167205
             names:
             - Sweden
             population: 9903000
@@ -17186,12 +17240,12 @@ subregions:
     population: 423581000
     subregions:
     -   gleam_id: 28
+        iso_alpha_3: BOL
         key: bolivia
         kind: country
         names:
         - Bolivia
         population: 10888000
-        iso_alpha_3: BOL
         subregions:
         -   gleam_id: 85
             iana: BYC
@@ -18365,8 +18419,8 @@ subregions:
             - Cuenca
             population: 287000
     -   gleam_id: 221
-        key: venezuela
         iso_alpha_3: VEN
+        key: venezuela
         kind: country
         names:
         - Venezuela
@@ -21659,6 +21713,7 @@ subregions:
         iso_alpha_3: USA
         key: united states
         kind: country
+        max_percentage_of_infected_to_fill_icu_beds: 1.212288
         names:
         - United States
         - United States of America
@@ -23282,12 +23337,12 @@ subregions:
             -   gleam_id: 2157
                 iana: EAA
                 key: eagle
-                population: 6900
                 kind: city
                 lat: 64.776
                 lon: -141.151
                 names:
                 - Eagle
+                population: 6900
             -   gleam_id: 2244
                 iana: BOI
                 key: boise
@@ -23419,10 +23474,10 @@ subregions:
             -   gleam_id: 2459
                 iana: CKD
                 key: crooked creek
-                population: 100
                 kind: city
                 names:
                 - Crooked Creek
+                population: 100
             -   gleam_id: 2111
                 iana: FWA
                 key: fort wayne
@@ -23553,9 +23608,9 @@ subregions:
                 iana: KAE
                 key: kake
                 kind: city
-                population: 560
                 names:
                 - Kake
+                population: 560
             -   gleam_id: 2113
                 iana: GBD
                 key: great bend
@@ -24190,9 +24245,9 @@ subregions:
                 iana: KCQ
                 key: chignik
                 kind: city
-                population: 90
                 names:
                 - Chignik
+                population: 90
             -   gleam_id: 2190
                 iana: STL
                 key: st louis
@@ -25447,17 +25502,17 @@ subregions:
             -   gleam_id: 2537
                 iana: UGB
                 key: pilot point
-                population: 4000
                 kind: city
                 names:
                 - Pilot Point
+                population: 4000
             -   gleam_id: 2337
                 iana: PHO
                 key: point hope
-                population: 700
                 kind: city
                 names:
                 - Point Hope
+                population: 700
             -   gleam_id: 2102
                 iana: VCT
                 key: victoria city
@@ -26592,12 +26647,12 @@ subregions:
             -   gleam_id: 2699
                 iana: YHO
                 key: hopedale
-                population: 6000
                 kind: city
                 lat: 55.448
                 lon: -60.229
                 names:
                 - Hopedale
+                population: 6000
             -   gleam_id: 2751
                 iana: YMN
                 key: makkovik
@@ -26868,11 +26923,11 @@ subregions:
                 iana: YFX
                 key: fox harbour
                 kind: city
-                population: 252
                 lat: 52.373
                 lon: -55.674
                 names:
                 - Fox Harbour
+                population: 252
             -   gleam_id: 2611
                 iana: YQY
                 key: sydney (ca)
@@ -27994,9 +28049,9 @@ subregions:
             names:
             - Kwajalein Island
     -   gleam_id: 73
+        iso_alpha_3: FSM
         key: micronesia, fed. states of
         kind: country
-        iso_alpha_3: FSM
         names:
         - Micronesia, Fed. States of
         - micronesia
