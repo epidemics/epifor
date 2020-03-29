@@ -33,7 +33,7 @@ CSSE_TARGET = (
 
 
 def update_data(args):
-    "The `update` subcommand (update foretold and CSSE data)"
+    """The `update` subcommand (update foretold and CSSE data)"""
 
     with open(args.CONFIG_YAML, "rt") as f:
         config = yaml.load(f)
@@ -56,7 +56,7 @@ def update_data(args):
     # run_command(["./fetch_csse.sh"])
     for name in ["confirmed", "deaths", "recovered"]:
         result = urlopen(CSSE_URL.format(name)).read()
-        with open(CSSE_TARGET, "wb") as f:
+        with open(CSSE_TARGET, "w") as f:
             f.write(result)
 
 
@@ -189,7 +189,7 @@ SIM_DEF_DIR = "simulation-defs"
 
 
 def generate(args):
-    "The 'generate' subcommand"
+    """The 'generate' subcommand"""
 
     with open(args.CONFIG_YAML, "rt") as f:
         config = yaml.load(f)
@@ -223,7 +223,7 @@ def generate(args):
 
 
 def upload_data(args):
-    "The 'upload' subcommand"
+    """The 'upload' subcommand"""
 
     CMD = [
         "gsutil",
@@ -265,7 +265,7 @@ def upload_data(args):
 
 
 def process(args):
-    "The 'process' subcommand"
+    """The 'process' subcommand"""
 
     batch = Batch.load(args.BATCH_YAML)
     if args.override_sims:

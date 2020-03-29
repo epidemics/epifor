@@ -54,7 +54,7 @@ class Batch(jo.JsonObject):
 
     @classmethod
     def new(cls, config, suffix=None):
-        "Custom constructor (to avoid conflicts with loading from yaml)."
+        """Custom constructor (to avoid conflicts with loading from yaml)."""
         now = datetime.datetime.now().astimezone()
         name0 = f"batch-{now.isoformat()}" + (f"-{suffix}" if suffix else "")
         return cls(
@@ -67,7 +67,7 @@ class Batch(jo.JsonObject):
         )
 
     def save(self):
-        "Save batch metadata, autonaming the file."
+        """Save batch metadata, autonaming the file."""
         fname = self.get_batch_file_path()
         log.info(f"Writing batch metadata to {fname}")
         with open(fname, "wt") as f:
@@ -75,7 +75,7 @@ class Batch(jo.JsonObject):
 
     @classmethod
     def load(cls, path):
-        "Load batch metadata from path. Does not load the Simulations (see `load_sims`)"
+        """Load batch metadata from path. Does not load the Simulations (see `load_sims`)"""
         log.info(f"Reading batch metadata from {path}")
         with open(path, "rt") as f:
             d = yaml.load(f)
@@ -85,7 +85,7 @@ class Batch(jo.JsonObject):
         return self.get_out_dir() / self.BATCH_FILE_NAME
 
     def get_data_sims_dir(self):
-        "GleamViz data dir Path, checks existence."
+        """GleamViz data dir Path, checks existence."""
         p = Path(self.config["gleamviz_dir"]).expanduser() / "data" / "sims"
         assert p.exists() and p.is_dir()
         return p
@@ -113,7 +113,7 @@ class Batch(jo.JsonObject):
         return p
 
     def add_simulation_info(self, sim: Simulation, name, group, color=None, style=None):
-        "Add sim info after batch creation (before running simulations)"
+        """Add sim info after batch creation (before running simulations)"""
         if style is None:
             style = dict(DEFAULT_LINE_STYLE)
         if color is not None:
@@ -125,7 +125,7 @@ class Batch(jo.JsonObject):
         self.sims.append(bs)
 
     def load_sims(self, allow_unfinished=False, sims_dir=None):
-        "Load simulation all batch simulations (optionally failing if any uncomputed)"
+        """Load simulation all batch simulations (optionally failing if any uncomputed)"""
         if sims_dir is None:
             sims_dir = self.get_data_sims_dir()
         else:
@@ -141,7 +141,7 @@ class Batch(jo.JsonObject):
         )
 
     def save_sim_defs_to_gleam(self, sims_dir=None):
-        "Create and save the definitions of all sontained simulations into gleam sim dir."
+        """Create and save the definitions of all sontained simulations into gleam sim dir."""
         if sims_dir is None:
             sims_dir = self.get_data_sims_dir()
         else:
@@ -276,7 +276,7 @@ class Batch(jo.JsonObject):
 
         try:
             row = df.loc[er.region.key]
-        except Exception as ex:
+        except KeyError as ex:
             logging.warning(f"Region not in data : {str(ex)}")
         else:
             # Stats
