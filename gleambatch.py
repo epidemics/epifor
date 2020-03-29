@@ -9,6 +9,7 @@ import sys
 import time
 import urllib.parse
 from pathlib import Path
+from urllib.request import urlopen
 
 import epifor
 from epifor import Regions
@@ -56,7 +57,7 @@ def update_data(args):
     # run_command(["./fetch_csse.sh"])
     for name in ["confirmed", "deaths", "recovered"]:
         result = urlopen(CSSE_URL.format(name)).read()
-        with open(CSSE_TARGET, "w") as f:
+        with open(CSSE_TARGET.format(name), "wb") as f:
             f.write(result)
 
 
