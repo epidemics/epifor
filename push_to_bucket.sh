@@ -5,6 +5,6 @@ fi
 
 TGT="gs://static-covid/static/$2"
 
-gsutil -h "Cache-Control:public, max-age=10" cp -a public-read "$1" "$TGT"
+gsutil -h "Cache-Control:public, max-age=10" cp -Z -a public-read "$1" "$TGT"
 
 echo "URL: https://storage.googleapis.com/static-covid/static/$2"
