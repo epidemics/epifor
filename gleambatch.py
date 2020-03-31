@@ -117,7 +117,7 @@ def estimate(batch, rs: Regions):
         log.warning(f"The following countries were not found: {misses!r}")
 
     # Main computation: propagate estimates and fix for consistency with CSSE
-    FTData.propagate_down(rs)
+    rs.propagate_down()
 
     # Propagate estimates upwards to super-regions
     rs.fix_min_est(
