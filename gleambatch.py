@@ -246,12 +246,12 @@ def upload_data(args):
         die(f"File {out_file} not found - did you run `process`?")
 
     log.info(f"Uploading data folder {out} to {gs}/{out.parts[-1]}")
-    run_command(CMD + ["-R", out, gs])
+    run_command(CMD + ["-Z", "-R", out, gs])
 
     datafile_channel = batch.DATA_FILE_NAME.replace("CHANNEL", args.channel)
     gs_data_tgt = f"{gs}/{datafile_channel}"
     log.info(f"Uploading main data file as {gs_data_tgt}")
-    run_command(CMD + [out_file, gs_data_tgt])
+    run_command(CMD + ["-Z", out_file, gs_data_tgt])
     log.info(f"File URL: {gs_url}/{datafile_channel}")
 
     log.info(f"Zipping and uploading sim defs ..")
