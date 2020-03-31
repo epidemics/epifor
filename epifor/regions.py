@@ -169,6 +169,9 @@ class Regions:
         assert isinstance(y, dict)
         assert y.get("key") == "earth"
         Region._from_yaml(self, y, parent=None)
+        for r in self.regions:
+            if r.kind == "country" and (r.population is None or r.population == 0):
+                log.warning(f"Country {r!r} is missing population")
         log.info(f"Read {len(self.key_index) - l0} regions")
 
     def print_tree(self, file=sys.stdout, kinds=("region", "continent", "world")):

@@ -260,6 +260,7 @@ subregions:
         key: congo, dem. rep.
         kind: country
         names:
+        - DR Congo
         - Democratic Republic of the Congo
         - congo (kinshasa)
         - Congo, Dem. Rep.
@@ -1308,6 +1309,7 @@ subregions:
         iso_alpha_3: CPV
         key: cape verde
         kind: country
+        population: 546388
         names:
         - Cape Verde
         - cabo verde
@@ -2664,6 +2666,7 @@ subregions:
     -   gleam_id: 176
         iso_alpha_3: REU
         key: reunion
+        population: 859959
         kind: country
         names:
         - Reunion
@@ -8551,6 +8554,7 @@ subregions:
         iso_alpha_3: TLS
         key: timor leste
         kind: country
+        population: 290691
         names:
         - Timor-Leste
         subregions:
@@ -13923,6 +13927,7 @@ subregions:
         iso_alpha_3: GGY
         key: guernsey
         kind: country
+        population: 67052
         names:
         - Guernsey
         subregions:
@@ -13936,6 +13941,7 @@ subregions:
         iso_alpha_3: JEY
         key: jersey
         kind: country
+        population: 97857
         names:
         - Jersey
         subregions:
@@ -17620,6 +17626,7 @@ subregions:
         iso_alpha_3: GUF
         key: french guiana
         kind: country
+        population: 290691
         names:
         - French Guiana
         subregions:
