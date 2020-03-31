@@ -1,7 +1,5 @@
-import csv
-import datetime
 import logging
-import sys
+import numpy as np
 
 from .common import _fs, _n, yaml
 
@@ -21,7 +19,7 @@ class Region:
         lon=None,
         iana=None,
         iso_alpha_3=None,
-        max_percentage_of_infected_to_fill_icu_beds=None
+        max_percentage_of_infected_to_fill_icu_beds=None,
     ):
         if isinstance(names, str):
             names = [names]
@@ -174,23 +172,6 @@ class Regions:
                 log.warning(f"Country {r!r} is missing population")
         log.info(f"Read {len(self.key_index) - l0} regions")
 
-    def print_tree(self, file=sys.stdout, kinds=("region", "continent", "world")):
-        def rec(reg, ind=0, parentpop=None):
-            if parentpop:
-                pp = " ({:.2f}%)".format(100.0 * reg.pop / parentpop)
-            else:
-                pp = ""
-            if reg.kind in kinds:
-                file.write(
-                    "{}{} [{}] pop={}M{}\n".format(
-                        " " * ind, reg.name, reg.kind, reg.pop / 1e6, pp
-                    )
-                )
-            for i in reg.sub:
-                rec(i, ind + 4, reg.pop)
-
-        rec(self.root)
-
     def fix_min_pops(self):
         """
         Bottom-up: set pop to be at least sum of lower pops, for consistency.
@@ -206,9 +187,28 @@ class Regions:
 
         rec(self.root)
 
-    def heuristic_set_pops(self, of_parent=1.0):
+    def check_missing_estimates(self, name):
+        """Find cities that do not have any value for given estimate."""
+        miss_c = []
+        for r in self.regions:
+            if r.est.get(name) is None and r.kind == "city":
+                miss_c.append(r)
+        log.info(
+            "Cities missing {} estmate: {} (total pop {:.3f} milion)".format(
+                name, len(miss_c), sum(r.pop for r in miss_c) / 1e6
+            )
+        )
+        log.debug(
+            "-- full list of cities with no {} estimate: {}".format(
+                name, [r.name for r in miss_c]
+            )
+        )
+
+    ############## Heuristic and estimation algorithms ############################
+
+    def heuristic_set_pops(self):
         """
-        Top-down: set unset children pops to min of:
+        Top-down: set unset children populations to min of:
         * uniform fraction of remaining population from parent
         * smallest known size (the unknown cities tend to be the smallest ones)
         """
@@ -260,169 +260,76 @@ class Regions:
 
         rec(self.root)
 
-    def hack_fill_downward_with(self, what, src):
+    def propagate_down(self):
         """
-        Top-bottom: if est[what] is none, take it from est[src] and distribute down prop to pop
-        where est[what] is missing. Hacky, only useful witout world estimate.
+        A rater hacky way to propagate `ft_mean` estimates down to city level.
         """
+        def rec(reg):
+            # Prefer ft_mean for estimate, or passed-down one
+            est0 = reg.est.setdefault("est_active", None)
+            est = reg.est.get("ft_mean", est0)
+            if est is not None:
+                reg.est["est_active"] = est
+                # Children stats
+                pops = np.array([r.pop for r in reg.sub], dtype=float)
+                csses = np.array(
+                    [r.est.get("csse_active") for r in reg.sub], dtype=float
+                )
+                fts = np.array([r.est.get("ft_mean") for r in reg.sub], dtype=float)
+                # Part confirmed
+                csse_ps = csses / pops
 
-        def rec(reg, val=None):
-            if reg.est.get(what) is None:
-                if val is None:
-                    val = reg.est.get(src)
-                if val is not None:
-                    for r in reg.sub:
-                        rec(r, val * r.pop / reg.pop)
-                    return
-            for r in reg.sub:
-                rec(r, val)
+                # Mean infection rate in children with infos
+                _pss = []
+                for i, _p in enumerate(reg.sub):
+                    if (not np.isnan(csse_ps[i])) and np.isnan(fts[i]):
+                        _pss.append(csse_ps[i])
+                if not _pss:
+                    _pss = [0.01]  # any value just to make uniform est.
+                mean_pss = max(np.mean(_pss), 0.0)
+                # Set remaining csses (or all if none are set)
+                for i, p in enumerate(reg.sub):
+                    if np.isnan(csses[i]):
+                        csses[i] = p.pop * mean_pss
+
+                # After substracting any child estimates, what remains?
+                rem_est = est - np.nansum(fts)
+                # TODO: if this happens, do something more correct (take variance into account)
+                if rem_est < 0.0:
+                    log.warning(
+                        "Node {!r}: rem_est={} (from node estimate {} and sum of child FTs {}), clipped to 0.0".format(
+                            reg, rem_est, est, np.nansum(fts)
+                        )
+                    )
+                    rem_est = 0.0
+
+                # Set est_active
+                csse_ftnan_sum = max(np.sum(csses, where=np.isnan(fts)), 0.0)
+                for i, p in enumerate(reg.sub):
+                    if np.isnan(fts[i]):
+                        p.est["est_active"] = rem_est * csses[i] / csse_ftnan_sum
+
+            if reg.est["est_active"] is None and reg.est.get("csse_active") is not None:
+                log.debug(
+                    "Node {!r}: Setting est_active={:.1f} [Prev none] from CSSE".format(
+                        reg, reg.est["csse_active"]
+                    )
+                )
+                reg.est["est_active"] = reg.est["csse_active"]
+
+            if (
+                reg.est["est_active"] is not None
+                and reg.est.get("csse_active") is not None
+            ):
+                if reg.est["est_active"] < reg.est.get("csse_active"):
+                    log.debug(
+                        "Node {!r}: Setting est_active={:.1f} [Prev {:.3f}, smaller] from CSSE".format(
+                            reg, reg.est["csse_active"], reg.est["est_active"]
+                        )
+                    )
+                    reg.est["est_active"] = reg.est["csse_active"]
+
+            for p in reg.sub:
+                rec(p)
 
         rec(self.root)
-
-    def write_est_csv(self, path, kinds=("city",), cols=("est_active",)):
-        def f(x):
-            return ("%.3f" % x) if x is not None else None
-
-        def fi(x):
-            return str(int(x)) if x is not None else None
-
-        def rec(reg, w):
-            if (kinds is None) or (reg.kind in kinds):
-                gleam_id = reg.gleam_id if reg.kind == "city" else None
-                t = [reg.name, reg.kind, fi(reg.pop), f(reg.lat), f(reg.lon), gleam_id]
-                for c in cols:
-                    t.append(fi(reg.est.get(c)))
-                w.writerow(t)
-            for r in reg.sub:
-                rec(r, w)
-
-        with open(path, "wt") as ff:
-            w = csv.writer(ff)
-            w.writerow(["name", "kind", "pop", "lat", "lon", "gv_id"] + list(cols))
-            rec(self.root, w)
-        log.info("Written region estimates CSV to {!r}".format(path))
-
-    def check_missing_estimates(self, name):
-        miss_c = []
-        for r in self.regions:
-            if r.est.get(name) is None and r.kind == "city":
-                miss_c.append(r)
-        log.info(
-            "Cities missing {} estmate: {} (total pop {:.3f} milion)".format(
-                name, len(miss_c), sum(r.pop for r in miss_c) / 1e6
-            )
-        )
-        log.debug(
-            "-- full list of cities with no {} estimate: {}".format(
-                name, [r.name for r in miss_c]
-            )
-        )
-
-
-def run2():
-
-    import pandas as pd
-
-    logging.basicConfig(level=logging.DEBUG)
-
-    rs = Regions()
-
-    with open("data/regions.csv", "rt") as f:
-        rs.read_csv(f)
-
-    df = pd.read_csv("data/md_cities.tsv", sep="\t")
-
-    def a(name, kind, parent, gv_id, iana=None):
-        regs = rs.find_names(name, kinds=[kind])
-
-        if len(regs) < 1 and kind == "city":
-            prs = rs.find_names(parent, kinds=["state", "country"])
-            if len(prs) < 1:
-                log.warning(f"Parent region {parent!r} not found for {name}")
-            elif len(prs) > 1:
-                log.warning(f"Multilple parent regions {parent!r} found for {name}")
-            else:
-                r = Region(name, iana=iana, gleam_id=int(gv_id), kind=kind)
-                if r.key in rs:
-                    r.key += " city"
-                if r.key in rs:
-                    log.warning(f"Same key exists for {r!r}: {rs[r.key]!r}")
-                else:
-                    rs.add_region(r, prs[0])
-                    regs = [r]
-
-        if len(regs) < 1:
-            log.warning(f"Region {name!r} [{kind}] not found (parent {parent})")
-        elif len(regs) > 1:
-            log.warning(f"Region {name!r} [{kind}] returned multiple hits: {regs!r}")
-        else:
-            reg = regs[0]
-            reg.gleam_id = int(gv_id)
-            try:
-                reg.names.remove(_n(name))
-            except ValueError:
-                pass
-            if name not in reg.names:
-                reg.names.insert(0, name)
-
-    for _idx, row in df.iterrows():
-        cont_n = row["Continent name"]
-        a(cont_n, "continent", "world", row["Continent ID"])
-        re_n = row["Region name"]
-        #        a(re_n, 'region', cont_n, row['Region ID'])
-        co_n = row["Country name"]
-        a(co_n, "country", re_n, row["Country ID"])
-        ci_n = row["City Name"]
-        a(ci_n, "city", co_n, row["City ID"], iana=row["Airport code"])
-
-    import yaml
-
-    with open("data/regions_2.yaml", "wt") as f:
-        yaml.dump(
-            rs.root.to_json_rec(nones=False),
-            f,
-            default_flow_style=False,
-            sort_keys=False,
-            indent=4,
-            width=100,
-        )
-
-
-def run():
-
-    logging.basicConfig(level=logging.DEBUG)
-
-    r = Regions()
-
-    with open("data/regions.csv", "rt") as f:
-        r.read_csv(f)
-
-    r.heuristic_set_pops()
-    r.fix_min_pops()
-
-    if 0:
-        from ruamel.yaml import YAML
-
-        yaml = YAML()
-        yaml.width = 80
-        yaml.indent = 4
-        yaml.compact_seq_map = True
-        yaml.compact_seq_seq = True
-        yaml.compact(True, True)
-        yaml.preserve_quotes = True
-    else:
-        import yaml
-
-    with open("data/regions_2.yaml", "wt") as f:
-        yaml.dump(
-            r.root.to_json_rec(nones=False),
-            f,
-            default_flow_style=True,
-            sort_keys=False,
-            indent=4,
-            width=80,
-        )
-
-
-if __name__ == "__main__":
-    run2()
