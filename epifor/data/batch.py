@@ -6,6 +6,7 @@ import re
 import socket
 from copy import copy, deepcopy
 from pathlib import Path
+import pandas as pd
 
 import dateutil
 import jsonobject as jo
@@ -41,6 +42,7 @@ class SimInfo(jo.JsonObject):
 class Batch(jo.JsonObject):
     BATCH_FILE_NAME = "batch.yaml"
     DATA_FILE_NAME = "data-CHANNEL-v3.json"
+    HIST_FILE_NAME = "csse_history_data.h5"
 
     config = jo.DictProperty()
     comment = jo.StringProperty()
@@ -52,7 +54,7 @@ class Batch(jo.JsonObject):
 
     @classmethod
     def new(cls, config, suffix=None):
-        "Custom constructor (to avoid conflicts with loading from yaml)."
+        """Custom constructor (to avoid conflicts with loading from yaml)."""
         now = datetime.datetime.now().astimezone()
         name0 = f"batch-{now.isoformat()}" + (f"-{suffix}" if suffix else "")
         return cls(
@@ -65,7 +67,7 @@ class Batch(jo.JsonObject):
         )
 
     def save(self):
-        "Save batch metadata, autonaming the file."
+        """Save batch metadata, autonaming the file."""
         fname = self.get_batch_file_path()
         log.info(f"Writing batch metadata to {fname}")
         with open(fname, "wt") as f:
@@ -73,7 +75,7 @@ class Batch(jo.JsonObject):
 
     @classmethod
     def load(cls, path):
-        "Load batch metadata from path. Does not load the Simulations (see `load_sims`)"
+        """Load batch metadata from path. Does not load the Simulations (see `load_sims`)"""
         log.info(f"Reading batch metadata from {path}")
         with open(path, "rt") as f:
             d = yaml.load(f)
@@ -83,7 +85,7 @@ class Batch(jo.JsonObject):
         return self.get_out_dir() / self.BATCH_FILE_NAME
 
     def get_data_sims_dir(self):
-        "GleamViz data dir Path, checks existence."
+        """GleamViz data dir Path, checks existence."""
         p = Path(self.config["gleamviz_dir"]).expanduser() / "data" / "sims"
         assert p.exists() and p.is_dir()
         return p
@@ -111,7 +113,7 @@ class Batch(jo.JsonObject):
         return p
 
     def add_simulation_info(self, sim: Simulation, name, group, color=None, style=None):
-        "Add sim info after batch creation (before running simulations)"
+        """Add sim info after batch creation (before running simulations)"""
         if style is None:
             style = dict(DEFAULT_LINE_STYLE)
         if color is not None:
@@ -123,7 +125,7 @@ class Batch(jo.JsonObject):
         self.sims.append(bs)
 
     def load_sims(self, allow_unfinished=False, sims_dir=None):
-        "Load simulation all batch simulations (optionally failing if any uncomputed)"
+        """Load simulation all batch simulations (optionally failing if any uncomputed)"""
         if sims_dir is None:
             sims_dir = self.get_data_sims_dir()
         else:
@@ -139,7 +141,7 @@ class Batch(jo.JsonObject):
         )
 
     def save_sim_defs_to_gleam(self, sims_dir=None):
-        "Create and save the definitions of all sontained simulations into gleam sim dir."
+        """Create and save the definitions of all sontained simulations into gleam sim dir."""
         if sims_dir is None:
             sims_dir = self.get_data_sims_dir()
         else:
@@ -151,7 +153,7 @@ class Batch(jo.JsonObject):
             bs.sim.definition.save(p / "definition.xml")
         log.info(f"Saved {len(self.sims)} simulation definitions to {sims_dir}")
 
-    def generate_simgroup_traces(self, region, sims, initial_number):
+    def generate_simgroup_traces(self, region, sims, initial_number, skip_days=0):
         def trace_for_seqs(bs1, bs2=None, *, q=1.0, name=None, vis=1.0):
             if bs2 is None:
                 bs2 = bs1
@@ -161,7 +163,11 @@ class Batch(jo.JsonObject):
             y2 = sq2[2, :] - sq2[3, :] + initial_number
             # NOTE: mult by 1000 to go to *_per_1000
             y = ((q * y1 + (1.0 - q) * y2) * 1000).tolist()
-            x = [start]  # For compression, will be filled by JS
+            y = y[skip_days:]
+            start = datetime.date.fromordinal(
+                sims[0].sim.definition.get_start_date().toordinal() + skip_days
+            )
+            x = [start.isoformat()]  # Saving space, day sequence is filled by JS
             style = copy(bs1.line_style)
             style.color = mix_html_colors(
                 (bs1.line_style["color"], q), (bs2.line_style["color"], (1 - q)),
@@ -176,7 +182,6 @@ class Batch(jo.JsonObject):
 
         if not sims:
             return []
-        start = sims[0].sim.definition.get_start_date().isoformat()
         traces = []
 
         # group by air traffic
@@ -245,7 +250,7 @@ class Batch(jo.JsonObject):
         for gname in groups:
             sims = [bs for bs in self.sims if bs.group == gname and bs.sim.has_result()]
             groups_traces[gname] = self.generate_simgroup_traces(
-                region, sims, initial_number
+                region, sims, initial_number, skip_days=2,  # Skip 2 days to hide "bump"
             )
             groups_stats[gname] = self.generate_simgroup_stats(
                 region, sims, initial_number
@@ -267,21 +272,36 @@ class Batch(jo.JsonObject):
         }
         er.data["mitigation_stats"] = gs
 
-    def export_region_estimates(self, er: ExportRegion):
+    def export_region_estimates(self, er: ExportRegion, df):
+
+        columns_list = sorted(set([date.split("_")[1] for date in df.columns]))
+        days = {}
+
+        try:
+            row = df.loc[er.region.key]
+        except KeyError as ex:
+            logging.warning(f"Region not in CSSE data {ex}, assuming zeros.")
+            row = {}
         # Stats
-        ests = {
-            k: self.region_data.get(er.region.key, {}).get(k)
-            for k in [
-                "JH_Deaths",
-                "JH_Confirmed",
-                "JH_Recovered",
-                "JH_Infected",
-                "FT_Infected",
-            ]
-        }
-        # TODO: add more days?
-        # BUG: The last date may be different from start_date!
-        er.data["estimates"] = {"days": {self.config["start_date"].isoformat(): ests}}
+        for date in columns_list:
+            parsed_date = datetime.datetime.strptime(date, "%Y%m%d").date()
+
+            ests = {
+                "JH_Deaths": row.get(f"deaths_{date}", 0),
+                "JH_Confirmed": row.get(f"confirmed_{date}", 0),
+                "JH_Recovered": row.get(f"recovered_{date}", 0),
+                "JH_Infected": row.get(f"active_{date}", 0),
+            }
+            # Only put the estimated data to the current date
+            if parsed_date == self.config["start_date"]:
+                ests["FT_Infected"] = self.region_data.get(er.region.key, {}).get(
+                    "FT_Infected"
+                )
+
+            output_date = parsed_date.isoformat()
+            days[output_date] = ests
+
+        er.data["estimates"] = {"days": days}
 
     def write_export_data(self, regions: Regions):
         """
@@ -293,10 +313,15 @@ class Batch(jo.JsonObject):
         out_json = out_dir / self.DATA_FILE_NAME
         ed = ExportDoc(comment=f"{self.name}")
 
+        out_conf_dir = self.get_out_dir()
+        in_hist = out_conf_dir / self.HIST_FILE_NAME
+
+        df = pd.read_hdf(in_hist)
+
         for rkey in tqdm.tqdm(self.config["regions"], desc="Exporting regions"):
             r = regions[rkey]
             er = ed.add_region(r)
-            self.export_region_estimates(er)
+            self.export_region_estimates(er, df)
             self.export_region_traces(er, out_dir=out_dir)
 
         log.info(f"Wrote {len(self.config['regions'])} single-region gleam trace files")

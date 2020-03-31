@@ -21,6 +21,7 @@ class Region:
         lon=None,
         iana=None,
         iso_alpha_3=None,
+        max_percentage_of_infected_to_fill_icu_beds=None
     ):
         if isinstance(names, str):
             names = [names]
@@ -37,6 +38,7 @@ class Region:
         self.lon = lon
         self.iana = iana
         self.iso_alpha_3 = iso_alpha_3
+        self.max_percentage_of_infected_to_fill_icu_beds = None
 
         # Hierarchy, root.parent=None
         self.sub = []
@@ -84,6 +86,7 @@ class Region:
             "gleam_id",
             "iana",
             "iso_alpha_3",
+            "max_percentage_of_infected_to_fill_icu_beds",
             _n=nones,
             subregions=s,
         )
