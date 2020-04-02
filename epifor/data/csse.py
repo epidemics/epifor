@@ -18,6 +18,8 @@ FORCE_KINDS = {
     "luxembourg": "country",
     "lebanon": "country",
     "kuwait": "country",
+    "grenada" : "country",
+    "hong kong": "city"
 }
 
 
@@ -131,9 +133,9 @@ class CSSEData:
             app("csse_deaths", "deaths")
             app("csse_recovered", "recovered")
 
-            # Solving hongkong city, should be made more robust ?
-            if _n(province) == 'hong kong':
-                country = 'hong kong'
+            # Solving the issue with 'Hong Kong' and similar
+            if kind in ['city']:
+                country = province
 
             # Accumulation of history data for US etc.
             if country in d['region'].values:
@@ -142,10 +144,11 @@ class CSSEData:
                 # Create new row with null values
                 row = {x: 0 for x in list(d.columns) if x not in ['region']}
                 row['region'] = country
+                row['kind'] = kind
 
             # Accumulate values
             for name in row.keys():
-                if name not in ['region']:
+                if name not in ['region', 'kind']:
                     row[name] += r[name]
 
             # Apply accumulated values to dataframe
@@ -166,14 +169,16 @@ class CSSEData:
         df = self.hist_df
 
         for i, r in df.iterrows():
-            if i == 'hong kong':
-                reg = regions.find_names(i, 'city')
+            if i in ["us", "china", "canada", "australia"]:
+                kind = 'country'
             else:
-                reg = regions.find_names(i)
+                kind = r['kind'] if r['kind'] is not 0 else None
+            reg = regions.find_names(i, kind)
+
             assert len(reg) != 0
             df = df.rename(index={i: reg[0].key})
 
-        self.hist_df = df
+        self.hist_df = df.drop('kind', axis=1)
 
     def save_hist_data(self, output_path):
         """ Save the historical data to hdf to output dir """
