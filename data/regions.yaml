@@ -5729,7 +5729,7 @@ subregions:
             kind: country
             names:
             - Turkey
-            population: 73700000
+            population: 84122112
             subregions:
             -   gleam_id: 1740
                 iana: KYA
@@ -16773,6 +16773,7 @@ subregions:
                 lon: -17.887
                 names:
                 - Valverde
+                population: 10
             -   gleam_id: 2893
                 iana: XRY
                 key: jerez
@@ -23349,7 +23350,7 @@ subregions:
                 lon: -141.151
                 names:
                 - Eagle
-                population: 6900
+                population: 1000
             -   gleam_id: 2244
                 iana: BOI
                 key: boise
@@ -26659,7 +26660,7 @@ subregions:
                 lon: -60.229
                 names:
                 - Hopedale
-                population: 6000
+                population: 1000
             -   gleam_id: 2751
                 iana: YMN
                 key: makkovik
@@ -27327,7 +27328,7 @@ subregions:
                 lon: -91.313
                 names:
                 - Round Lake
-                population: 18000
+                population: 5000
             -   gleam_id: 2723
                 iana: ZPB
                 key: sachigo lake
@@ -27688,7 +27689,7 @@ subregions:
                 lon: -77.704
                 names:
                 - La Grande
-                population: 15000
+                population: 5000
             -   gleam_id: 2713
                 iana: YYY
                 key: mont joli
@@ -28670,6 +28671,7 @@ subregions:
                 lon: 159.077
                 names:
                 - Lord Howe Island
+                population: 300
             -   gleam_id: 1644
                 iana: MYA
                 key: moruya
