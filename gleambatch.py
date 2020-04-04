@@ -165,6 +165,11 @@ def parameterize(batch, gv):
     for mit in batch.config["mitigations"]:
         for sce in batch.config["scenarios"]:
             gv2 = gv.copy()
+            params = dict(
+                seasonalityAlphaMin=sce["param_seasonalityAlphaMin"],
+                occupancyRate=sce["param_occupancyRate"],
+                beta=mit["param_beta"],
+            )
             gv2.set_seasonality(sce["param_seasonalityAlphaMin"])
             gv2.set_traffic_occupancy(sce["param_occupancyRate"])
             gv2.set_beta(mit["param_beta"])
@@ -183,6 +188,8 @@ def parameterize(batch, gv):
                 group=mit["label"],
                 color=sce.get("color"),
                 style=sce.get("style"),
+                key=sce.get("key"),
+                params=params,
             )
 
 

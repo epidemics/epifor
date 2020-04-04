@@ -1,16 +1,17 @@
 import datetime
 import getpass
+import io
 import json
 import logging
 import re
 import socket
 from copy import copy, deepcopy
 from pathlib import Path
-import pandas as pd
 
 import dateutil
 import jsonobject as jo
 import numpy as np
+import pandas as pd
 import plotly.graph_objects as go
 import tqdm
 from scipy.stats import lognorm, norm
@@ -32,6 +33,8 @@ DEFAULT_LINE_STYLE = {
 class SimInfo(jo.JsonObject):
     id = jo.StringProperty(required=True)
     name = jo.StringProperty(required=True)
+    key = jo.StringProperty(required=True)
+    params = jo.DictProperty()
     line_style = jo.DictProperty()
     # Mitigation group
     group = jo.StringProperty()
@@ -112,14 +115,21 @@ class Batch(jo.JsonObject):
         assert p.exists()
         return p
 
-    def add_simulation_info(self, sim: Simulation, name, group, color=None, style=None):
+    def add_simulation_info(
+        self, sim: Simulation, name, group, key, params, color=None, style=None
+    ):
         """Add sim info after batch creation (before running simulations)"""
         if style is None:
             style = dict(DEFAULT_LINE_STYLE)
         if color is not None:
             style["color"] = color
         bs = SimInfo(
-            id=sim.definition.get_id(), name=name, line_style=style, group=group,
+            id=sim.definition.get_id(),
+            name=name,
+            line_style=style,
+            group=group,
+            key=key,
+            params=params,
         )
         bs.sim = sim
         self.sims.append(bs)
@@ -140,17 +150,46 @@ class Batch(jo.JsonObject):
             f"Loaded {len(self.sims)} simulations, {with_res} of that have results"
         )
 
-    def save_sim_defs_to_gleam(self, sims_dir=None):
+    def extract_data(self, dest_path):
+
+        new_dfs = []
+        meta_dfs = []
+        for bs in self.sims:
+            f = bs.sim.hdf
+            n = f.get_node("/population/new/country/median/dset")
+            #### TODO
+
+    def save_sim_defs_to_gleam(self, sims_dir=None, h5file=None):
         """Create and save the definitions of all sontained simulations into gleam sim dir."""
         if sims_dir is None:
             sims_dir = self.get_data_sims_dir()
         else:
             sims_dir = Path(sims_dir)
+        if h5file is None:
+            h5file = self.get_out_dir() / f"{self.name}.hdf5"
+        recs = []
+        index = []
         for bs in self.sims:
             assert bs.sim is not None
             p = sims_dir / f"{bs.sim.definition.get_id()}.gvh5"
             p.mkdir(exist_ok=False)
             bs.sim.definition.save(p / "definition.xml")
+
+            defstr = io.BytesIO()
+            bs.sim.definition.save(defstr)
+            recs.append(
+                [bs.name, bs.group, bs.key, json.dumps(bs.params), defstr.getvalue().decode('ascii')]
+            )
+            index.append(bs.id)
+        df = pd.DataFrame.from_records(
+            recs,
+            index=pd.Index(index, name="SimulationID"),
+            columns=["Name", "Group", "Key", "Params", "DefinitionXML"],
+        ).sort_index()
+        print(df)
+        print(df.dtypes)
+        with pd.HDFStore(h5file, "w") as f:
+            f["simulations"] = df
         log.info(f"Saved {len(self.sims)} simulation definitions to {sims_dir}")
 
     def generate_simgroup_traces(self, region, sims, initial_number, skip_days=0):

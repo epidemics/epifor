@@ -41,8 +41,6 @@ class GleamDef:
             filename = prefix.parent / (
                 self.full_name(prefix.stem).replace(" ", "_") + ".xml"
             )
-        else:
-            filename = pathlib.Path(filename)
         self.tree.write(filename)  # , default_namespace=self.ns['gv'])
         log.info(f"Written Gleam definition to {filename}")
 
